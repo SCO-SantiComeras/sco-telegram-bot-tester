@@ -22,6 +22,7 @@ import { WebsocketConfig } from './modules/websocket/config/websocket-config';
       useFactory: (configService: ConfigService) => {
         const websocketConfig: WebsocketConfig = {
           port: configService.get('websocket.port'),
+          origin: configService.get('websocket.origin'),
         };
         return websocketConfig;
       },
