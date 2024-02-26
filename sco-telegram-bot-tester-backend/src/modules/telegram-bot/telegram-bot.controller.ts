@@ -28,7 +28,7 @@ export class TelegramBotController {
       sendMessageGroup: {
         value: {
           token: '5005652633:AAF_Yik_jDa1Vj-to79OGJkJbTXE_FYjsvk',
-          chat_id: '-4102531622',
+          chat_id: '-4173364857',
           text: 'Telegram Bot Tester Mock Message',
         },
       },
