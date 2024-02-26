@@ -6,6 +6,9 @@ import { configurationApp } from './configuration/configuration-app';
 import { configurationWebsocket } from './configuration/configuration-websocket';
 import { WebsocketModule } from './modules/websocket/websocket.module';
 import { WebsocketConfig } from './modules/websocket/config/websocket-config';
+import { configurationMongo } from './configuration/configuration-mongo';
+import { MongoDbModule } from './modules/mongo-db/mongo-db.module';
+import { MongoDbConfig } from './modules/mongo-db/mongo-db-config';
 
 @Module({
   imports: [
@@ -13,6 +16,7 @@ import { WebsocketConfig } from './modules/websocket/config/websocket-config';
       load: [
         configurationApp,
         configurationWebsocket,
+        configurationMongo,
       ],
       envFilePath: `./env/${process.env.NODE_ENV}.env`,
       isGlobal: true,
@@ -25,6 +29,20 @@ import { WebsocketConfig } from './modules/websocket/config/websocket-config';
           origin: configService.get('websocket.origin'),
         };
         return websocketConfig;
+      },
+      inject: [ConfigService],
+    }),
+    MongoDbModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const mongoDB: MongoDbConfig = {
+          ip: configService.get('mongo.host'),
+          port: configService.get('mongo.port'),
+          database: configService.get('mongo.database'),
+          user: configService.get('mongo.user'),
+          pass: configService.get('mongo.password'),
+        };
+        return mongoDB;
       },
       inject: [ConfigService],
     }),
