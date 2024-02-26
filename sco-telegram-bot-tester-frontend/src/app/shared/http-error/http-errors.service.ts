@@ -3,6 +3,8 @@ import { httpErrorMessages } from './http-error-messages.constants';
 import { TranslateService } from '../translate/translate.service';
 import { httpErrorMessageTranslates } from './http-error-message-translates.constants';
 
+export const DEFAULT_LANGUAGE_KEY: string = 'EN';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -53,7 +55,7 @@ export class HttpErrorsService {
     const currentLanguage: string = this.translateService.getLanguage();
     const findTrasnalteKey = Object.keys(httpErrorMessageTranslates).find(k => k == currentLanguage.toUpperCase());
 
-    let translateKey: string = 'EN';
+    let translateKey: string = DEFAULT_LANGUAGE_KEY;
     if (currentLanguage && findTrasnalteKey) {
       translateKey = findTrasnalteKey;
     }
