@@ -12,6 +12,7 @@ import { usersConstants } from './constants/user.constants';
 import { Response } from 'express';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BcryptService } from '../shared/services/bcrypt.service';
+import { RoleConstants } from './constants/roles.constants';
 
 @Controller('api/v1/users')
 @ApiTags('Usuarios')
@@ -63,6 +64,7 @@ export class UsersController {
           password: usersConstants.PUBLIC.PASSWORD,
           email: usersConstants.PUBLIC.EMAIL,
           active: usersConstants.PUBLIC.ACTIVE,
+          role: usersConstants.PUBLIC.ROLE,
         },
       },
     },
@@ -83,6 +85,10 @@ export class UsersController {
     status: 409,
     description: 'Email ya registrado anteriormente',
   })
+  @ApiResponse({
+    status: 409,
+    description: 'Usuario administrador ya registrado',
+  })
   async addUser(@Res() res: Response, @Body() user: UserDto): Promise<Response<IUser, Record<string, IUser>>> {
     const existUserName: IUser = await this.usersService.findUserByName(user.name);
     if (existUserName) {
@@ -94,6 +100,20 @@ export class UsersController {
     if (existUserEmail) {
       console.log('[addUser] Email already registered');
       throw new HttpException(httpErrorMessages.USERS.EMAIL_ALREADY_EXIST, HttpStatus.CONFLICT);
+    }
+
+    const existRole: string = Object.values(RoleConstants).find(r => r == user.role);
+    if (!existRole) {
+      console.log('[addUser] Role not found');
+      throw new HttpException(httpErrorMessages.USERS.ROLE_NOT_FOUND, HttpStatus.NOT_FOUND);
+    } 
+    
+    if (existRole == RoleConstants.ADMIN) {
+      const existAdminUser: IUser = await this.usersService.findUserByRole(RoleConstants.ADMIN);
+      if (existAdminUser) {
+        console.log(`[addUser] User with role '${RoleConstants.ADMIN}' already exist`);
+        throw new HttpException(httpErrorMessages.USERS.ADMIN_ALREADY_EXIST, HttpStatus.CONFLICT);
+      }
     }
 
     try {
