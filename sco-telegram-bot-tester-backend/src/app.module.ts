@@ -13,6 +13,9 @@ import { UsersModule } from './modules/users/users.module';
 import { configurationEmailer } from './configuration/configuration-emailer';
 import { EmailerModule } from './modules/emailer/emailer.module';
 import { EmailerConfig } from './modules/emailer/config/emailer-config';
+import { configurationAuth } from './configuration/configuration-auth';
+import { AuthModule } from './modules/auth/auth.module';
+import { AuthConfig } from './modules/auth/config/auth.config';
 
 @Module({
   imports: [
@@ -21,7 +24,8 @@ import { EmailerConfig } from './modules/emailer/config/emailer-config';
         configurationApp,
         configurationWebsocket,
         configurationMongo,
-        configurationEmailer
+        configurationEmailer,
+        configurationAuth,
       ],
       envFilePath: `./env/${process.env.NODE_ENV}.env`,
       isGlobal: true,
@@ -60,6 +64,17 @@ import { EmailerConfig } from './modules/emailer/config/emailer-config';
           service: configService.get("emailer.service"),
         };
         return emailerConfig;
+      },
+      inject: [ConfigService],
+    }),
+    AuthModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const authConfig: AuthConfig = {
+          secret: configService.get('auth.secret'),
+          signOptions: { expiresIn: configService.get('auth.expiresIn') },
+        };
+        return authConfig;
       },
       inject: [ConfigService],
     }),
