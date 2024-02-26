@@ -1,0 +1,33 @@
+.telegram-bot {
+    
+    &__web {
+        padding-left: 25%;
+        padding-right: 25%;
+    }
+
+    &__tablet {
+        padding-left: 10% !important;
+        padding-right: 10% !important;
+    }
+
+    &__mobile {
+        padding-left: 2% !important;
+        padding-right: 2% !important;
+    }
+
+    &__title {
+        margin-bottom: 0px !important;
+    }
+
+    &__icon {
+        font-size: 2rem;
+    }
+
+    &__buttons-box {
+        text-align: right;
+
+        &--margin-btn {
+            margin-right: 10px;
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "label.toast.action.close": "Cerrar",
+
+    "label.telegram-bot.component.cache.title": "Telegram bot tester",
+    "label.telegram-bot.component.form.token": "Token",
+    "label.telegram-bot.component.form.token.placeholder": "Token del bot",
+    "label.telegram-bot.component.form.chat_id": "Chat id",
+    "label.telegram-bot.component.form.chat_id.placeholder": "Id del grupo",
+    "label.telegram-bot.component.form.text": "Mensaje",
+    "label.telegram-bot.component.form.text.placeholder": "Texto a envíar",
+    "label.telegram-bot.component.form.btn.success": "Envíar",
+    "label.telegram-bot.component.form.btn.clean": "Limpiar",
+    "label.telegram-bot.component.form.validate.token": "Bot token no informado",
+    "label.telegram-bot.component.form.validate.token.format": "Token formato incorrecto (XXXXX:YYYYY)",
+    "label.telegram-bot.component.form.validate.chat_id": "Chat id no informado",
+    "label.telegram-bot.component.form.validate.text": "Texto no informado",
+
+    "label.telegram-bot-tester.store.sendMessage.success": "Mensaje envíado con éxito",
+    "label.telegram-bot-tester.store.sendMessage.error": "Error intentando envíar el mensaje"
+}
