@@ -22,5 +22,8 @@ export const httpErrorMessages = {
     CHAT_ID_NOT_FOUND: 'Chat id not found',
     CHAT_GROUP_DELETE: 'Group chat was deleted'
   },
+  TELEGRAM_BOT_RESULTS: {
+    TELEGRAM_BOT_RESULT_NOT_FOUND: 'Telegram bot result not found',
+  },
 };
   

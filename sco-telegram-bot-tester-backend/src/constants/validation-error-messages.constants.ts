@@ -78,6 +78,52 @@ export const validationErrorMessages = {
             NOT_EMPTY: 'Text should be not empty',
             INVALID_VALUE: 'Text should be string value',
         },
-    }
+    },
+    TELEGRAM_BOT_RESULT: {
+        ID: {
+            NOT_EMPTY: '_id should be not empty',
+            INVALID_VALUE: '_id should be string value',
+        },
+        USER: {
+            NOT_EMPTY: 'User should be not empty',
+            INVALID_VALUE: 'User should be object (UserDto)',
+        },
+        TOKEN: {
+            NOT_EMPTY: 'Token should be not empty',
+            INVALID_VALUE: 'Token should be string value',
+        },
+        CHAT_ID: {
+            NOT_EMPTY: 'Chat id should be not empty',
+            INVALID_VALUE: 'Chat id should be string value',
+        },
+        TEXT: {
+            NOT_EMPTY: 'Text should be not empty',
+            INVALID_VALUE: 'Text should be string value',
+        },
+        SUCCESS: {
+            NOT_EMPTY: 'Success should be not empty',
+            INVALID_VALUE: 'Success should be boolean value',
+        },
+        ERROR_CODE: {
+            NOT_EMPTY: 'Error code should be not empty',
+            INVALID_VALUE: 'Error code should be number value',
+        },
+        ERROR_MESSAGE: {
+            NOT_EMPTY: 'Error message should be not empty',
+            INVALID_VALUE: 'Error message should be string value',
+        },
+        CREATED_AT: {
+            NOT_EMPTY: 'Created at should be not empty',
+            INVALID_VALUE: 'Created at should be Date value',
+        },
+        UPDATED_AT: {
+            NOT_EMPTY: 'Updated at should be not empty',
+            INVALID_VALUE: 'Updated at should be Date value',
+        },
+        TYPE_OBJ: {
+            NOT_EMPTY: 'TypeObj should be not empty',
+            INVALID_VALUE: 'TypeObj should be string value',
+        },
+    },
 };
     

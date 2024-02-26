@@ -16,6 +16,7 @@ import { EmailerConfig } from './modules/emailer/config/emailer-config';
 import { configurationAuth } from './configuration/configuration-auth';
 import { AuthModule } from './modules/auth/auth.module';
 import { AuthConfig } from './modules/auth/config/auth.config';
+import { TelegramBotResultsModule } from './modules/telegram-bot-results/telegram-bot-results.module';
 
 @Module({
   imports: [
@@ -81,6 +82,7 @@ import { AuthConfig } from './modules/auth/config/auth.config';
     LoggerModule,
     UsersModule,
     TelegramBotModule,
+    TelegramBotResultsModule,
   ],
 })
 export class AppModule {}

@@ -23,6 +23,9 @@ export const httpErrorMessageTranslates = {
       CHAT_ID_NOT_FOUND: 'Chat id no encontrado',
       CHAT_GROUP_DELETE: 'El grupo ha sido eliminado',
     },
+    TELEGRAM_BOT_RESULTS: {
+      TELEGRAM_BOT_RESULT_NOT_FOUND: 'Resultado del bot de telegram no encontrado',
+    }
   },
   EN: {
     AUTH: {
@@ -47,6 +50,9 @@ export const httpErrorMessageTranslates = {
       BOT_TOKEN_NOT_FOUND: 'Bot token not found',
       CHAT_ID_NOT_FOUND: 'Chat id not found',
       CHAT_GROUP_DELETE: 'Group chat was deleted'
+    },
+    TELEGRAM_BOT_RESULTS: {
+      TELEGRAM_BOT_RESULT_NOT_FOUND: 'Telegram bot result not found',
     },
   }
 };
