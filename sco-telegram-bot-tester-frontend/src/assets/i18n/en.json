@@ -1,3 +1,20 @@
 {
+    "label.toast.action.close": "Cñpse",
 
+    "label.telegram-bot.component.cache.title": "Telegram bot tester",
+    "label.telegram-bot.component.form.token": "Token",
+    "label.telegram-bot.component.form.token.placeholder": "Bot token",
+    "label.telegram-bot.component.form.chat_id": "Chat id",
+    "label.telegram-bot.component.form.chat_id.placeholder": "Group chat id",
+    "label.telegram-bot.component.form.text": "Message",
+    "label.telegram-bot.component.form.text.placeholder": "Message to send",
+    "label.telegram-bot.component.form.btn.success": "Senmd",
+    "label.telegram-bot.component.form.btn.clean": "Clean",
+    "label.telegram-bot.component.form.validate.token": "Bot token not provided",
+    "label.telegram-bot.component.form.validate.token.format": "Bot token invalid format (XXXXX:YYYYY)",
+    "label.telegram-bot.component.form.validate.chat_id": "Chat id not provided",
+    "label.telegram-bot.component.form.validate.text": "Message not provided",
+
+    "label.telegram-bot-tester.store.sendMessage.success": "Send message successfully",
+    "label.telegram-bot-tester.store.sendMessage.error": "Error trying to send message"
 }
