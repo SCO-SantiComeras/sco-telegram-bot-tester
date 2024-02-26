@@ -1,4 +1,4 @@
 {
     "title": "SCO - Task Manager",
-    "resetFormAfterSuccessReset": true
+    "resetFormAfterSuccessReset": false
 }
