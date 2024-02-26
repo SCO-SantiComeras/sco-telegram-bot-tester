@@ -10,6 +10,9 @@ import { configurationMongo } from './configuration/configuration-mongo';
 import { MongoDbModule } from './modules/mongo-db/mongo-db.module';
 import { MongoDbConfig } from './modules/mongo-db/mongo-db-config';
 import { UsersModule } from './modules/users/users.module';
+import { configurationEmailer } from './configuration/configuration-emailer';
+import { EmailerModule } from './modules/emailer/emailer.module';
+import { EmailerConfig } from './modules/emailer/config/emailer-config';
 
 @Module({
   imports: [
@@ -18,6 +21,7 @@ import { UsersModule } from './modules/users/users.module';
         configurationApp,
         configurationWebsocket,
         configurationMongo,
+        configurationEmailer
       ],
       envFilePath: `./env/${process.env.NODE_ENV}.env`,
       isGlobal: true,
@@ -44,6 +48,18 @@ import { UsersModule } from './modules/users/users.module';
           pass: configService.get('mongo.password'),
         };
         return mongoDB;
+      },
+      inject: [ConfigService],
+    }),
+    EmailerModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const emailerConfig: EmailerConfig = {
+          sending_Email_Address: configService.get("emailer.address"),
+          sending_Email_Password: configService.get("emailer.password"),
+          service: configService.get("emailer.service"),
+        };
+        return emailerConfig;
       },
       inject: [ConfigService],
     }),
