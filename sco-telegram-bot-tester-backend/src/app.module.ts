@@ -9,6 +9,7 @@ import { WebsocketConfig } from './modules/websocket/config/websocket-config';
 import { configurationMongo } from './configuration/configuration-mongo';
 import { MongoDbModule } from './modules/mongo-db/mongo-db.module';
 import { MongoDbConfig } from './modules/mongo-db/mongo-db-config';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { MongoDbConfig } from './modules/mongo-db/mongo-db-config';
       inject: [ConfigService],
     }),
     LoggerModule,
+    UsersModule,
     TelegramBotModule,
   ],
 })
