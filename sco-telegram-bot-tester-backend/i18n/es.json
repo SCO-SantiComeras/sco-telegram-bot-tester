@@ -1,0 +1,20 @@
+{
+    "label.hello": "Hola",
+    "label.minutes": "Minutos",
+
+    "label.email.recovery.password.1": "Este es tu token de recuperación de contraseña",
+    "label.email.recovery.password.2": "El token expira en",
+    "label.email.recovery.password.3": "Accede al siguiente link para comenzar el proceso de recuperación de contraseña",
+    "label.email.recovery.password.4": "Recuperación de contraseña",
+    "label.email.recovery.password.subject": "Recuperación de contraseña",
+
+    "label.email.active.user.1": "Su usuario ha sido creado con éxito y está listo para ser activado. A partir de ahora, podrás disfrutar de todas las funcionalidades y beneficios que nuestra plataforma tiene para ofrecerte.",
+    "label.email.active.user.2": "Para completar el proceso de activación de tu usuario, acceda al siguiente link",
+    "label.email.active.user.3": "Activar usuario",
+    "label.email.active.user.subject": "Activación de usuario",
+
+    "label.email.confirm.report.issue.1": "Se ha reportado una incidencia de confirmación de email del usuario",
+    "label.email.confirm.report.issue.2": "La incidencia se ha reportado a fecha de",
+    "label.email.confirm.report.issue.3": "Por favor, pongase en contacto con el usuario y trate de resolverlo lo antes posible",
+    "label.email.confirm.report.issue.subject": "Incidencia activación de usuario"
+}

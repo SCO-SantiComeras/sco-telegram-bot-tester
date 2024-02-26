@@ -1,0 +1,15 @@
+{
+    "label.hello": "Hello",
+    "label.minutes": "Minutes",
+
+    "label.email.recovery.password.1": "This is your password recovery token",
+    "label.email.recovery.password.2": "The token expires in",
+    "label.email.recovery.password.3": "Enter this link to start the recovery process",
+    "label.email.recovery.password.4": "Recovery Password",
+    "label.email.recovery.password.subject": "Recovery password",
+
+    "label.email.active.user.1": "Your user has been successfully created and is ready to be activated. From now on, you will be able to enjoy all the features and benefits that our platform has to offer you.",
+    "label.email.active.user.2": "To complete the activation process of your user, access the following link",
+    "label.email.active.user.3": "Activate user",
+    "label.email.active.user.subject": "User activation"
+}
