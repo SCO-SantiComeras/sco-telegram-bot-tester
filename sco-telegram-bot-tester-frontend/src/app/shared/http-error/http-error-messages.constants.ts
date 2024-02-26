@@ -4,6 +4,7 @@ export const httpErrorMessages = {
     BOT_TOKEN_UNAUTHORIZED: 'Bot token unauthorized',
     BOT_TOKEN_NOT_FOUND: 'Bot token not found',
     CHAT_ID_NOT_FOUND: 'Chat id not found',
+    CHAT_GROUP_DELETE: 'Group chat was deleted',
   },
 };
   

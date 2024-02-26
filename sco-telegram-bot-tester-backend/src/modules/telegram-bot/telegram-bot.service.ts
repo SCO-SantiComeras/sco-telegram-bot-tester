@@ -45,6 +45,8 @@ export class TelegramBotService {
         return httpErrorMessages.TELEGRAM_BOT_TESTER.BOT_TOKEN_NOT_FOUND;
       case 400:
         return httpErrorMessages.TELEGRAM_BOT_TESTER.CHAT_ID_NOT_FOUND;
+      case 403:
+        return httpErrorMessages.TELEGRAM_BOT_TESTER.CHAT_GROUP_DELETE;
       default: 
         return '';
     }
