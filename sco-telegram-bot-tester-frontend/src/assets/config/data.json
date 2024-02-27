@@ -1,4 +1,5 @@
 {
     "title": "SCO - Task Manager",
-    "resetFormAfterSuccessReset": false
+    "resetFormAfterSuccessReset": false,
+    "tokenExpirationPasswordRecovery": 30
 }
