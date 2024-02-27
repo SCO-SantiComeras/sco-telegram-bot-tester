@@ -2,6 +2,9 @@
     "label.toast.action.close": "Cerrar",
 
     "label.header.cache.title": "Telegram bot tester",
+    "label.header.btn.login": "Iniciar sesión",
+    "label.header.btn.signup": "Registrarse",
+    "label.header.btn.logout": "Cerrar sesión",
 
     "label.telegram-bot.component.form.token": "Token",
     "label.telegram-bot.component.form.token.placeholder": "Token del bot",
