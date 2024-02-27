@@ -1,5 +1,23 @@
 .telegram-bot {
+    &__card {
+        margin-top: 20px !important;
 
+        &__content-web {
+            padding-left:  100px;
+            padding-right: 100px;
+        }
+
+        &__content-tablet {
+            padding-left:  50px;
+            padding-right: 50px;
+        }
+
+        &__content-mobile {
+            padding-left:  10px;
+            padding-right: 10px;
+        }
+    }
+    
     &__buttons-box {
         text-align: right;
 

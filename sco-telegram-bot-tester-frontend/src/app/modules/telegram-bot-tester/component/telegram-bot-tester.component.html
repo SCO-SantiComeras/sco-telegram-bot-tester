@@ -1,6 +1,10 @@
 <div class="telegram-bot">
-  <mat-card class="mt-3">
-    <mat-card-content>
+  <mat-card class="telegram-bot__card">
+    <mat-card-content [ngClass]="{
+      'telegram-bot__card__content-web': resolutionService.getMode() == resolutionService.resolutionConstants.WEB,
+      'telegram-bot__card__content-tablet': resolutionService.getMode() == resolutionService.resolutionConstants.TABLET,
+      'telegram-bot__card__content-mobile': resolutionService.getMode() == resolutionService.resolutionConstants.MOBILE
+    }">
       <div class="row">
         <div class="col-12">
           <form [formGroup]="sendMessageForm">
