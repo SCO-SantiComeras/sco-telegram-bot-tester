@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { AuthModule } from './modules/auth/auth.module';
 
 export function configFactory(provider: ConfigService) {
   return () => provider.getDataFromJson('assets/config/data.json');
@@ -39,14 +40,17 @@ export function translateFactory(provider: TranslateService) {
     AppRoutingModule,
     HttpClientModule,
     NgxsModule.forRoot([], { developmentMode: !environment.production }),
-    SharedModule,
-    TelegramBotTesterModule.forRoot(),
+ 
     MatSidenavModule,
     MatProgressSpinnerModule,
     MatIconModule,
     MatCardModule,
     MatButtonModule,
     MatMenuModule,
+
+    SharedModule,
+    AuthModule.forRoot(),
+    TelegramBotTesterModule.forRoot(),
   ],
   providers: [
     WebSocketService,

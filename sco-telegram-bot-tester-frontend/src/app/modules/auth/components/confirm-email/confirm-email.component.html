@@ -1,0 +1,23 @@
+<div class="confirm-email">
+  <mat-card class="confirm-email__card mat-elevation-z8" [ngClass]="{
+      'confirm-email__card--mobile': resolutionService.getMode() == resolutionService.resolutionConstants.MOBILE
+    }"
+  >
+    <mat-card-title class="confirm-email__card--title">
+      {{'label.confirm-email.component.card.title' | appTranslate}}
+    </mat-card-title>
+
+    <mat-card-content class="confirm-email__card--content" *ngIf="user">
+
+      <ng-container *ngIf="success">
+        <p class="mt-10">{{'label.confirm-email.component.grettings' | appTranslate}} {{user.name}}, {{'label.confirm-email.component.success.1' | appTranslate}}</p>
+        <p>{{'label.confirm-email.component.success.2' | appTranslate}}</p>
+        <button mat-button class="mt-10" (click)="onClickGoLogin()">
+          <mat-icon class="mr-10">login</mat-icon>
+          <span>{{'label.confirm-email.component.success.btn' | appTranslate}}</span>
+        </button>
+      </ng-container>
+
+    </mat-card-content>
+  </mat-card>
+</div>
