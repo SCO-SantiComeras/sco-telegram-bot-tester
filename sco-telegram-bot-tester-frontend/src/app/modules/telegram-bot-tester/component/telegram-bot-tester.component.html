@@ -1,9 +1,9 @@
-<div class="telegram-bot">
-  <mat-card class="telegram-bot__card">
+<div class="card-page-content">
+  <mat-card class="card-page-content__card">
     <mat-card-content [ngClass]="{
-      'telegram-bot__card__content-web': resolutionService.getMode() == resolutionService.resolutionConstants.WEB,
-      'telegram-bot__card__content-tablet': resolutionService.getMode() == resolutionService.resolutionConstants.TABLET,
-      'telegram-bot__card__content-mobile': resolutionService.getMode() == resolutionService.resolutionConstants.MOBILE
+      'card-page-content__card__content-web': resolutionService.getMode() == resolutionService.resolutionConstants.WEB,
+      'card-page-content__card__content-tablet': resolutionService.getMode() == resolutionService.resolutionConstants.TABLET,
+      'card-page-content__card__content-mobile': resolutionService.getMode() == resolutionService.resolutionConstants.MOBILE
     }">
       <div class="row">
         <div class="col-12">
@@ -28,8 +28,8 @@
             </mat-form-field>
     
             <div class="row">
-              <div class="col-12 telegram-bot__buttons-box">
-                <button mat-raised-button color="warn" class="telegram-bot__buttons-box--margin-btn" (click)="onCLickClean()">
+              <div class="col-12 card-page-content__buttons-box">
+                <button mat-raised-button color="warn" class="card-page-content__buttons-box--margin-btn" (click)="onCLickClean()">
                   {{'label.telegram-bot.component.form.btn.clean' | appTranslate}}
                 </button>
                 <button mat-raised-button color="accent" (click)="onClickSubmit()">
