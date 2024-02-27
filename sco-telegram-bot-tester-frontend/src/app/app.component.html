@@ -15,7 +15,7 @@
           </button>
         </div>
         <span class="header__spacer-menu"></span>
-        <div [hidden]="viewMode != resolutionConstants.WEB">
+        <div [hidden]="viewMode != resolutionConstants.WEB || loggedUser">
           <button mat-stroked-button color="basic" style="margin-right: 20px !important; border: none !important;" (click)="onClickSignUp()">
             {{'label.header.btn.signup' | appTranslate}}
           </button>
@@ -23,11 +23,11 @@
             {{'label.header.btn.login' | appTranslate}}
           </button>
         </div>
-        <div [hidden]="viewMode == resolutionConstants.WEB">
-          <button mat-stroked-button color="basic" [matMenuTriggerFor]="menu" style="border: none !important;">
+        <div [hidden]="viewMode == resolutionConstants.WEB || loggedUser">
+          <button mat-stroked-button color="basic" [matMenuTriggerFor]="loginMenu" style="border: none !important;">
             <mat-icon>menu</mat-icon>
           </button>
-          <mat-menu #menu="matMenu">
+          <mat-menu #loginMenu="matMenu">
             <button mat-menu-item (click)="onClickSignUp()">
               <mat-icon>logout</mat-icon>
               <span>{{'label.header.btn.signup' | appTranslate}}</span>
@@ -35,6 +35,17 @@
             <button mat-menu-item (click)="onClickLogIn()">
               <mat-icon>logout</mat-icon>
               <span>{{'label.header.btn.login' | appTranslate}}</span>
+            </button>
+          </mat-menu>
+        </div>
+        <div [hidden]="!loggedUser">
+          <button mat-stroked-button color="basic" [matMenuTriggerFor]="logoutMenu" style="border: none !important;">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <mat-menu #logoutMenu="matMenu">
+            <button mat-menu-item (click)="onClickLogOut()">
+              <mat-icon>logout</mat-icon>
+              <span>{{'label.header.btn.logout' | appTranslate}}</span>
             </button>
           </mat-menu>
         </div>
