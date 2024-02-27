@@ -22,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AuthModule } from './modules/auth/auth.module';
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
+import { AuthGuard } from './guards/auth.guard.service';
 
 export function configFactory(provider: ConfigService) {
   return () => provider.getDataFromJson('assets/config/data.json');
@@ -58,6 +59,7 @@ export function translateFactory(provider: TranslateService) {
   ],
   providers: [
     WebSocketService,
+    AuthGuard,
     {
       provide: APP_INITIALIZER,
       useFactory: configFactory,
