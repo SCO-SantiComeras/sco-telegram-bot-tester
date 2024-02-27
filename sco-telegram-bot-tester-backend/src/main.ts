@@ -23,6 +23,17 @@ async function bootstrap() {
     .setDescription('Documentación sobre endpoints de la aplicación Telegram bot tester')
     .setVersion('1.0')
     .addTag('SCO')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, swagger);
