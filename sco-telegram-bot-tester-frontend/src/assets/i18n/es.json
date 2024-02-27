@@ -5,6 +5,8 @@
     "label.header.btn.login": "Iniciar sesión",
     "label.header.btn.signup": "Registrarse",
     "label.header.btn.logout": "Cerrar sesión",
+    "label.header.btn.telegram-bot": "Bot tester",
+    "label.header.btn.telegram-results": "Resultados",
 
     "label.telegram-bot.component.form.token": "Token",
     "label.telegram-bot.component.form.token.placeholder": "Token del bot",

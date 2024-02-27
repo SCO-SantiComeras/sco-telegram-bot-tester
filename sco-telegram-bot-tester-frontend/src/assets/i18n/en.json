@@ -5,6 +5,8 @@
     "label.header.btn.login": "Log In",
     "label.header.btn.signup": "Sign Up",
     "label.header.btn.logout": "Log Out",
+    "label.header.btn.telegram-bot": "Bot tester",
+    "label.header.btn.telegram-results": "Results",
 
     "label.telegram-bot.component.form.token": "Token",
     "label.telegram-bot.component.form.token.placeholder": "Bot token",

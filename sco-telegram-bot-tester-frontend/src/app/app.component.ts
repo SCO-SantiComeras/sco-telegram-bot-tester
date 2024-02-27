@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     public readonly cacheService: CacheService,
     private readonly translateService: TranslateService,
     public readonly resolutionService: ResolutionService,
-    private readonly router: Router,
+    public readonly router: Router,
     private readonly store: Store,
     private readonly toatService: ToastService,
   ) {

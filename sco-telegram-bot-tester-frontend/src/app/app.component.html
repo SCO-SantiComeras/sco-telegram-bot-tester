@@ -40,9 +40,13 @@
         </div>
         <div [hidden]="!loggedUser">
           <button mat-stroked-button color="basic" [matMenuTriggerFor]="logoutMenu" style="border: none !important;">
-            <mat-icon>menu</mat-icon>
+            <mat-icon>account_circle</mat-icon>
           </button>
           <mat-menu #logoutMenu="matMenu">
+            <button mat-menu-item (click)="router.navigateByUrl('')">
+              <mat-icon>adb</mat-icon>
+              <span>{{'label.header.btn.telegram-bot' | appTranslate}}</span>
+            </button>
             <button mat-menu-item (click)="onClickLogOut()">
               <mat-icon>logout</mat-icon>
               <span>{{'label.header.btn.logout' | appTranslate}}</span>
