@@ -6,6 +6,8 @@ import { RegisterComponent } from './modules/auth/components/register/register.c
 import { RequestPasswordComponent } from './modules/auth/components/request-password/request-password.component';
 import { ResetPasswordComponent } from './modules/auth/components/reset-password/reset-password.component';
 import { ConfirmEmailComponent } from './modules/auth/components/confirm-email/confirm-email.component';
+import { TelegramBotResultsComponent } from './modules/telegram-bot-results/component/telegram-bot-results.component';
+import { AuthGuard } from './guards/auth.guard.service';
 
 const routes: Routes = [
   {
@@ -31,6 +33,11 @@ const routes: Routes = [
   {
     path: 'confirm-email/:email',
     component: ConfirmEmailComponent,
+  },
+  {
+    path: 'results',
+    component: TelegramBotResultsComponent,
+    canActivate: [AuthGuard],
   },
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' },

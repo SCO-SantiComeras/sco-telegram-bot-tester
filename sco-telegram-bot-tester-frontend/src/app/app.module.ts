@@ -23,6 +23,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
 import { AuthGuard } from './guards/auth.guard.service';
+import { TelegramBotResultsModule } from './modules/telegram-bot-results/telegram-bot-results.module';
 
 export function configFactory(provider: ConfigService) {
   return () => provider.getDataFromJson('assets/config/data.json');
@@ -56,6 +57,7 @@ export function translateFactory(provider: TranslateService) {
     SharedModule,
     AuthModule.forRoot(),
     TelegramBotTesterModule.forRoot(),
+    TelegramBotResultsModule.forRoot(),
   ],
   providers: [
     WebSocketService,

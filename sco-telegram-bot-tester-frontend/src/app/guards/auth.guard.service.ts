@@ -17,10 +17,11 @@ export class AuthGuard implements CanActivate {
     const token: Token = this.store.selectSnapshot(AuthState.token);
     const user: User = this.store.selectSnapshot(AuthState.loggedUser);
 
-
     if (!token || !user) {
       this.router.navigateByUrl('login');
       return false;
     }
+
+    return true;
   }
 }
