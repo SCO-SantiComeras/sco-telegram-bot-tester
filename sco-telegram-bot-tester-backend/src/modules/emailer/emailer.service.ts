@@ -34,7 +34,7 @@ export class EmailerService {
     const message: Message = {
       text: `${text}`,
       receivers: [user.email],
-      subject: `${this.configService.get('frontend.title')} - ${this.translateService.getTranslate('label.email.recovery.password.subject', lang)}`,
+      subject: `${this.configService.get('emailer.subjectTitle')} - ${this.translateService.getTranslate('label.email.recovery.password.subject', lang)}`,
       attachments: [],
     };
 
@@ -52,7 +52,7 @@ export class EmailerService {
     const message: Message = {
       text: `${text}`,
       receivers: [user.email],
-      subject: `${this.configService.get('frontend.title')} - ${this.translateService.getTranslate('label.email.active.user.subject', lang)}`,
+      subject: `${this.configService.get('emailer.subjectTitle')} - ${this.translateService.getTranslate('label.email.active.user.subject', lang)}`,
       attachments: [],
     };
 
