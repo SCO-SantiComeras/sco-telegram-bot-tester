@@ -15,6 +15,10 @@ import { TelegramBotTesterModule } from './modules/telegram-bot-tester/telegram-
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 export function configFactory(provider: ConfigService) {
   return () => provider.getDataFromJson('assets/config/data.json');
@@ -39,6 +43,10 @@ export function translateFactory(provider: TranslateService) {
     TelegramBotTesterModule.forRoot(),
     MatSidenavModule,
     MatProgressSpinnerModule,
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+    MatMenuModule,
   ],
   providers: [
     WebSocketService,
