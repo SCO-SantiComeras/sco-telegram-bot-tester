@@ -51,11 +51,6 @@ export class UpdateUserDto {
   active?: boolean;
 
   @ApiProperty()
-  @IsNotEmpty({ message: validationErrorMessages.USERS.ROLE.NOT_EMPTY })
-  @IsString({ message: validationErrorMessages.USERS.ROLE.INVALID_VALUE })
-  role: string;
-
-  @ApiProperty()
   @IsOptional()
   @IsString({ message: validationErrorMessages.USERS.PWD_RECOVERY_TOKEN.INVALID_VALUE })
   pwdRecoveryToken?: string;

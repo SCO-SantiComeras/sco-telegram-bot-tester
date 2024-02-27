@@ -15,7 +15,6 @@ import { UserDto } from '../users/dto/user.dto';
 import { ConfigService } from '@nestjs/config';
 import { translateConstants } from '../shared/translate/translate.constants';
 import { WebsocketGateway } from '../websocket/websocket.gateway';
-import { RoleConstants } from '../users/constants/roles.constants';
 
 @Controller('api/v1/auth')
 @ApiTags('Autentificación')
@@ -113,20 +112,6 @@ export class AuthController {
     if (!createdUser) {
       console.log(`[register] User '${user.name}' unnable to create`);
       throw new HttpException(httpErrorMessages.USERS.CREATE_USER_ERROR, HttpStatus.CONFLICT);
-    }
-
-    const existRole: string = Object.values(RoleConstants).find(r => r == user.role);
-    if (!existRole) {
-      console.log('[addUser] Role not found');
-      throw new HttpException(httpErrorMessages.USERS.ROLE_NOT_FOUND, HttpStatus.NOT_FOUND);
-    } 
-    
-    if (existRole == RoleConstants.ADMIN) {
-      const existAdminUser: IUser = await this.usersService.findUserByRole(RoleConstants.ADMIN);
-      if (existAdminUser) {
-        console.log(`[addUser] User with role '${RoleConstants.ADMIN}' already exist`);
-        throw new HttpException(httpErrorMessages.USERS.ADMIN_ALREADY_EXIST, HttpStatus.CONFLICT);
-      }
     }
 
     const lang: string = req && req.headers && req.headers.clientlanguage 

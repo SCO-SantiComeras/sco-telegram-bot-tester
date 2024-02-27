@@ -1,5 +1,5 @@
 import { httpErrorMessages } from '../../constants/http-error-messages.constants';
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query, Res, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ControllerService } from '../shared/services/controller.service';
@@ -12,7 +12,6 @@ import { usersConstants } from './constants/user.constants';
 import { Response } from 'express';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BcryptService } from '../shared/services/bcrypt.service';
-import { RoleConstants } from './constants/roles.constants';
 
 @Controller('api/v1/users')
 @ApiTags('Usuarios')
@@ -45,88 +44,6 @@ export class UsersController {
     const filter = query && query.query ? await this.controllerService.getParamsFromSwaggerQuery(query.query) : query;
     const users: IUser[] = await this.usersService.fetchUsers(filter);
     return res.status(200).json(users);
-  }
-
-  @Post()
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
-  @ApiOperation({
-    summary: `Add user, authguard required`,
-    description: 'Añade un nuevo usuario a la aplicación. Necesaria autorización',
-  })
-  @ApiBody({
-    description: 'Ejemplo de creación de usuario utilizando la clase UserDto',
-    type: UserDto,
-    examples: {
-      a: {
-        value: {
-          name: usersConstants.PUBLIC.NAME,
-          password: usersConstants.PUBLIC.PASSWORD,
-          email: usersConstants.PUBLIC.EMAIL,
-          active: usersConstants.PUBLIC.ACTIVE,
-          role: usersConstants.PUBLIC.ROLE,
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Usuario añadido correctamente',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Rol no encontrado',
-  })
-  @ApiResponse({
-    status: 409,
-    description: 'Nombre usuario ya existente',
-  })
-  @ApiResponse({
-    status: 409,
-    description: 'Email ya registrado anteriormente',
-  })
-  @ApiResponse({
-    status: 409,
-    description: 'Usuario administrador ya registrado',
-  })
-  async addUser(@Res() res: Response, @Body() user: UserDto): Promise<Response<IUser, Record<string, IUser>>> {
-    const existUserName: IUser = await this.usersService.findUserByName(user.name);
-    if (existUserName) {
-      console.error('[addUser] User already exist');
-      throw new HttpException(httpErrorMessages.USERS.USER_ALREADY_EXIST, HttpStatus.CONFLICT);
-    }
-
-    const existUserEmail: IUser = await this.usersService.findUserByEmail(user.email);
-    if (existUserEmail) {
-      console.log('[addUser] Email already registered');
-      throw new HttpException(httpErrorMessages.USERS.EMAIL_ALREADY_EXIST, HttpStatus.CONFLICT);
-    }
-
-    const existRole: string = Object.values(RoleConstants).find(r => r == user.role);
-    if (!existRole) {
-      console.log('[addUser] Role not found');
-      throw new HttpException(httpErrorMessages.USERS.ROLE_NOT_FOUND, HttpStatus.NOT_FOUND);
-    } 
-    
-    if (existRole == RoleConstants.ADMIN) {
-      const existAdminUser: IUser = await this.usersService.findUserByRole(RoleConstants.ADMIN);
-      if (existAdminUser) {
-        console.log(`[addUser] User with role '${RoleConstants.ADMIN}' already exist`);
-        throw new HttpException(httpErrorMessages.USERS.ADMIN_ALREADY_EXIST, HttpStatus.CONFLICT);
-      }
-    }
-
-    try {
-      const createdUser: IUser = await this.usersService.addUser(user);
-      if (createdUser) {
-        await this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
-        return res.status(201).json(createdUser);
-      }
-    } catch (error) {
-      throw new HttpException(error.stack, HttpStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-      return undefined;
-    }
   }
 
   @Put('/:name')

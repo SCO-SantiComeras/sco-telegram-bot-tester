@@ -4,7 +4,6 @@ import { UserDto } from './dto/user.dto';
 import { IUser } from './interface/iuser.interface';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { usersConstants } from './constants/user.constants';
-import { RoleConstants } from './constants/roles.constants';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -17,7 +16,6 @@ export class UsersService {
   async onModuleInit() {
     if (this.configService.get('app.population')) {
       await this.populatePublicUser();
-      await this.populateAdminUser();
     }
   }
 
@@ -37,7 +35,6 @@ export class UsersService {
         password: user.password,
         email: user.email,
         active: user.active != undefined ? user.active : false,
-        role: user.role,
         pwdRecoveryToken: undefined,
         pwdRecoveryDate: undefined,
       });
@@ -136,15 +133,6 @@ export class UsersService {
     }
   }
 
-  async findUserByRole(role: string): Promise<IUser> {
-    try {
-      return await this.UserModel.findOne({ role: role });
-    } catch (error) {
-      console.log(`[findUserByRole] Error: ${JSON.stringify(error)}`);
-      return undefined;
-    }
-  }
-
   async modelToDto(user: IUser): Promise<UserDto> {
     const UserDto: UserDto = {
       _id: user._id ? user._id : undefined, 
@@ -152,7 +140,6 @@ export class UsersService {
       password: user.password ? user.password : undefined,
       email: user.email,
       active: user.active,
-      role: user.role,
       pwdRecoveryToken: user.pwdRecoveryToken,
       pwdRecoveryDate: user.pwdRecoveryDate,
       typeObj: user.typeObj ? user.typeObj : 'User', 
@@ -172,7 +159,6 @@ export class UsersService {
       password: usersConstants.PUBLIC.PASSWORD,
       email: usersConstants.PUBLIC.EMAIL,
       active: usersConstants.PUBLIC.ACTIVE,
-      role: usersConstants.PUBLIC.ROLE,
     }
 
     const createdPublicUser: IUser = await this.addUser(userPublicDto);
@@ -182,28 +168,5 @@ export class UsersService {
     }
     
     console.log(`[populatePublicUser] User '${usersConstants.PUBLIC.NAME}' added successfully`);
-  }
-
-  private async populateAdminUser() {
-    const existAdminUser: IUser = await this.findUserByRole(RoleConstants.ADMIN);
-    if (existAdminUser) {
-      return;
-    }
-
-    const userAdminDto: UserDto = {
-      name: usersConstants.ADMIN.NAME,
-      password: usersConstants.ADMIN.PASSWORD,
-      email: usersConstants.ADMIN.EMAIL,
-      active: usersConstants.ADMIN.ACTIVE,
-      role: usersConstants.ADMIN.ROLE,
-    }
-
-    const createdAdminUser: IUser = await this.addUser(userAdminDto);
-    if (!createdAdminUser) {
-      console.log(`[populateAdminUser] Unnable to create '${RoleConstants.ADMIN}' user`);
-      return;
-    }
-    
-    console.log(`[populateAdminUser] User '${RoleConstants.ADMIN}' added successfully`);
   }
 }

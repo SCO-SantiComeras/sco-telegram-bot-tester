@@ -64,7 +64,6 @@ export class TelegramBotResultsController {
             password: usersConstants.PUBLIC.PASSWORD,
             email: usersConstants.PUBLIC.EMAIL,
             active: usersConstants.PUBLIC.ACTIVE,
-            role: usersConstants.PUBLIC.ROLE,
           },
           token: '5005652633:AAF_Yik_jDa1Vj-to79OGJkJbTXE_FYjsvk',
           chat_id: '-4173364857',

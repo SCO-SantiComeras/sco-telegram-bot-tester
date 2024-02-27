@@ -12,7 +12,6 @@ export const httpErrorMessages = {
     EMAIL_ALREADY_EXIST: 'Email already registered',
     CREATE_USER_ERROR: 'Unnable to create user',
     UPDATE_USER_ERROR: 'Unnable to update user',
-    ROLE_NOT_FOUND: 'Role not found',
     ADMIN_ALREADY_EXIST: 'Admin already exist',
   },
   TELEGRAM_BOT_TESTER: {

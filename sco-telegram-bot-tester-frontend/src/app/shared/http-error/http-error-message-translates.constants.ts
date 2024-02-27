@@ -13,7 +13,6 @@ export const httpErrorMessageTranslates = {
       EMAIL_ALREADY_EXIST: 'El email ya ha sido registrado',
       CREATE_USER_ERROR: 'Imposible crear el usuario',
       UPDATE_USER_ERROR: 'Imposible actualizar el usuario',
-      ROLE_NOT_FOUND: 'Rol del usuario no encontrado',
       ADMIN_ALREADY_EXIST: 'Usuario adminitrador ya existente',
     },
     TELEGRAM_BOT_TESTER: {
@@ -41,7 +40,6 @@ export const httpErrorMessageTranslates = {
       EMAIL_ALREADY_EXIST: 'Email already registered',
       CREATE_USER_ERROR: 'Unnable to create user',
       UPDATE_USER_ERROR: 'Unnable to update user',
-      ROLE_NOT_FOUND: 'Role not found',
       ADMIN_ALREADY_EXIST: 'Admin already exist',
     },
     TELEGRAM_BOT_TESTER: {

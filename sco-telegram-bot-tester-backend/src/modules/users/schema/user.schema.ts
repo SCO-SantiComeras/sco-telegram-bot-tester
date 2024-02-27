@@ -26,11 +26,6 @@ export const userSchema = new Schema<IUser>(
       required: false,
       default: true,
     },
-    role: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     pwdRecoveryToken: {
       type: String,
       required: false,

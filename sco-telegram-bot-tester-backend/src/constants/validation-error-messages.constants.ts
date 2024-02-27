@@ -48,10 +48,6 @@ export const validationErrorMessages = {
             NOT_EMPTY: 'Active should be not empty',
             INVALID_VALUE: 'Active should be boolean value',
         },
-        ROLE: {
-            NOT_EMPTY: 'Role should be not empty',
-            INVALID_VALUE: 'Role should be string value',
-        },
         PWD_RECOVERY_TOKEN: {
             NOT_EMPTY: 'Password recovery token should be not empty',
             INVALID_VALUE: 'Password recovery token should be string value',
