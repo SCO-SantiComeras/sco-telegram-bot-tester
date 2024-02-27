@@ -6,7 +6,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsError } from 'src/app/shared/forms/forms-errors.model';
 import { ResolutionService } from 'src/app/shared/resolution/resolution.service';
 import { SendMessage } from '../model/send-message';
-import { CacheService } from 'src/app/shared/cache/cache.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { Store } from '@ngxs/store';
 import { SendMessageGroup } from '../store/telegram-bot-tester.actions';
@@ -32,7 +31,6 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
   public formErrors: FormsError[];
 
   constructor(
-    public readonly cacheService: CacheService,
     public readonly resolutionService: ResolutionService,
     private readonly translateService: TranslateService,
     public readonly formsService: FormsService,
@@ -40,9 +38,7 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
     private readonly toastService: ToastService,
     private readonly store: Store,
     private readonly configService: ConfigService,
-  ) {
-    this.cacheService.setElement(this.cacheConstants.TITLE, this.translateService.getTranslate('label.telegram-bot.component.cache.title'));
-  }
+  ) {}
 
   ngOnInit() {
     this.viewMode = this.resolutionService.getMode();

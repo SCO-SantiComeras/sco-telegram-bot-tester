@@ -1,25 +1,4 @@
-<div class="telegram-bot" [ngClass]="{
-  'telegram-bot__web': viewMode == resolutionService.resolutionConstants.WEB,
-  'telegram-bot__tablet': viewMode == resolutionService.resolutionConstants.TABLET,
-  'telegram-bot__mobile': viewMode == resolutionService.resolutionConstants.MOBILE
-}">
-  <mat-card>
-    <mat-card-title>
-      <div class="row">
-        <div class="col-2 col-md-1 text-center">
-          <mat-icon aria-hidden="true" class="telegram-bot__icon">
-            telegram
-          </mat-icon>
-        </div>
-        <div class="col-10 col-md-11">
-          <h1 class="telegram-bot__title">
-            {{cacheService.getElement(cacheConstants.TITLE)}}
-          </h1>
-        </div>
-      </div>
-    </mat-card-title>
-  </mat-card>
-
+<div class="telegram-bot">
   <mat-card class="mt-3">
     <mat-card-content>
       <div class="row">
