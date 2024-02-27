@@ -1,7 +1,8 @@
 {
     "label.toast.action.close": "Cerrar",
 
-    "label.telegram-bot.component.cache.title": "Telegram bot tester",
+    "label.header.cache.title": "Telegram bot tester",
+
     "label.telegram-bot.component.form.token": "Token",
     "label.telegram-bot.component.form.token.placeholder": "Token del bot",
     "label.telegram-bot.component.form.chat_id": "Chat id",
