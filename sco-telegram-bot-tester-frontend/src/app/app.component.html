@@ -8,7 +8,7 @@
         </div>
         <span class="header__spacer-icon"></span>
         <div>
-          <button mat-stroked-button color="basic" class="header__home-btn" [ngClass]="{
+          <button mat-stroked-button color="basic" class="header__home-btn" (click)="onClickHomeLogo()" [ngClass]="{
             'header__home-btn--mobile': viewMode == resolutionConstants.MOBILE
           }">
             {{cacheService.getElement(cacheConstants.TITLE)}}
@@ -16,10 +16,10 @@
         </div>
         <span class="header__spacer-menu"></span>
         <div [hidden]="viewMode != resolutionConstants.WEB">
-          <button mat-stroked-button color="basic" style="margin-right: 20px !important; border: none !important;">
+          <button mat-stroked-button color="basic" style="margin-right: 20px !important; border: none !important;" (click)="onClickSignUp()">
             {{'label.header.btn.signup' | appTranslate}}
           </button>
-          <button mat-stroked-button color="basic" style="border: none !important;">
+          <button mat-stroked-button color="basic" style="border: none !important;" (click)="onClickLogIn()">
             {{'label.header.btn.login' | appTranslate}}
           </button>
         </div>
@@ -28,11 +28,11 @@
             <mat-icon>menu</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>
+            <button mat-menu-item (click)="onClickSignUp()">
               <mat-icon>logout</mat-icon>
               <span>{{'label.header.btn.signup' | appTranslate}}</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="onClickLogIn()">
               <mat-icon>logout</mat-icon>
               <span>{{'label.header.btn.login' | appTranslate}}</span>
             </button>

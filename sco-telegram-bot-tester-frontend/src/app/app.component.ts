@@ -9,6 +9,7 @@ import { CacheConstants } from './shared/cache/cache.constants';
 import { TranslateService } from './shared/translate/translate.service';
 import { ResolutionService } from './shared/resolution/resolution.service';
 import { ResolutionConstants } from './shared/resolution/resolution.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,7 @@ export class AppComponent {
     public readonly cacheService: CacheService,
     private readonly translateService: TranslateService,
     public readonly resolutionService: ResolutionService,
+    private readonly router: Router,
   ) {
     if (this.configService.getData(this.configConstants.TITLE)) {
       this.title = this.configService.getData(this.configConstants.TITLE) || 'sco-telegram-bot-tester';
@@ -41,6 +43,22 @@ export class AppComponent {
 
     this.cacheService.setElement(this.cacheConstants.TITLE, this.translateService.getTranslate('label.header.cache.title'))
     this.websocketsService.connect();
+  }
+
+  onClickHomeLogo() {
+    this.router.navigateByUrl('');
+  }
+
+  onClickSignUp() {
+    this.router.navigateByUrl('signup');
+  }
+
+  onClickLogIn() {
+    this.router.navigateByUrl('login');
+  }
+
+  onClickLogOut() {
+    
   }
 
   @HostListener('window:resize', ['$event'])
