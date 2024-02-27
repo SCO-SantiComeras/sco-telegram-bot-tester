@@ -12,6 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgxsModule } from '@ngxs/store';
 import { TelegramBotResultsService } from './telegram-bot-results.service';
 import { TelegramBotResultsComponent } from './component/telegram-bot-results.component';
+import { JoinPipe } from 'src/app/shared/join/join.pipe';
+import { TelegramBotResultsState } from './store/telegram-bot-results.state';
 
 export function throwIfAlreadyLoaded(parentModule: any, moduleName: string) {
   if (parentModule) {
@@ -34,7 +36,7 @@ export function throwIfAlreadyLoaded(parentModule: any, moduleName: string) {
     MatButtonModule,
     NgxsModule.forFeature(
       [
-
+        TelegramBotResultsState,
       ]
     ),
   ],
@@ -55,6 +57,7 @@ export class TelegramBotResultsModule {
       ngModule: TelegramBotResultsModule,
       providers: [
         TelegramBotResultsService,
+        JoinPipe,
       ]
     };
   }

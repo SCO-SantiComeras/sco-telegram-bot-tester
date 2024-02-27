@@ -117,5 +117,12 @@
     "label.confirm-email.component.success.btn": "Iniciar sesión",
     "label.confirm-email.component.error.1": "ha habido un error intentando activar su usuario.",
     "label.confirm-email.component.error.2": "Por favor, pongase en contacto con el soporte de la aplicación.",
-    "label.confirm-email.component.error.btn": "Reportar incidencia"
+    "label.confirm-email.component.error.btn": "Reportar incidencia",
+
+    "label.telegram-bot-results.state.fetch.success": "Resultados recuperados correctamente",
+    "label.telegram-bot-results.state.fetch.error": "Error intentando recuperar los resultados",
+    "label.telegram-bot-results.state.create.success": "Resultado del bot de telegram añadido correctamente",
+    "label.telegram-bot-results.state.create.error": "Error intentando añadir un nuevo resultado del bot de telegram",
+    "label.telegram-bot-results.state.delete.success": "Resultado del bot de telegram eliminado correctamente",
+    "label.telegram-bot-results.state.delete.error": "Error intentando eliminado el resultado del bot de telegram"
 }

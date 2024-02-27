@@ -42,6 +42,14 @@ export class TelegramBotResultsController {
   })
   async fetchTelegramBotResults(@Res() res: Response, @Query() query?: any): Promise<Response<ITelegramBotResult[], Record<string, ITelegramBotResult[]>>> {
     const filter = query && query.query ? await this.controllerService.getParamsFromSwaggerQuery(query.query) : query;
+
+    if (filter.user) {
+      const existUser: IUser = await this.usersService.findUserByName(filter.user);
+      if (existUser) {
+        filter.user = existUser;
+      }
+    }
+
     const telegramBotResults: ITelegramBotResult[] = await this.botResultsService.fetchTelegramBotResults(filter);
     return res.status(200).json(telegramBotResults);
   }
