@@ -21,3 +21,29 @@
     -webkit-transform: translate(-50%, -50%);
   }
 }
+
+.header {
+  display: flex;
+
+  &__spacer-icon {
+    flex: 0 1 auto;
+  }
+
+  &__spacer-menu {
+    flex: 1 1 auto;
+  }
+
+  &__icon {
+    font-size: 2rem;
+  }
+
+  &__home-btn {
+    border: none !important; 
+    margin-left: 20px !important;
+    font-size: 24px !important;
+
+    &--mobile {
+      font-size: 18px !important;
+    }
+  }
+}

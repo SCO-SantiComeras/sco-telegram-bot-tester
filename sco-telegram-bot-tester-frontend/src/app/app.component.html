@@ -1,5 +1,44 @@
 <mat-drawer-container class="app">
     <mat-drawer-content>
+      <mat-card class="header">
+        <div>
+          <mat-icon aria-hidden="true" class="header__icon">
+            telegram
+          </mat-icon>
+        </div>
+        <span class="header__spacer-icon"></span>
+        <div>
+          <button mat-stroked-button color="basic" class="header__home-btn" [ngClass]="{
+            'header__home-btn--mobile': viewMode == resolutionConstants.MOBILE
+          }">
+            {{cacheService.getElement(cacheConstants.TITLE)}}
+          </button>
+        </div>
+        <span class="header__spacer-menu"></span>
+        <div [hidden]="viewMode != resolutionConstants.WEB">
+          <button mat-stroked-button color="basic" style="margin-right: 20px !important; border: none !important;">
+            {{'label.header.btn.signup' | appTranslate}}
+          </button>
+          <button mat-stroked-button color="basic" style="border: none !important;">
+            {{'label.header.btn.login' | appTranslate}}
+          </button>
+        </div>
+        <div [hidden]="viewMode == resolutionConstants.WEB">
+          <button mat-stroked-button color="basic" [matMenuTriggerFor]="menu" style="border: none !important;">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>logout</mat-icon>
+              <span>{{'label.header.btn.signup' | appTranslate}}</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>logout</mat-icon>
+              <span>{{'label.header.btn.login' | appTranslate}}</span>
+            </button>
+          </mat-menu>
+        </div>
+      </mat-card>
       <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>
