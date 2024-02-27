@@ -26,7 +26,6 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
   public cacheConstants = CacheConstants;
   public configConstants = ConfigConstants;
 
-  public viewMode: string;
   public sendMessageForm: FormGroup;
   public formErrors: FormsError[];
 
@@ -41,8 +40,6 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.viewMode = this.resolutionService.getMode();
-
     this.sendMessageForm = new FormGroup({
       token: new FormControl('', [Validators.required]),
       chat_id: new FormControl('', [Validators.required]),
@@ -139,10 +136,5 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
     }
 
     this.onClickSubmit();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.viewMode = this.resolutionService.getMode();
   }
 }
