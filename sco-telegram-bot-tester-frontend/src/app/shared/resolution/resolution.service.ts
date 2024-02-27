@@ -12,8 +12,8 @@ export class ResolutionService {
 
   constructor() { }
 
-  getMode(): string {
-    this.calculateMode();
+  getMode(width: number = undefined): string {
+    this.calculateMode(width);
     return this._mode;
   }
 
