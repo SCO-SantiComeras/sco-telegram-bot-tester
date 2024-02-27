@@ -21,9 +21,6 @@
     "label.telegram-bot.component.form.validate.chat_id": "Chat id no informado",
     "label.telegram-bot.component.form.validate.text": "Texto no informado",
 
-    "label.telegram-bot-tester.store.sendMessage.success": "Mensaje envíado con éxito",
-    "label.telegram-bot-tester.store.sendMessage.error": "Error intentando envíar el mensaje",
-
     "label.auth.state.login.success": "Conexión realizada con éxito",
     "label.auth.state.login.error": "No se pudo realizar conexión",
     "label.auth.state.logout.success": "Conexión cerrada con éxito",
@@ -119,6 +116,8 @@
     "label.confirm-email.component.error.2": "Por favor, pongase en contacto con el soporte de la aplicación.",
     "label.confirm-email.component.error.btn": "Reportar incidencia",
 
+    "label.telegram-bot-results.state.sendMessage.success": "Mensaje envíado con éxito",
+    "label.telegram-bot-results.state.sendMessage.error": "Error intentando envíar el mensaje",
     "label.telegram-bot-results.state.fetch.success": "Resultados recuperados correctamente",
     "label.telegram-bot-results.state.fetch.error": "Error intentando recuperar los resultados",
     "label.telegram-bot-results.state.create.success": "Resultado del bot de telegram añadido correctamente",

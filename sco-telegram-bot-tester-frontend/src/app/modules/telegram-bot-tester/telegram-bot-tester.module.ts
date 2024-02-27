@@ -10,9 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { TelegramBotTesterService } from './telegram-bot-tester.service';
-import { NgxsModule } from '@ngxs/store';
-import { TelegramBotTesterState } from './store/telegram-bot-tester.state';
 
 export function throwIfAlreadyLoaded(parentModule: any, moduleName: string) {
   if (parentModule) {
@@ -33,11 +30,6 @@ export function throwIfAlreadyLoaded(parentModule: any, moduleName: string) {
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    NgxsModule.forFeature(
-      [
-        TelegramBotTesterState,
-      ]
-    ),
   ],
   declarations: [
     TelegramBotTesterComponent
@@ -54,9 +46,6 @@ export class TelegramBotTesterModule {
   static forRoot(): ModuleWithProviders<TelegramBotTesterModule> {
     return {
       ngModule: TelegramBotTesterModule,
-      providers: [
-        TelegramBotTesterService,
-      ]
     };
   }
 }

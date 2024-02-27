@@ -8,13 +8,13 @@ import { ResolutionService } from 'src/app/shared/resolution/resolution.service'
 import { SendMessage } from '../model/send-message';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { Store } from '@ngxs/store';
-import { SendMessageGroup } from '../store/telegram-bot-tester.actions';
 import { TelegramBotTesterMockConstants } from 'src/app/shared/constants/telegram-bot-tester.mock.constants';
 import { environment } from 'src/environments/environment';
-import { TelegramBotTesterState } from '../store/telegram-bot-tester.state';
 import { CacheConstants } from 'src/app/shared/cache/cache.constants';
 import { ConfigConstants } from 'src/app/shared/config/config.constants';
 import { ConfigService } from 'src/app/shared/config/config.service';
+import { SendMessageGroup } from '../../telegram-bot-results/store/telegram-bot-results.actions';
+import { TelegramBotResultsState } from '../../telegram-bot-results/store/telegram-bot-results.state';
 
 @Component({
   selector: 'app-telegram-bot-tester',
@@ -74,20 +74,20 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
       next: () => {
         this.spinnerService.hideSpinner();
 
-        const success: boolean = this.store.selectSnapshot(TelegramBotTesterState.success);
+        const success: boolean = this.store.selectSnapshot(TelegramBotResultsState.success);
         if (success) {
           if (this.configService.getData(this.configConstants.RESET_FORM_AFTER_SUCCESS_REQUEST)) {
             this.onCLickClean();
           }
-          this.toastService.addSuccessMessage(this.store.selectSnapshot(TelegramBotTesterState.successMsg));
+          this.toastService.addSuccessMessage(this.store.selectSnapshot(TelegramBotResultsState.successMsg));
           return;
         }
 
-        this.toastService.addErrorMessage(this.store.selectSnapshot(TelegramBotTesterState.errorMsg));
+        this.toastService.addErrorMessage(this.store.selectSnapshot(TelegramBotResultsState.errorMsg));
       }, 
       error: () => {
         this.spinnerService.hideSpinner();
-        this.toastService.addErrorMessage(this.store.selectSnapshot(TelegramBotTesterState.errorMsg));
+        this.toastService.addErrorMessage(this.store.selectSnapshot(TelegramBotResultsState.errorMsg));
       }
     })
   }
