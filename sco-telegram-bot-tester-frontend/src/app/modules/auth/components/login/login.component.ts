@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
         this.toast.addSuccessMessage(this.store.selectSnapshot(AuthState.successMsg));
-        this.router.navigate(['pages', 'resume']);
+        this.router.navigateByUrl('');
       },
       error: () => {
         this.spinnerService.hideSpinner();
@@ -132,7 +132,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onCLickRegisterUser() {
-    this.router.navigateByUrl("register");
+    this.router.navigateByUrl("signup");
   }
 
   @HostListener('document:keypress', ['$event'])

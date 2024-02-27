@@ -25,11 +25,11 @@ const routes: Routes = [
     component: RequestPasswordComponent,
   },
   {
-    path: 'reset-password',
+    path: 'reset-password/:pwdRecoveryToken',
     component: ResetPasswordComponent,
   },
   {
-    path: 'confirm-email',
+    path: 'confirm-email/:email',
     component: ConfirmEmailComponent,
   },
   { path: '', redirectTo: '', pathMatch: 'full' },

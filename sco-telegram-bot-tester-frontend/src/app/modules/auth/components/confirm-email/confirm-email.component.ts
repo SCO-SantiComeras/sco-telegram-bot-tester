@@ -17,8 +17,6 @@ import { User } from '../../model/user';
 })
 export class ConfirmEmailComponent implements OnInit {
 
-  public reportIssue: boolean;
-
   private email: string;
   public user: User;
   public success: boolean;
@@ -32,15 +30,11 @@ export class ConfirmEmailComponent implements OnInit {
     private readonly spinnerService: SpinnerService,
     private readonly toastService: ToastService,
   ) { 
-    this.reportIssue = false;
-
     this.email = undefined;
     this.success = false;
   }
 
   ngOnInit() {
-    this.reportIssue = this.configService.getData('confirmEmailReportIssue') || false;
-
     this.email = !this.router.url ? '' : this.router.url.split("/")[this.router.url.split("/").length - 1];
     this.success = false;
 
@@ -48,7 +42,7 @@ export class ConfirmEmailComponent implements OnInit {
       this.location.back();
       return;
     }
-
+console.log(this.email)
     this.spinnerService.showSpinner();
     this.store.dispatch(new FetchUserByEmail({ email: this.email })).subscribe({
       next: () => {

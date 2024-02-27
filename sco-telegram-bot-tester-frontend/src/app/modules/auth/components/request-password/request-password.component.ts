@@ -93,6 +93,6 @@ export class RequestPasswordComponent implements OnInit, OnDestroy {
   }
 
   onClickRegisterUser() {
-    this.router.navigateByUrl('register');
+    this.router.navigateByUrl('signup');
   }
 }
