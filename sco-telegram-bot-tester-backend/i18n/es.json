@@ -1,6 +1,6 @@
 {
     "label.hello": "Hola",
-    "label.minutes": "Minutos",
+    "label.minutes": "minutos",
 
     "label.email.recovery.password.1": "Este es tu token de recuperación de contraseña",
     "label.email.recovery.password.2": "El token expira en",
