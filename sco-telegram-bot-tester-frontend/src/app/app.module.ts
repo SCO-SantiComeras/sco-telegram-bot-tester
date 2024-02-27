@@ -20,6 +20,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthModule } from './modules/auth/auth.module';
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
+import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
 
 export function configFactory(provider: ConfigService) {
   return () => provider.getDataFromJson('assets/config/data.json');
@@ -40,6 +42,8 @@ export function translateFactory(provider: TranslateService) {
     AppRoutingModule,
     HttpClientModule,
     NgxsModule.forRoot([], { developmentMode: !environment.production }),
+    NgxsStoragePluginModule.forRoot({ key: ['auth'] }),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
  
     MatSidenavModule,
     MatProgressSpinnerModule,
