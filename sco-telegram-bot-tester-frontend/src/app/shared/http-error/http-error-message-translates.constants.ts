@@ -24,6 +24,7 @@ export const httpErrorMessageTranslates = {
     },
     TELEGRAM_BOT_RESULTS: {
       TELEGRAM_BOT_RESULT_NOT_FOUND: 'Resultado del bot de telegram no encontrado',
+      UNNABLE_CREATE_TELEGRAM_BOT_RESULT: 'Imposible crear resultado del bot de telegram',
     }
   },
   EN: {
@@ -51,6 +52,7 @@ export const httpErrorMessageTranslates = {
     },
     TELEGRAM_BOT_RESULTS: {
       TELEGRAM_BOT_RESULT_NOT_FOUND: 'Telegram bot result not found',
+      UNNABLE_CREATE_TELEGRAM_BOT_RESULT: 'Unnable to create telegram bot result',
     },
   }
 };

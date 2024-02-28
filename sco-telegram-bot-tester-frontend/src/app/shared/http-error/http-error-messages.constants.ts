@@ -23,6 +23,7 @@ export const httpErrorMessages = {
   },
   TELEGRAM_BOT_RESULTS: {
     TELEGRAM_BOT_RESULT_NOT_FOUND: 'Telegram bot result not found',
+    UNNABLE_CREATE_TELEGRAM_BOT_RESULT: 'Unnable to create telegram bot result',
   },
 };
   
