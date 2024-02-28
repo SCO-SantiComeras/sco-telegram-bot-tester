@@ -103,9 +103,7 @@ export class TelegramBotController {
       .catch((error: any) => {
         errorCode = this.telegramBotService.getErrorCode(error.message);
         errorMessage = this.telegramBotService.formatError(errorCode);
-
-        console.log(`[sendMessageGroup] End error: ${JSON.stringify(error)}`);
-        throw new HttpException(errorMessage, errorCode);
+        return false;
       });
 
     await this.telegramBotService.stopBot(telegramBot);
@@ -128,6 +126,11 @@ export class TelegramBotController {
       }
 
       await this.websocketsService.notifyWebsockets(websocketEvents.WS_TELEGRAM_BOT_RESULT);
+    }
+
+    if (errorCode != undefined && errorMessage) {
+      console.log(`[sendMessageGroup] End error: ${errorCode} - ${errorMessage}`);
+      throw new HttpException(errorMessage, errorCode);
     }
 
     console.log(`[sendMessageGroup] End: chat id '${sendMessageDto.chat_id}', token '${sendMessageDto.token}' result: ${messageSended}`);
