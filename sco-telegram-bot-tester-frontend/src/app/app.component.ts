@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new LogOut()).subscribe({
       next: () => {
         this.toatService.addSuccessMessage(this.store.selectSnapshot(AuthState.successMsg));
-        this.router.navigateByUrl('login');
+        this.router.navigateByUrl('');
       },
     })
   }
