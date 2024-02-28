@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash-es';
 import { SpinnerService } from 'src/app/shared/spinner/spinner.service';
 import { FormsService } from '../../../shared/forms/forms.service';
 import { TranslateService } from '../../../shared/translate/translate.service';
@@ -7,7 +8,7 @@ import { FormsError } from 'src/app/shared/forms/forms-errors.model';
 import { ResolutionService } from 'src/app/shared/resolution/resolution.service';
 import { SendMessage } from '../model/send-message';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { TelegramBotTesterMockConstants } from 'src/app/shared/constants/telegram-bot-tester.mock.constants';
 import { environment } from 'src/environments/environment';
 import { CacheConstants } from 'src/app/shared/cache/cache.constants';
@@ -15,6 +16,9 @@ import { ConfigConstants } from 'src/app/shared/config/config.constants';
 import { ConfigService } from 'src/app/shared/config/config.service';
 import { SendMessageGroup } from '../../telegram-bot-results/store/telegram-bot-results.actions';
 import { TelegramBotResultsState } from '../../telegram-bot-results/store/telegram-bot-results.state';
+import { AuthState } from '../../auth/store/auth.state';
+import { Observable } from 'rxjs';
+import { User } from '../../auth/model/user';
 
 @Component({
   selector: 'app-telegram-bot-tester',
@@ -29,6 +33,9 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
   public sendMessageForm: FormGroup;
   public formErrors: FormsError[];
 
+  @Select(AuthState.loggedUser) loggedUser$: Observable<User>;
+  public loggedUser: User;
+
   constructor(
     public readonly resolutionService: ResolutionService,
     private readonly translateService: TranslateService,
@@ -40,6 +47,14 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.loggedUser$.subscribe((loggedUser: User) => {
+      if (loggedUser && loggedUser._id) {
+        this.loggedUser = loggedUser;
+      } else {
+        this.loggedUser = undefined;
+      }
+    });
+    
     this.sendMessageForm = new FormGroup({
       token: new FormControl('', [Validators.required]),
       chat_id: new FormControl('', [Validators.required]),
@@ -52,7 +67,7 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sendMessageForm.reset();
+    this.sendMessageForm = this.formsService.cleanErrors(this.sendMessageForm);
   }
 
   onCLickClean() {
@@ -65,25 +80,34 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (sendMessage.chat_id[0] != '-') {
+    if (this.configService.getData(this.configConstants.ONLY_GROUP_ID) && sendMessage.chat_id[0] != '-') {
       sendMessage.chat_id = `-${sendMessage.chat_id}`;
     }
 
+    if (this.loggedUser) {
+      sendMessage.user = cloneDeep(this.loggedUser);
+    }
+
+    this.sendMessageToGroup(sendMessage);
+  }
+
+  private sendMessageToGroup(sendMessage: SendMessage) {
     this.spinnerService.showSpinner();
     this.store.dispatch(new SendMessageGroup({ sendMessage: sendMessage })).subscribe({
       next: () => {
-        this.spinnerService.hideSpinner();
-
         const success: boolean = this.store.selectSnapshot(TelegramBotResultsState.success);
-        if (success) {
-          if (this.configService.getData(this.configConstants.RESET_FORM_AFTER_SUCCESS_REQUEST)) {
-            this.onCLickClean();
-          }
-          this.toastService.addSuccessMessage(this.store.selectSnapshot(TelegramBotResultsState.successMsg));
+        if (!success) {
+          this.spinnerService.hideSpinner();
+          this.toastService.addErrorMessage(this.store.selectSnapshot(TelegramBotResultsState.errorMsg));
           return;
         }
 
-        this.toastService.addErrorMessage(this.store.selectSnapshot(TelegramBotResultsState.errorMsg));
+        if (this.configService.getData(this.configConstants.RESET_FORM_AFTER_SUCCESS_REQUEST)) {
+          this.onCLickClean();
+        }
+        this.spinnerService.hideSpinner();
+        this.toastService.addSuccessMessage(this.store.selectSnapshot(TelegramBotResultsState.successMsg));
+        return;
       }, 
       error: () => {
         this.spinnerService.hideSpinner();
