@@ -1,21 +1,39 @@
+import { Token } from './../../../../sco-telegram-bot-tester-backend/src/modules/auth/class/token';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '../shared/translate/translate.service';
 import { translateConstants } from '../shared/translate/translate.consntats';
+import { Select } from '@ngxs/store';
+import { AuthState } from '../modules/auth/store/auth.state';
 
 @Injectable({ providedIn: 'root' })
 export class HeadersInterceptor implements HttpInterceptor {
 
-  constructor(private readonly translateService: TranslateService) { }
+  @Select(AuthState.token) token$: Observable<Token>;
+  token: Token;
+
+  constructor(private readonly translateService: TranslateService) {
+    this.token$.subscribe((token: Token) => {
+      this.token = token;
+    });
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     try {
-      request = request.clone({
-        setHeaders: {
-          ClientLanguage: this.translateService.getLanguage() || translateConstants.DEFAULT_LANGUAGE,
+      const setHeaders: any = {
+        ClientLanguage: this.translateService.getLanguage() || translateConstants.DEFAULT_LANGUAGE,
+      }
+
+      if (this.token) {
+        setHeaders.Authorization = `Bearer ${this.token.accessToken}`;
+      }
+
+      request = request.clone(
+        {
+          setHeaders: setHeaders,
         }
-      });
+      );
     } catch (err) {
       console.error(err);
     } finally {
