@@ -4,7 +4,7 @@ import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { catchError, map, tap } from "rxjs/operators";
 import { TelegramBotResultsService } from '../telegram-bot-results.service';
-import { AddTelegramBotResult, DeleteTelegramBotResult, FetchTelegramBotResults, SendMessageGroup, SubscribeTelegramBotResultsWS, UnSubscribeTelegramBotResultsWS } from './telegram-bot-results.actions';
+import { DeleteTelegramBotResult, FetchTelegramBotResults, SendMessageGroup, SubscribeTelegramBotResultsWS, UnSubscribeTelegramBotResultsWS } from './telegram-bot-results.actions';
 import { TelegramBotResult } from '../model/telegram-bot-result';
 
 export class TelegramBotResultsStateModel {
@@ -121,44 +121,6 @@ export class TelegramBotResultsState {
           });
         }
       })
-    );
-  }
-
-  @Action(AddTelegramBotResult)
-  public addTelegramBotResult(
-    { patchState }: StateContext<TelegramBotResultsStateModel>,
-    { payload }: AddTelegramBotResult
-  ) {
-    return this.telegramBotResultsService.addTelegramBotResult(payload.telegramBotResult).pipe(
-      tap((telegramBotResult: TelegramBotResult) => {
-        if (telegramBotResult) {
-          patchState({
-            success: true,
-            successMsg: this.translateService.getTranslate('label.telegram-bot-results.state.create.success'),
-            telegramBotResult: telegramBotResult,
-          });
-        } else {
-          patchState({
-            success: false,
-            errorMsg: this.translateService.getTranslate('label.telegram-bot-results.state.create.error'),
-            telegramBotResult: undefined,
-          });
-        }
-      }),
-      catchError(error => {
-        let errorMsg: string = this.translateService.getTranslate('label.telegram-bot-results.state.create.error');
-        if (this.httpErrorsService.getErrorMessage(error.error.message)) {
-          errorMsg = this.httpErrorsService.getErrorMessage(error.error.message);
-        }
-
-        patchState({
-          success: false,
-          errorMsg: errorMsg,
-          telegramBotResult: undefined,
-        });
-        
-        throw new Error(error);
-      }),
     );
   }
 

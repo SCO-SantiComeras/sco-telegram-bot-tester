@@ -38,10 +38,6 @@ export class TelegramBotResultsService {
     `);
   }
 
-  addTelegramBotResult(telegramBotResult: TelegramBotResult):Observable<TelegramBotResult> {
-    return this.http.post<TelegramBotResult>(`${environment.apiUrl}/telegram-bot-results`, TelegramBotResult)
-  }
-
   deleteTelegramBotResult(_id: string): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.apiUrl}/telegram-bot-results/${_id}`)
   }
