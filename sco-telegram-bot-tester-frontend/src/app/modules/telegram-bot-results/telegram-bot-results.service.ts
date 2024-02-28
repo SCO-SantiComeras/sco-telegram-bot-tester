@@ -34,7 +34,7 @@ export class TelegramBotResultsService {
 
     return this.http.get<TelegramBotResult[]>(`${environment.apiUrl}/telegram-bot-results${params.length == 0 
       ? '' 
-      : `${this.joinPipe.transform(params, '&')}`}
+      : `?${this.joinPipe.transform(params, '&')}`}
     `);
   }
 
