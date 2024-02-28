@@ -74,6 +74,10 @@ export const validationErrorMessages = {
             NOT_EMPTY: 'Text should be not empty',
             INVALID_VALUE: 'Text should be string value',
         },
+        USER: {
+            NOT_EMPTY: 'User should be not empty',
+            INVALID_VALUE: 'User should be object (UserDto)',
+        },
     },
     TELEGRAM_BOT_RESULT: {
         ID: {

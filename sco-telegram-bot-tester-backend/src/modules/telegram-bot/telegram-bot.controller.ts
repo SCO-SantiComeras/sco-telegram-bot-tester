@@ -1,5 +1,5 @@
 import { httpErrorMessages } from './../../constants/http-error-messages.constants';
-import { Body, Controller, HttpException, HttpStatus, Post, Res, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post, Res } from '@nestjs/common';
 import { TelegramBotService } from './telegram-bot.service';
 import { SendMessageDto } from './dto/send-message.dto';
 import { Response } from 'express';
@@ -7,6 +7,11 @@ import { TelegramBot } from './class/telegram-bot';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { WebsocketGateway } from '../websocket/websocket.gateway';
 import { websocketEvents } from '../websocket/constants/websocket.events';
+import { UsersService } from '../users/users.service';
+import { IUser } from '../users/interface/iuser.interface';
+import { TelegramBotResultDto } from '../telegram-bot-results/dto/telegram-bot-result.dto';
+import { TelegramBotResultsService } from '../telegram-bot-results/telegram-bot-results.service';
+import { ITelegramBotResult } from '../telegram-bot-results/interface/itelegram-bot-result.interface';
 
 @Controller('api/v1/telegram-bot')
 export class TelegramBotController {
@@ -14,6 +19,8 @@ export class TelegramBotController {
   constructor(
     private readonly telegramBotService: TelegramBotService,
     private readonly websocketsService: WebsocketGateway,
+    private readonly usersService: UsersService,
+    private readonly telegramBotResultsService: TelegramBotResultsService,
   ) {}
 
   @Post('send-message-group')
@@ -52,6 +59,10 @@ export class TelegramBotController {
   })
   @ApiResponse({
     status: 404,
+    description: 'User not found',
+  })
+  @ApiResponse({
+    status: 404,
     description: 'Bot token not found',
   })
   @ApiResponse({
@@ -64,11 +75,22 @@ export class TelegramBotController {
   ): Promise<Response<boolean, Record<string, boolean>>> {
     console.log(`[sendMessageGroup] Start: chat id '${sendMessageDto.chat_id}', token '${sendMessageDto.token}'`);
 
+    if (sendMessageDto.user) {
+      const existUser: IUser = await this.usersService.findUserByEmail(sendMessageDto.user.email);
+      if (!existUser) {
+        console.log(`[sendMessageGroup] ${httpErrorMessages.USERS.USER_NOT_FOUND}`);
+        throw new HttpException(httpErrorMessages.USERS.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      }
+    }
+
     const telegramBot: TelegramBot = await this.telegramBotService.initializeBot(sendMessageDto.token);
     if (!telegramBot) {
       console.log(`[sendMessageGroup] ${httpErrorMessages.TELEGRAM_BOT_TESTER.UNNABLE_CREATE_TELEGRAM_BOT}`);
       throw new HttpException(httpErrorMessages.TELEGRAM_BOT_TESTER.UNNABLE_CREATE_TELEGRAM_BOT, HttpStatus.CONFLICT);
     }
+
+    let errorCode: number = undefined;
+    let errorMessage: string = undefined;
 
     const messageSended: boolean = await telegramBot.bot.sendMessage(sendMessageDto.chat_id, sendMessageDto.text)
       .then((result: any) => {
@@ -79,18 +101,34 @@ export class TelegramBotController {
         return false;
       })
       .catch((error: any) => {
-        const code: number = this.telegramBotService.getErrorCode(error.message);
-        const message: string = this.telegramBotService.formatError(code);
+        errorCode = this.telegramBotService.getErrorCode(error.message);
+        errorMessage = this.telegramBotService.formatError(errorCode);
 
         console.log(`[sendMessageGroup] End error: ${JSON.stringify(error)}`);
-        throw new HttpException(message, code);
+        throw new HttpException(errorMessage, errorCode);
       });
 
     await this.telegramBotService.stopBot(telegramBot);
 
-    if (messageSended) {
-      await this.websocketsService.notifyWebsockets(websocketEvents.WS_SEND_MESSAGE_GROUP);
-    } 
+    if (sendMessageDto.user) {
+      const telegramBotResultDto: TelegramBotResultDto = {
+        user: sendMessageDto.user,
+        token: sendMessageDto.token,
+        chat_id: sendMessageDto.chat_id,
+        text: sendMessageDto.text,
+        success: messageSended,
+        errorCode: errorCode != undefined ? errorCode : undefined,
+        errorMessage: errorMessage != undefined ? errorMessage : undefined,
+      }
+
+      const createdBotResult: ITelegramBotResult = await this.telegramBotResultsService.addTelegramBotResult(telegramBotResultDto);
+      if (!createdBotResult) {
+        console.log(`[sendMessageGroup] ${httpErrorMessages.TELEGRAM_BOT_RESULTS.UNNABLE_CREATE_TELEGRAM_BOT_RESULT}`);
+        throw new HttpException(httpErrorMessages.TELEGRAM_BOT_RESULTS.UNNABLE_CREATE_TELEGRAM_BOT_RESULT, HttpStatus.CONFLICT);
+      }
+
+      await this.websocketsService.notifyWebsockets(websocketEvents.WS_TELEGRAM_BOT_RESULT);
+    }
 
     console.log(`[sendMessageGroup] End: chat id '${sendMessageDto.chat_id}', token '${sendMessageDto.token}' result: ${messageSended}`);
     return res.status(200).json(messageSended);
