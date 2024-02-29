@@ -17,6 +17,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ToastService } from './toast/toast.service';
 import { TableService } from './table/table.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -27,16 +30,20 @@ import { TableService } from './table/table.service';
     ReactiveFormsModule,
     HttpClientModule,
     MatSnackBarModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   declarations: [
     ConfigPipe,
     TranslatePipe,
     JoinPipe,
+    ConfirmDialogComponent,
   ],
   exports: [
     ConfigPipe,
     TranslatePipe,
     JoinPipe,
+    ConfirmDialogComponent,
   ],
   providers:[
     FormsService,
