@@ -1,12 +1,13 @@
 import { cloneDeep } from 'lodash-es';
 import { Injectable } from '@angular/core';
+import { TranslateService } from '../translate/translate.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableService {
 
-  constructor() { }
+  constructor(private readonly translateService: TranslateService) { }
 
   getColumnsWithoutActions(displayedColumns: string[]) {
     if (!displayedColumns || displayedColumns && displayedColumns.length == 0) {
@@ -28,4 +29,11 @@ export class TableService {
     return slicedArray;
   }
 
+  changePaginatorOfLabel() {
+    return (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      const end = (page + 1) * pageSize;
+      return `${start} - ${end} ${this.translateService.getTranslate('label.of')} ${Number.parseInt(length.toString())}`;
+    }
+  }
 }

@@ -9,6 +9,7 @@ export class TranslateService {
 
   private _data: any;
   private _language: string;
+  public readonly translateConstants = translateConstants;
 
   constructor(private readonly http: HttpClient) {
     this.setLanguage();

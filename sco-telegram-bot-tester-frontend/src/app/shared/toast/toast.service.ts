@@ -11,6 +11,8 @@ import { ResolutionConstants } from '../resolution/resolution.constants';
 })
 export class ToastService {
 
+  public readonly toastConstants = ToastConstants;
+
   constructor(
     private readonly snackBarService: MatSnackBar,
     private readonly translateService: TranslateService,

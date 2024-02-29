@@ -6,9 +6,8 @@ import { ResolutionConstants } from './resolution.constants';
 })
 export class ResolutionService {
 
-  public readonly resolutionConstants = ResolutionConstants;
-
   private _mode: string;
+  public readonly resolutionConstants = ResolutionConstants;
 
   constructor() { }
 

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { has, get, cloneDeep } from 'lodash-es';
+import { ConfigConstants } from './config.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { has, get, cloneDeep } from 'lodash-es';
 export class ConfigService {
 
   private _data: any;
+  public readonly configConstants = ConfigConstants;
 
   constructor(private readonly http: HttpClient) {}
   

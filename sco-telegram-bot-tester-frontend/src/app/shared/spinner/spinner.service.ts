@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SpinnerConstants } from './spinner.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -6,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class SpinnerService {
 
   private _show: boolean;
+  public readonly spinnerConstants = SpinnerConstants;
 
   constructor() { 
     this._show = false;

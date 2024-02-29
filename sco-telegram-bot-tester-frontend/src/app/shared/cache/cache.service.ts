@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CacheConstants } from './cache.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,7 @@ import { Injectable } from '@angular/core';
 export class CacheService {
 
   private reources: Map<string, any>;
+  public readonly cacheConstants =  CacheConstants;
 
   constructor() { 
     this.reources = new Map<string, any>();
