@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ToastService } from './toast/toast.service';
+import { TableService } from './table/table.service';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { ToastService } from './toast/toast.service';
     HttpErrorsService,
     SpinnerService,
     ToastService,
+    TableService,
   ]
 })
 export class SharedModule { }
