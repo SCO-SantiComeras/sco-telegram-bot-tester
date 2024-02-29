@@ -1,55 +1,59 @@
-<div class="mat-elevation-z8 mt-3">
-  <mat-card>
-    <mat-card-content>
-      <table mat-table [dataSource]="dataSource" class="data-table" *ngIf="dataSource && dataSource.data.length > 0">
-        <ng-container *ngFor="let column of tableService.getColumnsWithoutActions(displayedColumns); let i = index;" >
-          <ng-container [matColumnDef]="column">
-            <th mat-header-cell *matHeaderCellDef>
-              {{labelsColumns[column]}}
-            </th>
-            <td mat-cell *matCellDef="let data" [ngSwitch]="column">
-              <span *ngSwitchCase="'createdAt'">
-                {{data[column] != undefined ? (data[column] | date: 'dd/MM/yyyy HH:mm') : '--'}}
-              </span>
-              <span *ngSwitchCase="'success'">
-                {{data[column] ? ('label.success' | appTranslate) : ('label.error' | appTranslate)}}
-              </span>
-              <span *ngSwitchDefault>
-                {{data[column] != undefined ? data[column] : '--'}}
-              </span>
-            </td>
-          </ng-container>
-        </ng-container>
-    
-        <ng-container matColumnDef="actions" class="data-table__actions">
-          <th mat-header-cell *matHeaderCellDef class="data-table__actions__th">
+<mat-card class="mat-elevation-z8">
+  <mat-card-content>
+    <table mat-table class="data-table" 
+      [dataSource]="dataSource" 
+      [hidden]="!dataSource || !dataSource.data || dataSource.data.length == 0"
+    >
+      <ng-container *ngFor="let column of tableService.getColumnsWithoutActions(displayedColumns); let i = index;" >
+        <ng-container [matColumnDef]="column">
+          <th mat-header-cell *matHeaderCellDef>
+            {{labelsColumns[column]}}
           </th>
-          <td mat-cell *matCellDef="let data" class="data-table__actions__td">
-            <button mat-icon-button color="primary" 
-              class="data-table__actions__td--action"
-              [aria-label]="'label.table.actions.delete.aria-label' | appTranslate"
-              (click)="onDeleteElement(data)" 
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
+          <td mat-cell *matCellDef="let data" [ngSwitch]="column">
+            <span *ngSwitchCase="'createdAt'">
+              {{data[column] != undefined ? (data[column] | date: 'dd/MM/yyyy HH:mm') : '--'}}
+            </span>
+            <span *ngSwitchCase="'success'" [ngClass]="{
+              'data-table__text-error': !data[column],
+              'data-table__text-success': data[column]
+            }">
+              {{data[column] ? ('label.success' | appTranslate) : ('label.error' | appTranslate)}}
+            </span>
+            <span *ngSwitchDefault>
+              {{data[column] != undefined ? data[column] : '--'}}
+            </span>
           </td>
         </ng-container>
-    
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    
-      <div class="table-paginator" *ngIf="dataSource && dataSource.data.length > 0">
-        <mat-paginator
-          [pageSizeOptions]="[5, 10, 25, 50]"
-          showFirstLastButtons
-        >
-        </mat-paginator>
-      </div>
+      </ng-container>
+  
+      <ng-container matColumnDef="actions" class="data-table__actions">
+        <th mat-header-cell *matHeaderCellDef class="data-table__actions__th">
+        </th>
+        <td mat-cell *matCellDef="let data" class="data-table__actions__td">
+          <button mat-icon-button color="primary" 
+            class="data-table__actions__td--delete"
+            [aria-label]="'label.table.actions.delete.aria-label' | appTranslate"
+            (click)="onDeleteElement(data)" 
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <div class="table-paginator" [hidden]="!dataSource || !dataSource.data || dataSource.data.length == 0">
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    </div>
 
-      <div *ngIf="!dataSource.data || dataSource.data && dataSource.data.length == 0" class="no-data-table">
-        <p class="no-data-table__title">{{'label.no.elements' | appTranslate}}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>
+    <div class="no-data-table" [hidden]="dataSource && dataSource.data && dataSource.data.length > 0">
+      <p class="no-data-table__title">{{'label.no.elements' | appTranslate}}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

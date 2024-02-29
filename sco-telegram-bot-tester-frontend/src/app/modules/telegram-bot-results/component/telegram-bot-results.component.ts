@@ -16,8 +16,8 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from 'src/app/shared/dialogs/confirm-dialog/model/confirm-dialog-data';
-import { ConfirmDialogConstants } from 'src/app/shared/dialogs/confirm-dialog/constants/confirm-dialog.constants';
 import { TranslateService } from 'src/app/shared/translate/translate.service';
+import { ConfirmDialogConstants } from 'src/app/shared/dialogs/confirm-dialog/constants/confirm-dialog.constants';
 
 @Component({
   selector: 'app-telegram-bot-results',
@@ -47,7 +47,7 @@ export class TelegramBotResultsComponent implements OnInit, AfterViewInit, OnDes
     private readonly toastService: ToastService,
     private readonly resolutionService: ResolutionService,
     private readonly translateService: TranslateService,
-  ) { }
+  ) {}
 
   /* Angular Implements Functions */
   ngOnInit() {
@@ -80,6 +80,8 @@ export class TelegramBotResultsComponent implements OnInit, AfterViewInit, OnDes
   }       
 
   ngAfterViewInit() {
+    this.paginator._intl.itemsPerPageLabel = this.translateService.getTranslate('label.elements.per.page');
+    this.paginator._intl.getRangeLabel = this.tableService.changePaginatorOfLabel();
     this.dataSource.paginator = this.paginator;
   }
 
@@ -157,10 +159,7 @@ export class TelegramBotResultsComponent implements OnInit, AfterViewInit, OnDes
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (!result) {
-        return;
-      }
-
+      if (!result) return;
       this.deleteTelegramResult(data);
     });
   }
