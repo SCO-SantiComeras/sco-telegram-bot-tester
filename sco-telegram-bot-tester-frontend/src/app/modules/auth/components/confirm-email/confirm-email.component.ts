@@ -1,4 +1,3 @@
-import { ConfigService } from './../../../../shared/config/config.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -25,7 +24,6 @@ export class ConfirmEmailComponent implements OnInit {
     public readonly resolutionService: ResolutionService,
     private readonly router: Router,
     private readonly location: Location,
-    private readonly configService: ConfigService,
     private readonly store: Store,
     private readonly spinnerService: SpinnerService,
     private readonly toastService: ToastService,
@@ -42,7 +40,7 @@ export class ConfirmEmailComponent implements OnInit {
       this.location.back();
       return;
     }
-console.log(this.email)
+
     this.spinnerService.showSpinner();
     this.store.dispatch(new FetchUserByEmail({ email: this.email })).subscribe({
       next: () => {
@@ -64,7 +62,8 @@ console.log(this.email)
 
         this.user = user;
         if (this.user.active == true) {
-          this.location.back();
+          this.spinnerService.hideSpinner();
+          this.onClickGoLogin();
           return;
         }
 
@@ -86,7 +85,7 @@ console.log(this.email)
         if (!success) {
           this.spinnerService.hideSpinner();
           this.toastService.addErrorMessage(this.store.selectSnapshot(AuthState.errorMsg));
-          this.location.back();
+          this.onClickGoLogin();
           return;
         }
 
@@ -94,7 +93,7 @@ console.log(this.email)
         if (!user) {
           this.spinnerService.hideSpinner();
           this.toastService.addErrorMessage(this.store.selectSnapshot(AuthState.errorMsg));
-          this.location.back();
+          this.onClickGoLogin();
           return;
         }
 
@@ -106,7 +105,7 @@ console.log(this.email)
       error: () => {
         this.spinnerService.hideSpinner();
         this.toastService.addErrorMessage(this.store.selectSnapshot(AuthState.errorMsg));
-        this.location.back();
+        this.onClickGoLogin();
         return;
       }
     });
