@@ -39,12 +39,16 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     
-      <div class="table-paginator">
+      <div class="table-paginator" *ngIf="dataSource && dataSource.data.length > 0">
         <mat-paginator
           [pageSizeOptions]="[5, 10, 25, 50]"
           showFirstLastButtons
         >
         </mat-paginator>
+      </div>
+
+      <div *ngIf="!dataSource.data || dataSource.data && dataSource.data.length == 0" class="no-data-table">
+        <p class="no-data-table__title">{{'label.no.elements' | appTranslate}}</p>
       </div>
     </mat-card-content>
   </mat-card>

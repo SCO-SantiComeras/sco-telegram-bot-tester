@@ -135,6 +135,14 @@ body {
     }
 }
 
+.no-data-table {
+    text-align: center;
+
+    &__text {
+        margin-top: 10px;
+    }
+}
+
 /* Table Paginator */
 .table-paginator {
     .mat-paginator {
