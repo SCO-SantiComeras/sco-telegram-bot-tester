@@ -2,5 +2,6 @@
     "title": "SCO - Task Manager",
     "resetFormAfterSuccessReset": false,
     "tokenExpirationPasswordRecovery": 30,
-    "onlyGroupId": true
+    "onlyGroupId": true,
+    "startMockedValues": false
 }
