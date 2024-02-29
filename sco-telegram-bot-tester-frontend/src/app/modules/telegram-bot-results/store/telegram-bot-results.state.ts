@@ -4,7 +4,7 @@ import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { catchError, map, tap } from "rxjs/operators";
 import { TelegramBotResultsService } from '../telegram-bot-results.service';
-import { DeleteTelegramBotResult, FetchTelegramBotResults, SendMessageGroup, SubscribeTelegramBotResultsWS, UnSubscribeTelegramBotResultsWS } from './telegram-bot-results.actions';
+import { DeleteTelegramBotResult, FetchTelegramBotResults, SubscribeTelegramBotResultsWS, UnSubscribeTelegramBotResultsWS } from './telegram-bot-results.actions';
 import { TelegramBotResult } from '../model/telegram-bot-result';
 
 export class TelegramBotResultsStateModel {
@@ -67,41 +67,6 @@ export class TelegramBotResultsState {
   @Selector()
   static successMsg(state: TelegramBotResultsStateModel): string {
     return state.successMsg;
-  }
-
-  @Action(SendMessageGroup)
-  public sendMessageGroup(
-    { patchState }: StateContext<TelegramBotResultsStateModel>,
-    { payload }: SendMessageGroup
-  ) {
-    return this.telegramBotResultsService.sendMessageGroup(payload.sendMessage).pipe(
-      tap((result: boolean) => {
-        if (result) {
-          patchState({
-            success: true,
-            successMsg: this.translateService.getTranslate('label.telegram-bot-results.state.sendMessage.success'),
-          });
-        } else {
-          patchState({
-            success: false,
-            errorMsg: this.translateService.getTranslate('label.telegram-bot-results.state.sendMessage.error'),
-          });
-        }
-      }),
-      catchError(error => {
-        let errorMsg: string = this.translateService.getTranslate('label.telegram-bot-results.state.sendMessage.error');
-        if (this.httpErrorsService.getErrorMessage(error.error.message)) {
-          errorMsg = this.httpErrorsService.getErrorMessage(error.error.message);
-        }
-
-        patchState({
-          success: false,
-          errorMsg: errorMsg,
-        });
-        
-        throw new Error(error);
-      }),
-    );
   }
   
   @Action(FetchTelegramBotResults)

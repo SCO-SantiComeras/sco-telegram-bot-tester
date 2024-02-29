@@ -6,7 +6,6 @@ import { websocketEvents } from 'src/app/websocket/websocket.events';
 import { WebSocketService } from 'src/app/websocket/websocket.service';
 import { TelegramBotResult } from './model/telegram-bot-result';
 import { environment } from 'src/environments/environment';
-import { SendMessage } from '../telegram-bot-tester/model/send-message';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +17,6 @@ export class TelegramBotResultsService {
     private readonly http: HttpClient,
     private readonly websocketsService: WebSocketService,
   ) {}
-
-  sendMessageGroup(sendMessage: SendMessage): Observable<boolean> {
-    return this.http.post<boolean>(`${environment.apiUrl}/telegram-bot/send-message-group`, sendMessage);
-  }
 
   fetchTelegramBotResults(filter?: any): Observable<TelegramBotResult[]> {
     const params: string[] = [];
