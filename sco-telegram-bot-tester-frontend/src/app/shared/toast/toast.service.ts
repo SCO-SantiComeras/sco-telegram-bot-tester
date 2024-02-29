@@ -44,7 +44,7 @@ export class ToastService {
       ? ToastConstants.HORIZONTAL_POSITION_RIGHT as MatSnackBarHorizontalPosition
       : ToastConstants.HORIZONTAL_POSITION_CENTER as MatSnackBarHorizontalPosition;
 
-    this.snackBarService.open(message, this.translateService.getTranslate('label.close'), {
+    this.snackBarService.open(message, '', {
       duration: 3000,
       panelClass: [panelClass],
       verticalPosition: verticalPosition,

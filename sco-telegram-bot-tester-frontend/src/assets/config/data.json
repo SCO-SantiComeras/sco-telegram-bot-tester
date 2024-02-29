@@ -3,5 +3,6 @@
     "resetFormAfterSuccessReset": false,
     "tokenExpirationPasswordRecovery": 30,
     "onlyGroupId": true,
-    "startMockedValues": true
+    "startMockedValues": true,
+    "loginWithEmail": true
 }

@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { RegisterUser } from '../../store/auth.actions';
 import { AuthState } from '../../store/auth.state';
-import { ConfigService } from 'src/app/shared/config/config.service';
 import { User } from '../../model/user';
 
 @Component({
@@ -33,7 +32,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly toast: ToastService,
     private readonly spinnerService: SpinnerService,
-    private readonly configService: ConfigService,
   ) { 
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
@@ -91,50 +89,83 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.formErrors = [];
 
     if (!form.name) {
-      this.formErrors.push({ formControlName: 'name', error: this.translateService.getTranslate('label.register.component.form.validate.name')});
+      this.formErrors.push({ 
+        formControlName: 'name', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.name')
+      });
     }
 
     if (form.name && (form.name.length < 4 || form.name.length > 15)) {
-      this.formErrors.push({ formControlName: 'name', error: this.translateService.getTranslate('label.register.component.form.validate.name.length')});
+      this.formErrors.push({ 
+        formControlName: 'name', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.name.length')
+      });
     }
 
     const pwdPatter: any = new RegExp(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/);
 
     if (!form.password) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.register.component.form.validate.password')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.password')
+      });
     }
 
     if (form.password && (form.password.length < 8 || form.password.length > 30)) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.register.component.form.validate.password.length')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.password.length')
+      });
     }
 
     if (form.password && !pwdPatter.test(form.password)) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.register.component.form.validate.password.pattern')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.password.pattern')
+      });
     }
 
     if (!form["confirm"]) {
-      this.formErrors.push({ formControlName: 'confirm', error: this.translateService.getTranslate('label.register.component.form.validate.confirm')});
+      this.formErrors.push({ 
+        formControlName: 'confirm', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.confirm')
+      });
     }
 
     if (form["confirm"] && (form["confirm"].length < 8 || form["confirm"].length > 30)) {
-      this.formErrors.push({ formControlName: 'confirm', error: this.translateService.getTranslate('label.register.component.form.validate.confirm.length')});
+      this.formErrors.push({ 
+        formControlName: 'confirm', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.confirm.length')
+      });
     }
 
     if (form["confirm"] && !pwdPatter.test(form["confirm"])) {
-      this.formErrors.push({ formControlName: 'confirm', error: this.translateService.getTranslate('label.register.component.form.validate.confirm.pattern')});
+      this.formErrors.push({ 
+        formControlName: 'confirm', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.confirm.pattern')
+      });
     }
 
     if (form["confirm"] != form.password) {
-      this.formErrors.push({ formControlName: 'confirm', error: this.translateService.getTranslate('label.register.component.form.validate.confirm.equals')});
+      this.formErrors.push({ 
+        formControlName: 'confirm', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.confirm.equals')
+      });
     }
 
     if (!form.email) {
-      this.formErrors.push({ formControlName: 'email', error: this.translateService.getTranslate('label.register.component.form.validate.email')});
+      this.formErrors.push({ 
+        formControlName: 'email', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.email')
+      });
     }
 
     const emailPattern: any = new RegExp(/.+@.+\..+/);
     if (form.email && !emailPattern.test(form.email)) {
-      this.formErrors.push({ formControlName: 'email', error: this.translateService.getTranslate('label.register.component.form.validate.email.pattern')});
+      this.formErrors.push({ 
+        formControlName: 'email', 
+        error: this.translateService.getTranslate('label.register.component.form.validate.email.pattern')
+      });
     }
 
     this.registerUserForm = this.formsService.setErrors(this.registerUserForm, this.formErrors);

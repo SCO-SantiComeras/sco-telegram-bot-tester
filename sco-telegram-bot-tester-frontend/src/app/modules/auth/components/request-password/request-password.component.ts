@@ -77,12 +77,18 @@ export class RequestPasswordComponent implements OnInit, OnDestroy {
     this.formErrors = [];
 
     if (!form.email) {
-      this.formErrors.push({ formControlName: 'email', error: this.translateService.getTranslate('label.request-password.component.form.validate.email')});
+      this.formErrors.push({ 
+        formControlName: 'email', 
+        error: this.translateService.getTranslate('label.request-password.component.form.validate.email')
+      });
     }
 
     const emailPattern: any = new RegExp(/.+@.+\..+/);
     if (form.email && !emailPattern.test(form.email)) {
-      this.formErrors.push({ formControlName: 'email', error: this.translateService.getTranslate('label.request-password.component.form.validate.email.pattern')});
+      this.formErrors.push({ 
+        formControlName: 'email', 
+        error: this.translateService.getTranslate('label.request-password.component.form.validate.email.pattern')
+      });
     }
 
     this.requestPasswordForm = this.formsService.setErrors(this.requestPasswordForm, this.formErrors);

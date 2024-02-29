@@ -1,0 +1,27 @@
+.telegram-bot-tester {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    &__card {
+        width: 600px;
+
+        &--mobile {
+            width: 300px !important;
+        }
+
+        &--tablet {
+            width: 450px !important;
+        }
+        
+    }
+
+    &__buttons-box {
+        text-align: right;
+
+        &--margin-btn {
+            margin-right: 10px !important;
+        }
+    }
+}

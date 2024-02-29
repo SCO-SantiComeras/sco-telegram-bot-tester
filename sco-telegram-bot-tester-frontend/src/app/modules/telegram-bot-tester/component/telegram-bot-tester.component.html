@@ -1,10 +1,9 @@
-<div class="card-page-content">
-  <mat-card class="card-page-content__card mat-elevation-z8">
-    <mat-card-content [ngClass]="{
-      'card-page-content__card__content-web': resolutionService.getMode() == resolutionService.resolutionConstants.WEB,
-      'card-page-content__card__content-tablet': resolutionService.getMode() == resolutionService.resolutionConstants.TABLET,
-      'card-page-content__card__content-mobile': resolutionService.getMode() == resolutionService.resolutionConstants.MOBILE
-    }">
+<div class="telegram-bot-tester">
+  <mat-card class="telegram-bot-tester__card mat-elevation-z8" [ngClass]="{
+    'telegram-bot-tester__card--mobile': resolutionService.getMode() == resolutionService.resolutionConstants.MOBILE,
+    'telegram-bot-tester__card--tablet': resolutionService.getMode() == resolutionService.resolutionConstants.TABLET
+  }">
+    <mat-card-content>
       <div class="row">
         <div class="col-12">
           <form [formGroup]="sendMessageForm">
@@ -28,8 +27,8 @@
             </mat-form-field>
     
             <div class="row">
-              <div class="col-12 card-page-content__buttons-box">
-                <button mat-raised-button color="warn" class="card-page-content__buttons-box--margin-btn" (click)="onCLickClean()">
+              <div class="col-12 telegram-bot-tester__buttons-box">
+                <button mat-raised-button color="warn" class="telegram-bot-tester__buttons-box--margin-btn" (click)="onCLickClean()">
                   {{'label.telegram-bot.component.form.btn.clean' | appTranslate}}
                 </button>
                 <button mat-raised-button color="accent" (click)="onClickSubmit()">

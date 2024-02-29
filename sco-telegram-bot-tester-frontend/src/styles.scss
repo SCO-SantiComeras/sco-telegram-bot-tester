@@ -52,35 +52,6 @@ body {
     color: #fff;
 }
 
-/* Pages Card Content */
-.card-page-content {
-    &__card {
-
-        &__content-web {
-            padding-left:  100px;
-            padding-right: 100px;
-        }
-
-        &__content-tablet {
-            padding-left:  50px;
-            padding-right: 50px;
-        }
-
-        &__content-mobile {
-            padding-left:  10px;
-            padding-right: 10px;
-        }
-    }
-    
-    &__buttons-box {
-        text-align: right;
-
-        &--margin-btn {
-            margin-right: 10px !important;
-        }
-    }
-}
-
 /* Data Table */
 .data-table {
     display: block;

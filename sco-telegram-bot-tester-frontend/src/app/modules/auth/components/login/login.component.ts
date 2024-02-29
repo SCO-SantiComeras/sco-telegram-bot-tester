@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loginWithEmail = this.configService.getData('loginWithEmail') || false;
+    this.loginWithEmail = this.configService.getData(this.configService.configConstants.LOGIN_WITH_EMAIL) || false;
 
     this.inputNameLabel = this.translateService.getTranslate('label.login.component.input.name');
     this.inputNamePlaceholder = this.translateService.getTranslate('label.login.component.input.name.placeholder');
@@ -102,26 +102,41 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.formErrors = [];
 
     if (!login.name) {
-      this.formErrors.push({ formControlName: 'name', error: this.translateService.getTranslate('label.login.component.form.validate.name')});
+      this.formErrors.push({ 
+        formControlName: 'name', 
+        error: this.translateService.getTranslate('label.login.component.form.validate.name')
+      });
     }
 
     if (!this.loginWithEmail) {
       if (login.name && (login.name.length < 4 || login.name.length > 15)) {
-        this.formErrors.push({ formControlName: 'name', error: this.translateService.getTranslate('label.login.component.form.validate.name.length')});
+        this.formErrors.push({ 
+          formControlName: 'name', 
+          error: this.translateService.getTranslate('label.login.component.form.validate.name.length')
+        });
       }
     }
 
     if (!login.password) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.login.component.form.validate.password')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.login.component.form.validate.password')
+      });
     }
 
     if (login.password && (login.password.length < 8 || login.password.length > 30)) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.login.component.form.validate.password.length')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.login.component.form.validate.password.length')
+      });
     }
 
     const pwdPatter: any = new RegExp(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/);
     if (login.password && !pwdPatter.test(login.password)) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.login.component.form.validate.password.pattern')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.login.component.form.validate.password.pattern')
+      });
     }
 
     this.loginForm = this.formsService.setErrors(this.loginForm, this.formErrors);
