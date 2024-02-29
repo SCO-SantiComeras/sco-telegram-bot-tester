@@ -9,22 +9,22 @@
         <span class="header__spacer-icon"></span>
         <div>
           <button mat-stroked-button color="basic" class="header__home-btn" (click)="onClickHomeLogo()" [ngClass]="{
-            'header__home-btn--mobile': viewMode == resolutionConstants.MOBILE
+            'header__home-btn--mobile': viewMode == resolutionService.resolutionConstants.MOBILE
           }">
-            {{cacheService.getElement(cacheConstants.TITLE)}}
+            {{cacheService.getElement(cacheService.cacheConstants.TITLE)}}
           </button>
         </div>
         <span class="header__spacer-menu"></span>
-        <div [hidden]="viewMode != resolutionConstants.WEB || loggedUser">
-          <button mat-stroked-button color="basic" style="margin-right: 20px !important; border: none !important;" (click)="onClickSignUp()">
+        <div [hidden]="viewMode != resolutionService.resolutionConstants.WEB || loggedUser">
+          <button mat-stroked-button color="basic" class="header__menu-btn header__menu-btn--mr" (click)="onClickSignUp()">
             {{'label.header.btn.signup' | appTranslate}}
           </button>
-          <button mat-stroked-button color="basic" style="border: none !important;" (click)="onClickLogIn()">
+          <button mat-stroked-button color="basic" class="header__menu-btn" (click)="onClickLogIn()">
             {{'label.header.btn.login' | appTranslate}}
           </button>
         </div>
-        <div [hidden]="viewMode == resolutionConstants.WEB || loggedUser">
-          <button mat-stroked-button color="basic" [matMenuTriggerFor]="loginMenu" style="border: none !important;">
+        <div [hidden]="viewMode == resolutionService.resolutionConstants.WEB || loggedUser">
+          <button mat-stroked-button color="basic" [matMenuTriggerFor]="loginMenu" class="header__menu-btn">
             <mat-icon>menu</mat-icon>
           </button>
           <mat-menu #loginMenu="matMenu">
@@ -39,7 +39,7 @@
           </mat-menu>
         </div>
         <div [hidden]="!loggedUser">
-          <button mat-stroked-button color="basic" [matMenuTriggerFor]="logoutMenu" style="border: none !important;">
+          <button mat-stroked-button color="basic" [matMenuTriggerFor]="logoutMenu" class="header__menu-btn">
             <mat-icon>account_circle</mat-icon>
           </button>
           <mat-menu #logoutMenu="matMenu">
@@ -58,13 +58,15 @@
           </mat-menu>
         </div>
       </mat-card>
-      <router-outlet></router-outlet>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
     </mat-drawer-content>
 </mat-drawer-container>
 
 <div class="spinner" *ngIf="spinnerService.getShow()">
   <mat-progress-spinner class="spinner__spinner"
-    [color]="spinnerConstants.COLOR_PRIMARY"
-    [mode]="spinnerConstants.MODE_INDETERMINATE">
+    [color]="spinnerService.spinnerConstants.COLOR_PRIMARY"
+    [mode]="spinnerService.spinnerConstants.MODE_INDETERMINATE">
   </mat-progress-spinner>
 </div>

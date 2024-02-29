@@ -5,12 +5,10 @@
     text-align: center;
 
     &__card {
-        margin-top: 5rem;
         width: 400px;
 
         &--mobile {
             width: 300px !important;
-            margin-top: 1.5rem !important;
         }
 
         &--title {

@@ -1,7 +1,6 @@
 .app {
   width: 100vw;
   height: 100vh;
-  padding: 20px;
 }
 
 .spinner {
@@ -46,4 +45,16 @@
       font-size: 18px !important;
     }
   }
+
+  &__menu-btn {
+    border: none !important; 
+
+    &--mr {
+      margin-right: 20px !important;
+    }
+  }
+}
+
+.content {
+  padding: 20px !important;
 }

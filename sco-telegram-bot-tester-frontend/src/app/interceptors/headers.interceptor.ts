@@ -3,7 +3,6 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '../shared/translate/translate.service';
-import { translateConstants } from '../shared/translate/translate.consntats';
 import { Select } from '@ngxs/store';
 import { AuthState } from '../modules/auth/store/auth.state';
 
@@ -22,7 +21,8 @@ export class HeadersInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     try {
       const setHeaders: any = {
-        ClientLanguage: this.translateService.getLanguage() || translateConstants.DEFAULT_LANGUAGE,
+        ClientLanguage: 
+          this.translateService.getLanguage() || this.translateService.translateConstants.DEFAULT_LANGUAGE,
       }
 
       if (this.token) {

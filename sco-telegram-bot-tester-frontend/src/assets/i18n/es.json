@@ -2,6 +2,8 @@
     "label.success": "OK",
     "label.error": "NOK",
     "label.no.elements": "No hay elementos que mostrar",
+    "label.elements.per.page": "Elementos por página",
+    "label.of": "de",
     "label.close": "Cerrar",
     "label.accept": "Aceptar",
     "label.cancel": "Cancelar",
@@ -12,6 +14,9 @@
     "label.header.btn.logout": "Cerrar sesión",
     "label.header.btn.telegram-bot": "Bot tester",
     "label.header.btn.telegram-results": "Resultados",
+
+    "label.telegram-bot-tester.state.sendMessage.success": "Mensaje envíado con éxito",
+    "label.telegram-bot-tester.state.sendMessage.error": "Error intentando envíar el mensaje",
 
     "label.telegram-bot.component.form.token": "Token",
     "label.telegram-bot.component.form.token.placeholder": "Token del bot",
@@ -121,8 +126,6 @@
     "label.confirm-email.component.error.2": "Por favor, pongase en contacto con el soporte de la aplicación.",
     "label.confirm-email.component.error.btn": "Reportar incidencia",
 
-    "label.telegram-bot-results.state.sendMessage.success": "Mensaje envíado con éxito",
-    "label.telegram-bot-results.state.sendMessage.error": "Error intentando envíar el mensaje",
     "label.telegram-bot-results.state.fetch.success": "Resultados recuperados correctamente",
     "label.telegram-bot-results.state.fetch.error": "Error intentando recuperar los resultados",
     "label.telegram-bot-results.state.create.success": "Resultado del bot de telegram añadido correctamente",

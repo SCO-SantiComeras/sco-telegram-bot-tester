@@ -14,7 +14,6 @@ import * as moment from 'moment';
 import { ConfigService } from 'src/app/shared/config/config.service';
 import { SpinnerService } from 'src/app/shared/spinner/spinner.service';
 import { User } from '../../model/user';
-import { ConfigConstants } from 'src/app/shared/config/config.constants';
 
 @Component({
   selector: 'app-reset-password',
@@ -30,8 +29,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   private pwdRecoveryToken: string;
   private user: User;
-
-  public readonly configConstants = ConfigConstants;
 
   constructor(
     public readonly resolutionService: ResolutionService,
@@ -130,31 +127,52 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     const pwdPatter: any = new RegExp(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/);
 
     if (!resetPassword.password) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.reset-password.component.form.validate.password')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.reset-password.component.form.validate.password')
+      });
     }
 
     if (resetPassword.password && (resetPassword.password.length < 8 || resetPassword.password.length > 30)) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.reset-password.component.form.validate.password.length')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.reset-password.component.form.validate.password.length')
+      });
     }
 
     if (resetPassword.password && !pwdPatter.test(resetPassword.password)) {
-      this.formErrors.push({ formControlName: 'password', error: this.translateService.getTranslate('label.reset-password.component.form.validate.password.pattern')});
+      this.formErrors.push({ 
+        formControlName: 'password', 
+        error: this.translateService.getTranslate('label.reset-password.component.form.validate.password.pattern')
+      });
     }
 
     if (!resetPassword.confirm) {
-      this.formErrors.push({ formControlName: 'confirm', error: this.translateService.getTranslate('label.reset-password.component.form.validate.confirm')});
+      this.formErrors.push({ 
+        formControlName: 'confirm', 
+        error: this.translateService.getTranslate('label.reset-password.component.form.validate.confirm')
+      });
     }
 
     if (resetPassword.confirm && (resetPassword.confirm.length < 8 || resetPassword.confirm.length > 30)) {
-      this.formErrors.push({ formControlName: 'confirm', error: this.translateService.getTranslate('label.reset-password.component.form.validate.confirm.length')});
+      this.formErrors.push({ 
+        formControlName: 'confirm', 
+        error: this.translateService.getTranslate('label.reset-password.component.form.validate.confirm.length')
+      });
     }
 
     if (resetPassword.confirm && !pwdPatter.test(resetPassword.confirm)) {
-      this.formErrors.push({ formControlName: 'confirm', error: this.translateService.getTranslate('label.reset-password.component.form.validate.confirm.pattern')});
+      this.formErrors.push({ 
+        formControlName: 'confirm', 
+        error: this.translateService.getTranslate('label.reset-password.component.form.validate.confirm.pattern')
+      });
     }
 
     if (resetPassword.confirm != resetPassword.password) {
-      this.formErrors.push({ formControlName: 'confirm', error: this.translateService.getTranslate('label.reset-password.component.form.validate.confirm.equals')});
+      this.formErrors.push({ 
+        formControlName: 'confirm', 
+        error: this.translateService.getTranslate('label.reset-password.component.form.validate.confirm.equals')
+      });
     }
 
     this.resetPasswordForm = this.formsService.setErrors(this.resetPasswordForm, this.formErrors);
@@ -165,7 +183,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   private validatePasswordRecoveryDate() {
-    const tokenExpirationMinutes: number = this.configService.getData(this.configConstants.TOKEN_EXPIRATION_PWD_RECOVERY) || 30;
+    const tokenExpirationMinutes: number = 
+      this.configService.getData(this.configService.configConstants.TOKEN_EXPIRATION_PWD_RECOVERY) || 30;
     const dateNow: Date = new Date();
 
     const duration = moment.duration(moment(dateNow).diff(moment(this.user.pwdRecoveryDate)));
@@ -173,7 +192,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     
     if (minutes > tokenExpirationMinutes) {
       this.spinnerService.hideSpinner();
-      this.toastService.addErrorMessage(this.translateService.getTranslate('label.reset-password.component.form.validate.tokenRecoveryDate'));
+      this.toastService.addErrorMessage(
+        this.translateService.getTranslate('label.reset-password.component.form.validate.tokenRecoveryDate')
+      );
       this.location.back();
       return;
     }
