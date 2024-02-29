@@ -81,3 +81,64 @@ body {
         }
     }
 }
+
+/* Data Table */
+.data-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+
+    .mat-table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        display: table;
+        border-collapse: collapse;
+        margin: 0px;
+    }
+    
+    .mat-row,
+    .mat-header-row {
+        display: table-row;
+    }
+    
+    .mat-cell,
+    .mat-header-cell {
+        word-wrap: initial;
+        display: table-cell;
+        padding: 0px 5px;
+        line-break: unset;
+        width: 10%;
+        white-space: nowrap;
+        overflow: hidden;
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    &__actions {
+
+        &__th {
+            text-align: right !important;
+
+            &--action {
+                color: #fff !important;
+            } 
+        }
+
+        &__td {
+            text-align: right !important;
+
+           &--action {
+                color: #fff !important;
+           } 
+        }
+    }
+}
+
+/* Table Paginator */
+.table-paginator {
+    .mat-paginator {
+        display: flex !important;
+        justify-content: center !important;
+    } 
+}
