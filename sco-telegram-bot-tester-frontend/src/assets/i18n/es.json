@@ -1,11 +1,10 @@
 {
     "label.success": "OK",
     "label.error": "NOK",
-    
-    "label.toast.action.close": "Cerrar",
-
-    "label.confirm-dialog.btn.ok": "Aceptar",
-    "label.confirm-dialog.btn.cancel": "Cancelar",
+    "label.no.elements": "No hay elementos que mostrar",
+    "label.close": "Cerrar",
+    "label.accept": "Aceptar",
+    "label.cancel": "Cancelar",
 
     "label.header.cache.title": "Telegram bot tester",
     "label.header.btn.login": "Iniciar sesión",
