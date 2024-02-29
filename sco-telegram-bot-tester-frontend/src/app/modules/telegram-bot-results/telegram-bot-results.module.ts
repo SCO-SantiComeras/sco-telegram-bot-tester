@@ -14,6 +14,9 @@ import { TelegramBotResultsService } from './telegram-bot-results.service';
 import { TelegramBotResultsComponent } from './component/telegram-bot-results.component';
 import { JoinPipe } from 'src/app/shared/join/join.pipe';
 import { TelegramBotResultsState } from './store/telegram-bot-results.state';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export function throwIfAlreadyLoaded(parentModule: any, moduleName: string) {
   if (parentModule) {
@@ -34,6 +37,10 @@ export function throwIfAlreadyLoaded(parentModule: any, moduleName: string) {
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    
     NgxsModule.forFeature(
       [
         TelegramBotResultsState,
