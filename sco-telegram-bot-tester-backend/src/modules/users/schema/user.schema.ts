@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { Schema } from 'mongoose';
 import { IUser } from '../interface/iuser.interface';
+import { RoleConstants } from '../constants/role.constants';
 
 export const userSchema = new Schema<IUser>(
   {
@@ -25,6 +26,12 @@ export const userSchema = new Schema<IUser>(
       type: Boolean,
       required: false,
       default: true,
+    },
+    role: {
+      type: String,
+      required: true,
+      trim: true,
+      default: RoleConstants.USER,
     },
     pwdRecoveryToken: {
       type: String,

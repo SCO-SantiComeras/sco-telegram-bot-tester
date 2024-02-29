@@ -14,6 +14,7 @@ import { BcryptService } from '../shared/bcrypt/bcrypt.service';
 import { UserDto } from '../users/dto/user.dto';
 import { translateConstants } from '../shared/translate/translate.constants';
 import { WebsocketGateway } from '../websocket/websocket.gateway';
+import { RoleConstants } from '../users/constants/role.constants';
 
 @Controller('api/v1/auth')
 @ApiTags('Autentificación')
@@ -139,6 +140,7 @@ export class AuthController {
     }
 
     user.active = false;
+    user.role = RoleConstants.USER
 
     const createdUser: IUser = await this.usersService.addUser(user);
     if (!createdUser) {
