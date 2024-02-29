@@ -2,7 +2,7 @@ import { httpErrorMessages } from '../../constants/http-error-messages.constants
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ControllerService } from '../shared/services/controller.service';
+import { ControllerService } from '../shared/controller/controller.service';
 import { UserDto } from './dto/user.dto';
 import { IUser } from './interface/iuser.interface';
 import { UsersService } from './users.service';
@@ -11,7 +11,7 @@ import { websocketEvents } from '../websocket/constants/websocket.events';
 import { usersConstants } from './constants/user.constants';
 import { Response } from 'express';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { BcryptService } from '../shared/services/bcrypt.service';
+import { BcryptService } from '../shared/bcrypt/bcrypt.service';
 
 @Controller('api/v1/users')
 @ApiTags('Usuarios')

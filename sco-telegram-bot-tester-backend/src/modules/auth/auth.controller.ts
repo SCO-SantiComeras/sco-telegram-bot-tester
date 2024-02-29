@@ -10,7 +10,7 @@ import { IUser } from '../users/interface/iuser.interface';
 import { usersConstants } from '../users/constants/user.constants';
 import { Response, Request } from 'express';
 import { websocketEvents } from '../websocket/constants/websocket.events';
-import { BcryptService } from '../shared/services/bcrypt.service';
+import { BcryptService } from '../shared/bcrypt/bcrypt.service';
 import { UserDto } from '../users/dto/user.dto';
 import { translateConstants } from '../shared/translate/translate.constants';
 import { WebsocketGateway } from '../websocket/websocket.gateway';

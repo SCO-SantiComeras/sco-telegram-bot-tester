@@ -3,7 +3,7 @@ import { IUser } from 'src/modules/users/interface/iuser.interface';
 import { Controller, Delete, Get, HttpException, HttpStatus, Param, Query, Res, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UsersService } from "../users/users.service";
-import { ControllerService } from "../shared/services/controller.service";
+import { ControllerService } from "../shared/controller/controller.service";
 import { WebsocketGateway } from "../websocket/websocket.gateway";
 import { AuthGuard } from "@nestjs/passport";
 import { ITelegramBotResult } from "./interface/itelegram-bot-result.interface";
