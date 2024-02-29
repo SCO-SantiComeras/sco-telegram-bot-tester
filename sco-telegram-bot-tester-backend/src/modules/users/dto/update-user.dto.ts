@@ -1,7 +1,7 @@
 import { validationErrorMessages } from '../../../constants/validation-error-messages.constants';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 
 export class UpdateUserDto {
   @ApiProperty()

@@ -60,7 +60,7 @@ export class EmailerService {
   }
 
   // Send Message Email
-  async sendMail(data: Message): Promise<boolean> {
+  private async sendMail(data: Message): Promise<boolean> {
     try {
       const transporter = this.nodemailer.createTransport({
         service: this.options.service ? this.options.service : 'gmail',

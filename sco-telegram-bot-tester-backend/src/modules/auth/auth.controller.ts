@@ -5,14 +5,13 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from '../users/users.service';
 import { Token } from './class/token';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IUser } from '../users/interface/iuser.interface';
 import { usersConstants } from '../users/constants/user.constants';
 import { Response, Request } from 'express';
 import { websocketEvents } from '../websocket/constants/websocket.events';
 import { BcryptService } from '../shared/services/bcrypt.service';
 import { UserDto } from '../users/dto/user.dto';
-import { ConfigService } from '@nestjs/config';
 import { translateConstants } from '../shared/translate/translate.constants';
 import { WebsocketGateway } from '../websocket/websocket.gateway';
 
@@ -25,7 +24,6 @@ export class AuthController {
     private readonly usersService: UsersService,
     private readonly bcryptService: BcryptService,
     private readonly emailerService: EmailerService,
-    private readonly configService: ConfigService,
     private readonly websocketsService: WebsocketGateway,
   ) {}
 
@@ -47,7 +45,7 @@ export class AuthController {
     },
   })
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: 'Sesión iniciada correctamente',
   })
   @ApiResponse({
@@ -92,12 +90,46 @@ export class AuthController {
     return res.status(200).json(token);
   }
 
+  
   @Post('register')
+  @ApiOperation({
+    summary: `Signup`,
+    description: 'Registrar un usuario en la aplicación',
+  })
+  @ApiBody({
+    description: 'Ejemplo de registro de usuario utilizando la clase UserDto',
+    type: LoginDto,
+    examples: {
+      a: {
+        value: {
+          name: usersConstants.PUBLIC.NAME,
+          email: usersConstants.PUBLIC.EMAIL,
+          password: usersConstants.PUBLIC.PASSWORD,
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuario registrado correctamente',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'El usuario ya existe',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'El email ya esta registrado',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Imposible registrar el usuario',
+  })
   async register(@Req() req: Request, @Res() res: Response, @Body() user: UserDto): Promise<Response<IUser, Record<string, IUser>>> {
     const existUser: IUser = await this.usersService.findUserByName(user.name);
     if (existUser) {
       console.log(`[register] User '${user.name}' already exist`);
-      throw new HttpException(httpErrorMessages.USERS.USER_ALREADY_EXIST, HttpStatus.NOT_FOUND);
+      throw new HttpException(httpErrorMessages.USERS.USER_ALREADY_EXIST, HttpStatus.CONFLICT);
     }
 
     const existEmail: IUser = await this.usersService.findUserByEmail(user.email);
@@ -128,6 +160,28 @@ export class AuthController {
     return res.status(200).json(createdUser);
   }
 
+  @ApiOperation({
+    summary: `Request password`,
+    description: 'Solicitar un reinicio de contraseña del usuario',
+  })
+  @ApiQuery({
+    description: 'Email del usuario para envíar el link de reinicio de contraseña',
+    type: String,
+    required: false,
+    name: 'email',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Email de reinicio de contraseña envíado correctamente',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Usuario no encontrado',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Imposible actualizar el usuario',
+  })
   @Get('request-password/:email')
   async requestPassword(@Req() req: Request, @Res() res: Response, @Param('email') email: string): Promise<Response<boolean, Record<string, boolean>>> {
     const existUser: IUser = await this.usersService.findUserByEmail(email);
@@ -151,6 +205,41 @@ export class AuthController {
     return res.status(200).json(emailSended);
   }
 
+  @ApiOperation({
+    summary: `Reset password`,
+    description: 'Reiniciar contraseña del usuario',
+  })
+  @ApiQuery({
+    description: 'Token de reinicio de contraseña del usuario',
+    type: String,
+    required: false,
+    name: 'pwdRecoveryToken',
+  })
+  @ApiBody({
+    description: 'Ejemplo de reinicio de contraseña utilizando la clase UserDto',
+    type: LoginDto,
+    examples: {
+      a: {
+        value: {
+          name: usersConstants.PUBLIC.NAME,
+          email: usersConstants.PUBLIC.EMAIL,
+          password: usersConstants.PUBLIC.PASSWORD,
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Email de reinicio de contraseña envíado correctamente',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Usuario no encontrado',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Imposible actualizar el usuario',
+  })
   @Put('reset-password/:pwdRecoveryToken')
   async resetPassword(
     @Res() res: Response, 
@@ -177,6 +266,24 @@ export class AuthController {
     return res.status(200).json(true);
   }
 
+  @ApiOperation({
+    summary: `Fetch user by recovery password token`,
+    description: 'Recuperar el usuario según su token de reinicio de contraseña',
+  })
+  @ApiQuery({
+    description: 'Token de reinicio de contraseña del usuario',
+    type: String,
+    required: false,
+    name: 'pwdRecoveryToken',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuario recuperado correctamente',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Usuario no encontrado',
+  })
   @Get('getUserRecoveryPassword/:pwdRecoveryToken')
   async getUserRecoveryPassword(@Res() res: Response, @Param('pwdRecoveryToken') pwdRecoveryToken: string): Promise<Response<IUser, Record<string, IUser>>> {
     const users: IUser[] = await this.usersService.fetchUsers({ pwdRecoveryToken: pwdRecoveryToken });
@@ -188,6 +295,24 @@ export class AuthController {
     return res.status(200).json(users[0]);
   }
 
+  @ApiOperation({
+    summary: `Fetch user by email`,
+    description: 'Recuperar el usuario según su email',
+  })
+  @ApiQuery({
+    description: 'Email del usuario',
+    type: String,
+    required: false,
+    name: 'email',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuario recuperado correctamente',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Usuario no encontrado',
+  })
   @Get('getUserEmail/:email')
   async getUserEmail(@Res() res: Response, @Param('email') email: string): Promise<Response<IUser, Record<string, IUser>>> {
     const existUser: IUser = await this.usersService.findUserByEmail(email);
@@ -199,6 +324,28 @@ export class AuthController {
     return res.status(200).json(existUser);
   }
 
+  @ApiOperation({
+    summary: `Confirm email`,
+    description: 'Confirmar el email de un usuario y activarlo',
+  })
+  @ApiQuery({
+    description: 'Email del usuario',
+    type: String,
+    required: false,
+    name: 'email',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Email confirmado correctamente',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Usuario no encontrado',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Imposible actualizar el usuario',
+  })
   @Get('confirmEmail/:email')
   async confirmEmail(@Res() res: Response, @Param('email') email: string): Promise<Response<IUser, Record<string, IUser>>> {
     const existUser: IUser = await this.usersService.findUserByEmail(email);

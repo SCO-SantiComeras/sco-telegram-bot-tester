@@ -11,10 +11,5 @@
     "label.email.active.user.1": "Su usuario ha sido creado con éxito y está listo para ser activado. A partir de ahora, podrás disfrutar de todas las funcionalidades y beneficios que nuestra plataforma tiene para ofrecerte.",
     "label.email.active.user.2": "Para completar el proceso de activación de tu usuario, acceda al siguiente link",
     "label.email.active.user.3": "Activar usuario",
-    "label.email.active.user.subject": "Activación de usuario",
-
-    "label.email.confirm.report.issue.1": "Se ha reportado una incidencia de confirmación de email del usuario",
-    "label.email.confirm.report.issue.2": "La incidencia se ha reportado a fecha de",
-    "label.email.confirm.report.issue.3": "Por favor, pongase en contacto con el usuario y trate de resolverlo lo antes posible",
-    "label.email.confirm.report.issue.subject": "Incidencia activación de usuario"
+    "label.email.active.user.subject": "Activación de usuario"
 }
