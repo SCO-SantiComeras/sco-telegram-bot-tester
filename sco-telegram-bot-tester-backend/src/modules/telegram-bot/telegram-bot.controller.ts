@@ -4,7 +4,7 @@ import { TelegramBotService } from './telegram-bot.service';
 import { SendMessageDto } from './dto/send-message.dto';
 import { Response } from 'express';
 import { TelegramBot } from './class/telegram-bot';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WebsocketGateway } from '../websocket/websocket.gateway';
 import { websocketEvents } from '../websocket/constants/websocket.events';
 import { UsersService } from '../users/users.service';
@@ -14,6 +14,7 @@ import { TelegramBotResultsService } from '../telegram-bot-results/telegram-bot-
 import { ITelegramBotResult } from '../telegram-bot-results/interface/itelegram-bot-result.interface';
 
 @Controller('api/v1/telegram-bot')
+@ApiTags('Telegram bot tester')
 export class TelegramBotController {
 
   constructor(

@@ -23,7 +23,7 @@ export class TranslateService {
   private setData(language: string = translateConstants.DEFAULT_LANGUAGE): void {
     this.initialize();
 
-    new Promise(async (resolve) => {
+    new Promise((resolve) => {
       if (language != translateConstants.DEFAULT_LANGUAGE) {
         const languageValues: string[] = Object.values(translateConstants.LANGUAGES);
         const existLanguage: string = languageValues.find(l => l == language);
@@ -33,7 +33,7 @@ export class TranslateService {
       }
   
       try {
-        this._data = await JSON.parse(fs.readFileSync(`./i18n/${language}.json`, 'utf8'));
+        this._data = JSON.parse(fs.readFileSync(`./i18n/${language}.json`, 'utf8'));
         if (this._data != undefined) {
           this._loaded = true;
           this._currentLang = language;

@@ -17,6 +17,7 @@ import { configurationAuth } from './configuration/configuration-auth';
 import { AuthModule } from './modules/auth/auth.module';
 import { AuthConfig } from './modules/auth/config/auth.config';
 import { TelegramBotResultsModule } from './modules/telegram-bot-results/telegram-bot-results.module';
+import { DummyModule } from './modules/dummy/dummy.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { TelegramBotResultsModule } from './modules/telegram-bot-results/telegra
       inject: [ConfigService],
     }),
     LoggerModule,
+    DummyModule,
     UsersModule,
     TelegramBotModule,
     TelegramBotResultsModule,
