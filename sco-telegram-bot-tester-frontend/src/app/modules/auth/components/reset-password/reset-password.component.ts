@@ -13,7 +13,7 @@ import { AuthState } from '../../store/auth.state';
 import * as moment from 'moment';
 import { ConfigService } from 'src/app/shared/config/config.service';
 import { SpinnerService } from 'src/app/shared/spinner/spinner.service';
-import { User } from '../../model/user';
+import { User } from '../../../users/model/user';
 
 @Component({
   selector: 'app-reset-password',

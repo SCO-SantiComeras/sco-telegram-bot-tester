@@ -108,7 +108,11 @@ body {
 
            &--delete {
                 color: #f44336 !important;
-           } 
+           }
+
+           &--edit {
+            color: #69f0ae !important;
+            }
         }
     }
 }

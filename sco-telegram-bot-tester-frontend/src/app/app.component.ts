@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from './modules/auth/store/auth.state';
 import { Observable } from 'rxjs';
-import { User } from './modules/auth/model/user';
+import { User } from './modules/users/model/user';
 import { LogOut } from './modules/auth/store/auth.actions';
 import { ToastService } from './shared/toast/toast.service';
 

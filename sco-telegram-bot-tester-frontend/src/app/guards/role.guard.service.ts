@@ -2,11 +2,11 @@ import { AuthState } from '../modules/auth/store/auth.state';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { Token } from '../modules/auth/model/token';
 import { User } from '../modules/users/model/user';
+import { RoleConstants } from '../modules/users/constants/role.constants';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
 
   constructor(
     private readonly store: Store,
@@ -14,14 +14,21 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const token: Token = this.store.selectSnapshot(AuthState.token);
-    const user: User = this.store.selectSnapshot(AuthState.loggedUser);
+    let canContinue: boolean = true;
 
-    if (!token || !user) {
-      this.router.navigateByUrl('login');
-      return false;
+    const user: User = this.store.selectSnapshot(AuthState.loggedUser);
+    if (!user || user && !user.role) {
+      canContinue = false;
     }
 
-    return true;
+    if (user.role != RoleConstants.ADMIN) {
+      canContinue = false;
+    }
+
+    if (!canContinue) {
+      this.router.navigateByUrl('login');
+    }
+
+    return canContinue;
   }
 }

@@ -8,6 +8,8 @@ import { ResetPasswordComponent } from './modules/auth/components/reset-password
 import { ConfirmEmailComponent } from './modules/auth/components/confirm-email/confirm-email.component';
 import { TelegramBotResultsComponent } from './modules/telegram-bot-results/component/telegram-bot-results.component';
 import { AuthGuard } from './guards/auth.guard.service';
+import { RoleGuard } from './guards/role.guard.service';
+import { ManageUsersComponent } from './modules/users/components/manage-users/manage-users.component';
 
 const routes: Routes = [
   {
@@ -38,6 +40,11 @@ const routes: Routes = [
     path: 'results',
     component: TelegramBotResultsComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'manage-users',
+    component: ManageUsersComponent,
+    canActivate: [AuthGuard, RoleGuard],
   },
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' },

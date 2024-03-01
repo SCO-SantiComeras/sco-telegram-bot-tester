@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User } from "../../users/model/user";
 
 export class Token {
   accessToken: string;

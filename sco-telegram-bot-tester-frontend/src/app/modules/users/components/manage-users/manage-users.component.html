@@ -13,11 +13,14 @@
             <span *ngSwitchCase="'createdAt'">
               {{data[column] != undefined ? (data[column] | date: 'dd/MM/yyyy HH:mm') : '--'}}
             </span>
-            <span *ngSwitchCase="'success'" [ngClass]="{
+            <span *ngSwitchCase="'pwdRecoveryDate'">
+              {{data[column] != undefined ? (data[column] | date: 'dd/MM/yyyy HH:mm') : '--'}}
+            </span>
+            <span *ngSwitchCase="'active'" [ngClass]="{
               'data-table__text-error': !data[column],
               'data-table__text-success': data[column]
             }">
-              {{data[column] ? ('label.success' | appTranslate) : ('label.error' | appTranslate)}}
+              {{data[column] ? ('label.yes' | appTranslate) : ('label.no' | appTranslate)}}
             </span>
             <span *ngSwitchDefault>
               {{data[column] != undefined ? data[column] : '--'}}
@@ -28,8 +31,20 @@
   
       <ng-container matColumnDef="actions" class="data-table__actions">
         <th mat-header-cell *matHeaderCellDef class="data-table__actions__th">
+          <button mat-icon-button color="primary" 
+            class="data-table__actions__th--action"
+            (click)="onAddElement(data)" 
+          >
+            <mat-icon>add</mat-icon>
+          </button>
         </th>
         <td mat-cell *matCellDef="let data" class="data-table__actions__td">
+          <button mat-icon-button color="primary" 
+            class="data-table__actions__td--edit"
+            (click)="onEditElement(data)" 
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
           <button mat-icon-button color="primary" 
             class="data-table__actions__td--delete"
             (click)="onDeleteElement(data)" 

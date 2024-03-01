@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { TelegramBotResultsState } from '../store/telegram-bot-results.state';
 import { TelegramBotResult } from '../model/telegram-bot-result';
-import { User } from '../../auth/model/user';
+import { User } from '../../users/model/user';
 import { AuthState } from '../../auth/store/auth.state';
 import { SpinnerService } from 'src/app/shared/spinner/spinner.service';
 import { MatPaginator } from '@angular/material/paginator';

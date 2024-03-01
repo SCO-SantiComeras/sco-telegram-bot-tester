@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { RegisterUser } from '../../store/auth.actions';
 import { AuthState } from '../../store/auth.state';
-import { User } from '../../model/user';
+import { User } from '../../../users/model/user';
 
 @Component({
   selector: 'app-register',

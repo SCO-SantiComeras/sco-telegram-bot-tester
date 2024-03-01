@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 import { ConfigService } from 'src/app/shared/config/config.service';
 import { AuthState } from '../../auth/store/auth.state';
 import { Observable } from 'rxjs';
-import { User } from '../../auth/model/user';
+import { User } from '../../users/model/user';
 import { SendMessageGroup } from '../store/telegram-bot-tester.actions';
 import { TelegramBotTesterState } from '../store/telegram-bot-tester.state';
 

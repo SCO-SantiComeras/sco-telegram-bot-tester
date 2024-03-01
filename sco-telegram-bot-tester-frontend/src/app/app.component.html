@@ -29,11 +29,11 @@
           </button>
           <mat-menu #loginMenu="matMenu">
             <button mat-menu-item (click)="onClickSignUp()">
-              <mat-icon>logout</mat-icon>
+              <mat-icon>person</mat-icon>
               <span>{{'label.header.btn.signup' | appTranslate}}</span>
             </button>
             <button mat-menu-item (click)="onClickLogIn()">
-              <mat-icon>logout</mat-icon>
+              <mat-icon>login</mat-icon>
               <span>{{'label.header.btn.login' | appTranslate}}</span>
             </button>
           </mat-menu>
@@ -43,6 +43,10 @@
             <mat-icon>account_circle</mat-icon>
           </button>
           <mat-menu #logoutMenu="matMenu">
+            <button mat-menu-item (click)="router.navigateByUrl('manage-users')" [hidden]="!loggedUser || loggedUser && loggedUser.role != 'ADMIN'">
+              <mat-icon>person</mat-icon>
+              <span>{{'label.header.btn.manage-users' | appTranslate}}</span>
+            </button>
             <button mat-menu-item (click)="router.navigateByUrl('')">
               <mat-icon>adb</mat-icon>
               <span>{{'label.header.btn.telegram-bot' | appTranslate}}</span>

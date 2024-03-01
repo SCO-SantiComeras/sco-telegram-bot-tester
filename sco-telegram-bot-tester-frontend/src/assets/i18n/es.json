@@ -7,6 +7,8 @@
     "label.close": "Cerrar",
     "label.accept": "Aceptar",
     "label.cancel": "Cancelar",
+    "label.yes": "Sí",
+    "label.no": "No",
 
     "label.header.cache.title": "Telegram bot tester",
     "label.header.btn.login": "Iniciar sesión",
@@ -14,6 +16,7 @@
     "label.header.btn.logout": "Cerrar sesión",
     "label.header.btn.telegram-bot": "Bot tester",
     "label.header.btn.telegram-results": "Resultados",
+    "label.header.btn.manage-users": "Usuarios",
 
     "label.telegram-bot-tester.state.sendMessage.success": "Mensaje envíado con éxito",
     "label.telegram-bot-tester.state.sendMessage.error": "Error intentando envíar el mensaje",
@@ -141,5 +144,24 @@
     "label.telegram-bot.results.component.cols.errorCode": "Código de error",
     "label.telegram-bot.results.component.cols.errorMessage": "Mensaje de error",
     "label.telegram-bot.results.component.confirm-dialog.title": "Eliminar resultado",
-    "label.telegram-bot.results.component.confirm-dialog.text": "¿Estás seguro de querer eliminar el resultado?"
+    "label.telegram-bot.results.component.confirm-dialog.text": "¿Estás seguro de querer eliminar el resultado?",
+
+    "label.users.state.fetch.success": "Usuarios recuperados con éxito",
+    "label.users.state.fetch.error": "Error intentando recuperar los usuarios",
+    "label.users.state.create.success": "Usuario creado con éxito",
+    "label.users.state.create.error": "Error intentando crear el usuario",
+    "label.users.state.update.success": "Usuario actualizado con éxito",
+    "label.users.state.update.error": "Error intentando actualizar el usuario",
+    "label.users.state.delete.success": "Usuario eliminado con éxito",
+    "label.users.state.delete.error": "Error intentando eliminar el usuario",
+
+    "label.manage-users.component.cols.name": "Nombre",
+    "label.manage-users.component.cols.email": "Email",
+    "label.manage-users.component.cols.active": "Activo",
+    "label.manage-users.component.cols.role": "Rol",
+    "label.manage-users.component.cols.pwdRecoveryToken": "Token contraseña",
+    "label.manage-users.component.cols.pwdRecoveryDate": "Fecha token",
+    "label.manage-users.component.cols.createdAt": "Creado en",
+    "label.manage-users.component.confirm-dialog.title": "Eliminar usuario",
+    "label.manage-users.component.confirm-dialog.text": "¿Estás seguro de querer eliminar el usuario?"
 }

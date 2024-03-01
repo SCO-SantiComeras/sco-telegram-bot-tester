@@ -1,4 +1,4 @@
-import { User } from "../../auth/model/user";
+import { User } from "../../users/model/user";
 
 export class TelegramBotResult {
   _id?: string;

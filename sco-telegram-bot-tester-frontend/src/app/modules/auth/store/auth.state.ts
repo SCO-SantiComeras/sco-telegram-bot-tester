@@ -6,7 +6,7 @@ import { Token } from "../model/token";
 import { ConfirmEmail, FetchUserByEmail, FetchUserRecoveryPwd, LogIn, LogOut, RegisterUser, RequestPassword, ResetPassword } from './auth.actions';
 import { TranslateService } from 'src/app/shared/translate/translate.service';
 import { HttpErrorsService } from 'src/app/shared/http-error/http-errors.service';
-import { User } from "../model/user";
+import { User } from "../../users/model/user";
 
 export class AuthStateModel {
     loggedUser: User;

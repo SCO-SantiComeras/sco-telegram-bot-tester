@@ -7,7 +7,7 @@ import { SpinnerService } from 'src/app/shared/spinner/spinner.service';
 import { ConfirmEmail, FetchUserByEmail } from '../../store/auth.actions';
 import { AuthState } from '../../store/auth.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { User } from '../../model/user';
+import { User } from '../../../users/model/user';
 
 @Component({
   selector: 'app-confirm-email',
