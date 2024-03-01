@@ -48,6 +48,10 @@ export class UsersService {
     return this.http.get<User[]>(`${environment.apiUrl}/users${params.length == 0 ? '' : `${this.joinPipe.transform(params, '&')}`}`);
   }
 
+  createUser(user: User):Observable<User> {
+    return this.http.post<User>(`${environment.apiUrl}/users`, user)
+  }
+
   updateUser(_id: string, user: User):Observable<User> {
     return this.http.put<User>(`${environment.apiUrl}/users/${_id}`, user)
   }

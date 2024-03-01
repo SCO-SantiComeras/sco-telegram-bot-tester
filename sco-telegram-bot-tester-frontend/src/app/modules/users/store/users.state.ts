@@ -4,7 +4,7 @@ import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { User } from "../model/user";
 import { Injectable } from "@angular/core";
 import { UsersService } from "../users.service";
-import { DeleteUser, FetchUsers, SubscribeUserWS, UnSubscribeUserWS, UpdateUser } from "./users.actions";
+import { CreateUser, DeleteUser, FetchUsers, SubscribeUserWS, UnSubscribeUserWS, UpdateUser } from "./users.actions";
 import { catchError, map, tap } from "rxjs/operators";
 
 export class UsersStateModel {
@@ -86,6 +86,41 @@ export class UsersState {
           });
         }
       })
+    );
+  }
+
+  @Action(CreateUser)
+  public createUser(
+    { patchState }: StateContext<UsersStateModel>,
+    { payload }: CreateUser
+  ) {
+    return this.usersService.createUser(payload.user).pipe(
+      tap((user: User) => {
+        if(user){
+            patchState({
+                success: true,
+                successMsg: this.translateService.getTranslate('label.users.state.create.success'),
+            });
+        }else{
+            patchState({
+                success: false,
+                errorMsg: this.translateService.getTranslate('label.users.state.create.error'),
+            });
+        }
+      }),
+      catchError(error => {
+        let errorMsg: string = this.translateService.getTranslate('label.users.state.create.error');
+        if (this.httpErrorsService.getErrorMessage(error.error.message)) {
+          errorMsg = this.httpErrorsService.getErrorMessage(error.error.message);
+        }
+
+        patchState({
+            success: false,
+            errorMsg: errorMsg,
+        });
+
+        throw new Error(error);
+      }),
     );
   }
 

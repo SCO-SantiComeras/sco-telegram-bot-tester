@@ -5,6 +5,11 @@ export class FetchUsers{
     constructor(public payload: { filter?: any }) {}
 }
 
+export class CreateUser {
+    static readonly type = '[USER] Create a new user';
+    constructor(public payload: { user: User }) {}
+}
+
 export class UpdateUser {
     static readonly type = '[USER] Update a user';
     constructor(public payload: { _id: string, user: User }) {}

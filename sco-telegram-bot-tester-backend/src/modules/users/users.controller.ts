@@ -1,5 +1,5 @@
 import { httpErrorMessages } from '../../constants/http-error-messages.constants';
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Put, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Put, Query, Res, UseGuards, Post, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ControllerService } from '../shared/controller/controller.service';
@@ -9,9 +9,12 @@ import { UsersService } from './users.service';
 import { WebsocketGateway } from '../websocket/websocket.gateway';
 import { websocketEvents } from '../websocket/constants/websocket.events';
 import { usersConstants } from './constants/user.constants';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BcryptService } from '../shared/bcrypt/bcrypt.service';
+import { RoleConstants } from './constants/role.constants';
+import { translateConstants } from '../shared/translate/translate.constants';
+import { EmailerService } from '../emailer/emailer.service';
 
 @Controller('api/v1/users')
 @ApiTags('Usuarios')
@@ -21,6 +24,7 @@ export class UsersController {
     private readonly controllerService: ControllerService,
     private readonly websocketsService: WebsocketGateway,
     private readonly bcryptService: BcryptService,
+    private readonly emailerService: EmailerService,
   ) {}
 
   @Get()
@@ -44,6 +48,82 @@ export class UsersController {
     const filter = query && query.query ? await this.controllerService.getParamsFromSwaggerQuery(query.query) : query;
     const users: IUser[] = await this.usersService.fetchUsers(filter);
     return res.status(200).json(users);
+  }
+
+  @Post()
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: `Add user, authguard required`,
+    description: 'Añade un nuevo usuario a la aplicación. Necesaria autorización',
+  })
+  @ApiBody({
+    description: 'Ejemplo de creación de usuario utilizando la clase UserDto',
+    type: UserDto,
+    examples: {
+      a: {
+        value: {
+          name: usersConstants.PUBLIC.NAME,
+          password: usersConstants.PUBLIC.PASSWORD,
+          email: usersConstants.PUBLIC.EMAIL,
+          active: usersConstants.PUBLIC.ACTIVE,
+          role: {
+            name: usersConstants.PUBLIC.ROLE
+          }
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Usuario añadido correctamente',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Rol no encontrado',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Nombre usuario ya existente',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Email ya registrado anteriormente',
+  })
+  async addUser(@Req() req: Request, @Res() res: Response, @Body() user: UserDto): Promise<Response<IUser, Record<string, IUser>>> {
+    const existUserName: IUser = await this.usersService.findUserByName(user.name);
+    if (existUserName) {
+      console.error('[addUser] User already exist');
+      throw new HttpException(httpErrorMessages.USERS.USER_ALREADY_EXIST, HttpStatus.CONFLICT);
+    }
+
+    const existUserEmail: IUser = await this.usersService.findUserByEmail(user.email);
+    if (existUserEmail) {
+      console.log('[addUser] Email already registered');
+      throw new HttpException(httpErrorMessages.USERS.EMAIL_ALREADY_EXIST, HttpStatus.CONFLICT);
+    }
+
+    user.role = user.role ? user.role : RoleConstants.USER;
+    user.active = false;
+
+    const createdUser: IUser = await this.usersService.addUser(user);
+    if (!createdUser) { 
+      console.log('[addUser] Unnable to create user');
+      throw new HttpException(httpErrorMessages.USERS.CREATE_USER_ERROR, HttpStatus.CONFLICT);
+    }
+
+    await this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
+
+    const lang: string = req && req.headers && req.headers.clientlanguage 
+      ? req.headers.clientlanguage.toString() 
+      : translateConstants.DEFAULT_LANGUAGE;
+
+    const emailSended: boolean = await this.emailerService.sendActiveUserEmail(user, lang);
+    if (!emailSended) {
+      console.log(`[addUser] User '${user.name}' unnable to send activate email`);
+    }
+
+    return res.status(201).json(createdUser);
   }
 
   @Put('/:name')
@@ -120,17 +200,14 @@ export class UsersController {
       }
     }
 
-    try {
-      const updatedUser: IUser = await this.usersService.updateUser(name, user, updatePassword);
-      if (updatedUser) {
-        await this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
-        return res.status(200).json(updatedUser);
-      }
-    } catch (error) {
-      throw new HttpException(error.stack, HttpStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-      return undefined;
+    const updatedUser: IUser = await this.usersService.updateUser(name, user, updatePassword);
+    if (!updatedUser) {
+      console.log('[updateUser] Unnable to update user');
+      throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.CONFLICT);
     }
+
+    await this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
+    return res.status(200).json(updatedUser);
   }
 
   @Delete('/:name')
