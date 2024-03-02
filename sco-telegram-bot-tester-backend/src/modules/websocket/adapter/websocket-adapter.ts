@@ -15,10 +15,10 @@ export class WebsocketAdapter extends IoAdapter {
         const envOrigin: string = this.configService.get('websocket.origin');
         let origin: string[] = [];
         if (envOrigin && envOrigin.length > 0) {
+            origin = [envOrigin];
+
             if (envOrigin.includes(',')) {
                 origin = envOrigin.split(',');
-            } else {
-                origin = [envOrigin];
             }
         }
         

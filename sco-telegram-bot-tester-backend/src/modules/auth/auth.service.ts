@@ -44,7 +44,7 @@ export class AuthService {
       return false;
     }
 
-    const accessToken = req.headers.authorization.split(' ')[1]; //Authorization: 'Bearer TOKEN'
+    const accessToken = req.headers.authorization.split(' ')[1];
     if(!accessToken) {
       return false;
     }

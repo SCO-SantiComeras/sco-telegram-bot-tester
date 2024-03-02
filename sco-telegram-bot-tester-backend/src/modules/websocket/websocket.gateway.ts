@@ -58,7 +58,7 @@ export class WebsocketGateway implements OnGatewayInit {
     for (const event of Object.values(websocketEvents)) {
       if (event == wsEvent) {
         validEvent = true;
-      break;
+        break;
       }
     }
 

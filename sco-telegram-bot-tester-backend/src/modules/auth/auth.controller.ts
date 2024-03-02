@@ -54,6 +54,10 @@ export class AuthController {
     description: 'Credenciales incorrectas',
   })
   @ApiResponse({
+    status: 401,
+    description: 'Usuario no activado',
+  })
+  @ApiResponse({
     status: 404,
     description: 'Usuario no encontrado',
   })
@@ -94,18 +98,19 @@ export class AuthController {
   
   @Post('register')
   @ApiOperation({
-    summary: `Signup`,
+    summary: `Register`,
     description: 'Registrar un usuario en la aplicación',
   })
   @ApiBody({
     description: 'Ejemplo de registro de usuario utilizando la clase UserDto',
-    type: LoginDto,
+    type: UserDto,
     examples: {
       a: {
         value: {
           name: usersConstants.PUBLIC.NAME,
           email: usersConstants.PUBLIC.EMAIL,
           password: usersConstants.PUBLIC.PASSWORD,
+          role: usersConstants.PUBLIC.ROLE,
         },
       },
     },
@@ -116,14 +121,14 @@ export class AuthController {
   })
   @ApiResponse({
     status: 409,
-    description: 'El usuario ya existe',
+    description: 'El usuario ya está registrado',
   })
   @ApiResponse({
     status: 409,
     description: 'El email ya esta registrado',
   })
   @ApiResponse({
-    status: 409,
+    status: 500,
     description: 'Imposible registrar el usuario',
   })
   async register(@Req() req: Request, @Res() res: Response, @Body() user: UserDto): Promise<Response<IUser, Record<string, IUser>>> {
@@ -145,7 +150,7 @@ export class AuthController {
     const createdUser: IUser = await this.usersService.addUser(user);
     if (!createdUser) {
       console.log(`[register] User '${user.name}' unnable to create`);
-      throw new HttpException(httpErrorMessages.USERS.CREATE_USER_ERROR, HttpStatus.CONFLICT);
+      throw new HttpException(httpErrorMessages.USERS.CREATE_USER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     const lang: string = req && req.headers && req.headers.clientlanguage 
@@ -181,7 +186,7 @@ export class AuthController {
     description: 'Usuario no encontrado',
   })
   @ApiResponse({
-    status: 409,
+    status: 500,
     description: 'Imposible actualizar el usuario',
   })
   @Get('request-password/:email')
@@ -199,7 +204,7 @@ export class AuthController {
     const updatedUser: IUser = await this.usersService.updateUser(userDto._id, userDto);
     if (!updatedUser) {
       console.log(`[requestPassword] User '${userDto.name}' unnable to update`);
-      throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.CONFLICT);
+      throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
     this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
@@ -221,13 +226,12 @@ export class AuthController {
   })
   @ApiBody({
     description: 'Ejemplo de reinicio de contraseña utilizando la clase UserDto',
-    type: LoginDto,
+    type: UserDto,
     examples: {
       a: {
         value: {
           name: usersConstants.PUBLIC.NAME,
           email: usersConstants.PUBLIC.EMAIL,
-          password: usersConstants.PUBLIC.PASSWORD,
         },
       },
     },
@@ -241,7 +245,7 @@ export class AuthController {
     description: 'Usuario no encontrado',
   })
   @ApiResponse({
-    status: 409,
+    status: 500,
     description: 'Imposible actualizar el usuario',
   })
   @Put('reset-password/:pwdRecoveryToken')
@@ -264,7 +268,7 @@ export class AuthController {
     const updatedUser: IUser = await this.usersService.updateUser(userDto._id, userDto, true);
     if (!updatedUser) {
       console.log(`[resetPassword] User '${userDto.name}' unnable to update`);
-      throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.CONFLICT);
+      throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
@@ -272,7 +276,7 @@ export class AuthController {
   }
 
   @ApiOperation({
-    summary: `Fetch user by recovery password token`,
+    summary: `Get User Recovery Password`,
     description: 'Recuperar el usuario según su token de reinicio de contraseña',
   })
   @ApiQuery({
@@ -301,7 +305,7 @@ export class AuthController {
   }
 
   @ApiOperation({
-    summary: `Fetch user by email`,
+    summary: `Get User Email`,
     description: 'Recuperar el usuario según su email',
   })
   @ApiQuery({
@@ -348,7 +352,7 @@ export class AuthController {
     description: 'Usuario no encontrado',
   })
   @ApiResponse({
-    status: 409,
+    status: 500,
     description: 'Imposible actualizar el usuario',
   })
   @Get('confirmEmail/:email')
@@ -365,7 +369,7 @@ export class AuthController {
     const updatedUser: IUser = await this.usersService.updateUser(userDto._id, userDto);
     if (!updatedUser) {
       console.log(`[confirmEmail] User '${userDto.name}' unnable to update`);
-      throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.CONFLICT);
+      throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);

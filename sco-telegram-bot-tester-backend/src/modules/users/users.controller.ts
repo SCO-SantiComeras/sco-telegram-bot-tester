@@ -31,7 +31,7 @@ export class UsersController {
   @UseGuards(AuthGuard())
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
-    summary: `Fetch users, authguard required`,
+    summary: `Fetch users`,
     description: 'Devuelve los usuarios, se puede filtrar por parámetros QUERY. Necesaria autorización',
   })
   @ApiQuery({
@@ -54,7 +54,7 @@ export class UsersController {
   @UseGuards(AuthGuard())
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
-    summary: `Add user, authguard required`,
+    summary: `Add user`,
     description: 'Añade un nuevo usuario a la aplicación. Necesaria autorización',
   })
   @ApiBody({
@@ -75,12 +75,8 @@ export class UsersController {
     },
   })
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: 'Usuario añadido correctamente',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Rol no encontrado',
   })
   @ApiResponse({
     status: 409,
@@ -89,6 +85,10 @@ export class UsersController {
   @ApiResponse({
     status: 409,
     description: 'Email ya registrado anteriormente',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Imposible crear el usuario',
   })
   async addUser(@Req() req: Request, @Res() res: Response, @Body() user: UserDto): Promise<Response<IUser, Record<string, IUser>>> {
     const existUserName: IUser = await this.usersService.findUserByName(user.name);
@@ -109,7 +109,7 @@ export class UsersController {
     const createdUser: IUser = await this.usersService.addUser(user);
     if (!createdUser) { 
       console.log('[addUser] Unnable to create user');
-      throw new HttpException(httpErrorMessages.USERS.CREATE_USER_ERROR, HttpStatus.CONFLICT);
+      throw new HttpException(httpErrorMessages.USERS.CREATE_USER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     await this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
@@ -123,21 +123,21 @@ export class UsersController {
       console.log(`[addUser] User '${user.name}' unnable to send activate email`);
     }
 
-    return res.status(201).json(createdUser);
+    return res.status(200).json(createdUser);
   }
 
   @Put('/:_id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
-    summary: `Update user, authguard required`,
+    summary: `Update user`,
     description: 'Actualiza un usuario existente de la aplicación. Necesaria autorización',
   })
   @ApiParam({
-    description: 'Nombre del usuario para actualizar',
+    description: 'Id del usuario para actualizar',
     type: String,
     required: false,
-    name: 'name',
+    name: '_id',
   })
   @ApiBody({
     description: 'Ejemplo de actialización de usuario utilizando la clase UpdateUserDto',
@@ -160,15 +160,19 @@ export class UsersController {
   })
   @ApiResponse({
     status: 404,
-    description: 'Nombre usuario no encontrado',
+    description: 'Usuario no encontrado',
   })
   @ApiResponse({
-    status: 404,
-    description: 'Rol no encontrado',
+    status: 409,
+    description: 'Nombre ya registrado anteriormente',
   })
   @ApiResponse({
     status: 409,
     description: 'Email ya registrado anteriormente',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Imposible actualizar el usuario',
   })
   async updateUser(@Res() res: Response, @Param('_id') _id: string, @Body() user: UpdateUserDto): Promise<Response<IUser, Record<string, IUser>>> {
     const existUser: IUser = await this.usersService.findUser(_id);
@@ -222,7 +226,7 @@ export class UsersController {
   @UseGuards(AuthGuard())
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
-    summary: `Delete user, authguard required`,
+    summary: `Delete user`,
     description: 'Elimina un usuario existente de la aplicación. Necesaria autorización',
   })
   @ApiParam({

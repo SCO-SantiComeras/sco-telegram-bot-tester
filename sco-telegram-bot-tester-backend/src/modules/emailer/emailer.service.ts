@@ -84,12 +84,12 @@ export class EmailerService {
 
       let sendMailResult = false;
       await transporter.sendMail(mailOptions)
-        .then(function (info) {
+        .then(() => {
           console.log(`[sendMail] Email sent successfully`);
           sendMailResult = true;
-        }).catch(function (err) {
+        }).catch((error) => {
           sendMailResult = false;
-          console.error(`[sendMail] SendMail Error: ${JSON.stringify(err)}`);
+          console.error(`[sendMail] SendMail Error: ${JSON.stringify(error)}`);
         });
 
       return sendMailResult;

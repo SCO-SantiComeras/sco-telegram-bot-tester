@@ -27,10 +27,10 @@ export class TelegramBotController {
   @Post('send-message-group')
   @ApiOperation({
     summary: `Send Message Group`,
-    description: 'Send a telegram message to group',
+    description: 'Envíar un mensaje a un grupo de telegram',
   })
   @ApiBody({
-    description: 'Example of send a telegram message to group',
+    description: 'Ejemplo de envío de mensaje a un grupo de telegram utilizando la clase SendMessageDto',
     type: SendMessageDto,
     examples: {
       sendMessageGroup: {
@@ -44,31 +44,35 @@ export class TelegramBotController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Message send successfully, returns a boolean value',
+    description: 'Mensaje envíado correctamente',
   })
   @ApiResponse({
     status: 401,
-    description: 'Bot token unauthorized',
+    description: 'Token del bot está no autorizado',
   })
   @ApiResponse({
     status: 400,
-    description: 'Chat not found',
+    description: 'Chat de telegram no encontrado',
   })
   @ApiResponse({
     status: 400,
-    description: 'Message text is empty',
+    description: 'El mensaje de texto esta vacío',
   })
   @ApiResponse({
     status: 404,
-    description: 'User not found',
+    description: 'Usuario no encontrado',
   })
   @ApiResponse({
     status: 404,
-    description: 'Bot token not found',
+    description: 'Token del bot no encontrado',
   })
   @ApiResponse({
-    status: 409,
-    description: 'Unnable to create telegram bot',
+    status: 500,
+    description: 'Imposible crear instancia del bot de telegram',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Imposible crear un resultado del bot de telegram',
   })
   async sendMessageGroup(
     @Res() res: Response,
@@ -87,7 +91,7 @@ export class TelegramBotController {
     const telegramBot: TelegramBot = await this.telegramBotService.initializeBot(sendMessageDto.token);
     if (!telegramBot) {
       console.log(`[sendMessageGroup] ${httpErrorMessages.TELEGRAM_BOT_TESTER.UNNABLE_CREATE_TELEGRAM_BOT}`);
-      throw new HttpException(httpErrorMessages.TELEGRAM_BOT_TESTER.UNNABLE_CREATE_TELEGRAM_BOT, HttpStatus.CONFLICT);
+      throw new HttpException(httpErrorMessages.TELEGRAM_BOT_TESTER.UNNABLE_CREATE_TELEGRAM_BOT, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     let errorCode: number = undefined;
@@ -123,7 +127,7 @@ export class TelegramBotController {
       const createdBotResult: ITelegramBotResult = await this.telegramBotResultsService.addTelegramBotResult(telegramBotResultDto);
       if (!createdBotResult) {
         console.log(`[sendMessageGroup] ${httpErrorMessages.TELEGRAM_BOT_RESULTS.UNNABLE_CREATE_TELEGRAM_BOT_RESULT}`);
-        throw new HttpException(httpErrorMessages.TELEGRAM_BOT_RESULTS.UNNABLE_CREATE_TELEGRAM_BOT_RESULT, HttpStatus.CONFLICT);
+        throw new HttpException(httpErrorMessages.TELEGRAM_BOT_RESULTS.UNNABLE_CREATE_TELEGRAM_BOT_RESULT, HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
       await this.websocketsService.notifyWebsockets(websocketEvents.WS_TELEGRAM_BOT_RESULT);

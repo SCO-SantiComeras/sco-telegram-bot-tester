@@ -25,7 +25,7 @@ export class TelegramBotResultsController {
   @UseGuards(AuthGuard())
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
-    summary: `Fetch telegram bot results, authguard required`,
+    summary: `Fetch telegram bot results`,
     description: 'Devuelve los resultados del bot de telegram, se puede filtrar por parámetros QUERY. Necesaria autorización',
   })
   @ApiQuery({
@@ -59,7 +59,7 @@ export class TelegramBotResultsController {
   @UseGuards(AuthGuard())
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
-    summary: `Delete telegram bot result, authguard required`,
+    summary: `Delete telegram bot result`,
     description: 'Elimina un resultado del bot de telegram existente de la aplicación. Necesaria autorización',
   })
   @ApiParam({
@@ -74,7 +74,7 @@ export class TelegramBotResultsController {
   })
   @ApiResponse({
     status: 404,
-    description: 'Resultado del bot de telegram no encontrado',
+    description: 'Resultado no encontrado',
   })
   async deleteTelegramBotResult(
     @Res() res: Response, 
