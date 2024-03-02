@@ -20,6 +20,7 @@ export class AddEditUsersDialogComponent implements OnInit, AfterViewInit {
   public edit: boolean;
   public user: User;
   public updatePassword: boolean;
+  public userActived: boolean;
 
   public addEditUsersDialogForm: FormGroup;
   public formErrors: FormsError[];
@@ -40,6 +41,7 @@ export class AddEditUsersDialogComponent implements OnInit, AfterViewInit {
     this.edit = false;
     this.user = new User();
     this.updatePassword = false;
+    this.userActived = false;
 
     this.addEditUsersDialogForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -60,6 +62,7 @@ export class AddEditUsersDialogComponent implements OnInit, AfterViewInit {
       this.addEditUsersDialogForm.controls.name.setValue(this.user.name);
       this.addEditUsersDialogForm.controls.email.setValue(this.user.email);
       this.addEditUsersDialogForm.controls.role.setValue(this.user.role);
+      this.userActived = this.user.active;
     }
 
     this.roles = [];
@@ -94,6 +97,7 @@ export class AddEditUsersDialogComponent implements OnInit, AfterViewInit {
       this.user.password = form.password ? form.password : this.user.password;
       this.user.newPassword = form['confirm'] ? form['confirm'] : this.user.newPassword;
       this.user.role = form.role;
+      this.user.active = this.userActived;
     }
 
     this.dialogRef.close(this.user);

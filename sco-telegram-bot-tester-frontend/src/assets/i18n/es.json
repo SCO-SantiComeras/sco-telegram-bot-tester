@@ -171,6 +171,7 @@
 
     "label.add-edit-users.dialog.input.name": "Introduzca su nombre",
     "label.add-edit-users.dialog.input.name.placeholder": "username",
+    "label.add-edit-users.dialog.input.active": "Activo",
     "label.add-edit-users.dialog.input.update.password": "Actualizar contraseña",
     "label.add-edit-users.dialog.input.password": "Introduzca nueva contraseña",
     "label.add-edit-users.dialog.input.password.placeholder": "**********",

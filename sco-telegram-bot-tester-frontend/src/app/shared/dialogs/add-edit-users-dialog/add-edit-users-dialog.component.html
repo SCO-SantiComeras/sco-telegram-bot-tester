@@ -37,9 +37,19 @@
           {{formsService.getError('role', formErrors)}}
         </mat-error>
       </mat-form-field>
-      
 
       <div class="slide-toggle" [hidden]="!edit">
+        <span>Activo</span>
+        <mat-slide-toggle 
+          class="slide-toggle__toggle"
+          [color]="'accent'"
+          [checked]="userActived"
+          (toggleChange)="userActived = !userActived;">
+        </mat-slide-toggle>
+      </div>
+      
+
+      <div class="slide-toggle mt-2" [hidden]="!edit">
         <span>{{'label.add-edit-users.dialog.input.update.password' | appTranslate}}</span>
         <mat-slide-toggle 
           class="slide-toggle__toggle"
