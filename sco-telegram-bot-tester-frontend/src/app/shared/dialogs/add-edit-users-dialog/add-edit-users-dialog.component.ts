@@ -36,10 +36,6 @@ export class AddEditUsersDialogComponent implements OnInit, AfterViewInit {
     public readonly formsService: FormsService,
   ) {}
 
-  ngAfterViewInit(): void {
-    this.addEditUsersDialogForm = this.formsService.touchEmptyControls(this.addEditUsersDialogForm);
-  }
-
   ngOnInit(): void {
     this.edit = false;
     this.user = new User();
@@ -70,6 +66,10 @@ export class AddEditUsersDialogComponent implements OnInit, AfterViewInit {
     for (const value of Object.values(RoleConstants)) {
       this.roles.push(value);
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.addEditUsersDialogForm = this.formsService.touchEmptyControls(this.addEditUsersDialogForm);
   }
 
   onNoClick(): void {

@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddEditUsersDialogComponent } from './dialogs/add-edit-users-dialog/add-edit-users-dialog.component';
+import { ToastComponent } from './toast/toast/toast.component';
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { AddEditUsersDialogComponent } from './dialogs/add-edit-users-dialog/add
     JoinPipe,
     ConfirmDialogComponent,
     AddEditUsersDialogComponent,
+    ToastComponent,
   ],
   exports: [
     ConfigPipe,
@@ -57,6 +59,7 @@ import { AddEditUsersDialogComponent } from './dialogs/add-edit-users-dialog/add
     JoinPipe,
     ConfirmDialogComponent,
     AddEditUsersDialogComponent,
+    ToastComponent,
   ],
   providers:[
     FormsService,

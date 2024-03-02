@@ -5,6 +5,8 @@ import { TranslateService } from '../translate/translate.service';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ResolutionService } from '../resolution/resolution.service';
 import { ResolutionConstants } from '../resolution/resolution.constants';
+import { ToastComponent } from './toast/toast.component';
+import { ToastData } from './model/toast-data';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +46,11 @@ export class ToastService {
       ? ToastConstants.HORIZONTAL_POSITION_RIGHT as MatSnackBarHorizontalPosition
       : ToastConstants.HORIZONTAL_POSITION_CENTER as MatSnackBarHorizontalPosition;
 
-    this.snackBarService.open(message, '', {
+    const snackBar = this.snackBarService.openFromComponent(ToastComponent, {
+      data: {
+        message: message,
+        preClose: () => {snackBar.dismiss()}
+      },
       duration: 3000,
       panelClass: [panelClass],
       verticalPosition: verticalPosition,
