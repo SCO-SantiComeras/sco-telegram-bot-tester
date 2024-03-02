@@ -15,6 +15,8 @@ export const httpErrorMessageTranslates = {
       CREATE_USER_ERROR: 'Imposible crear el usuario',
       UPDATE_USER_ERROR: 'Imposible actualizar el usuario',
       ADMIN_ALREADY_EXIST: 'Usuario adminitrador ya existente',
+      UNNABLE_DELETE_ADMIN: 'No se puede eliminar el usuario ADMIN',
+      UNNABLE_UPDATE_ADMIN: 'El usuario ADMIN no se puede actualizar',
     },
     TELEGRAM_BOT_TESTER: {
       UNNABLE_CREATE_TELEGRAM_BOT: 'Imposible crear un bot de telegram',
@@ -48,6 +50,8 @@ export const httpErrorMessageTranslates = {
       CREATE_USER_ERROR: 'Unnable to create user',
       UPDATE_USER_ERROR: 'Unnable to update user',
       ADMIN_ALREADY_EXIST: 'Admin already exist',
+      UNNABLE_DELETE_ADMIN: 'Unnable to delete admin',
+      UNNABLE_UPDATE_ADMIN: 'Unnable to update admin',
     },
     TELEGRAM_BOT_TESTER: {
       UNNABLE_CREATE_TELEGRAM_BOT: 'Unnable to create telegram bot',

@@ -42,6 +42,7 @@ export class WebSocketService extends Socket {
 
     this.on('connect_error', (error) => {
       console.log('No se pudo conectar al Backend');
+      console.log(error);
     });
   }
 }

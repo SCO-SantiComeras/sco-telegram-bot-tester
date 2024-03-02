@@ -15,6 +15,7 @@ import { BcryptService } from '../shared/bcrypt/bcrypt.service';
 import { RoleConstants } from './constants/role.constants';
 import { translateConstants } from '../shared/translate/translate.constants';
 import { EmailerService } from '../emailer/emailer.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('api/v1/users')
 @ApiTags('Usuarios')
@@ -25,6 +26,7 @@ export class UsersController {
     private readonly websocketsService: WebsocketGateway,
     private readonly bcryptService: BcryptService,
     private readonly emailerService: EmailerService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Get()
@@ -67,9 +69,7 @@ export class UsersController {
           password: usersConstants.PUBLIC.PASSWORD,
           email: usersConstants.PUBLIC.EMAIL,
           active: usersConstants.PUBLIC.ACTIVE,
-          role: {
-            name: usersConstants.PUBLIC.ROLE
-          }
+          role: usersConstants.PUBLIC.ROLE,
         },
       },
     },
@@ -85,6 +85,10 @@ export class UsersController {
   @ApiResponse({
     status: 409,
     description: 'Email ya registrado anteriormente',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Usuario con rol ADMIN ya está registrado',
   })
   @ApiResponse({
     status: 500,
@@ -104,6 +108,14 @@ export class UsersController {
     }
 
     user.role = user.role ? user.role : RoleConstants.USER;
+    if (user.role == RoleConstants.ADMIN && this.configService.get('app.onlyOneAdmin')) {
+      const adminUsers: IUser[] = await this.usersService.findUsersByRole(RoleConstants.ADMIN);
+      if (adminUsers && adminUsers.length > 0) {
+        console.log(`[addUser] User with role '${RoleConstants.ADMIN}' already registered`);
+        throw new HttpException(httpErrorMessages.USERS.ADMIN_ALREADY_EXIST, HttpStatus.CONFLICT);
+      }
+    }
+
     user.active = false;
 
     const createdUser: IUser = await this.usersService.addUser(user);
@@ -150,6 +162,7 @@ export class UsersController {
           newPassword: 'newPassword',
           email: usersConstants.PUBLIC.EMAIL,
           active: usersConstants.PUBLIC.ACTIVE,
+          role: usersConstants.PUBLIC.ROLE,
         },
       },
     },
@@ -169,6 +182,14 @@ export class UsersController {
   @ApiResponse({
     status: 409,
     description: 'Email ya registrado anteriormente',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Usuario con rol ADMIN ya está registrado',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Imposible actualizar el usuario ADMIN',
   })
   @ApiResponse({
     status: 500,
@@ -195,6 +216,19 @@ export class UsersController {
         console.log('[updateUser] Email already registered');
         throw new HttpException(httpErrorMessages.USERS.EMAIL_ALREADY_EXIST, HttpStatus.CONFLICT);
       }
+    }
+
+    if (existUser.role != user.role && user.role == RoleConstants.ADMIN && this.configService.get('app.onlyOneAdmin')) {
+      const adminUsers: IUser[] = await this.usersService.findUsersByRole(RoleConstants.ADMIN);
+      if (adminUsers && adminUsers.length > 0) {
+        console.log(`[updateUser] User with role '${RoleConstants.ADMIN}' already registered`);
+        throw new HttpException(httpErrorMessages.USERS.ADMIN_ALREADY_EXIST, HttpStatus.CONFLICT);
+      }
+    }
+
+    if (existUser.role == RoleConstants.ADMIN && user.role != RoleConstants.ADMIN && this.configService.get('app.onlyOneAdmin')) {
+      console.log(`[updateUser] User with role '${RoleConstants.ADMIN}' already registered`);
+      throw new HttpException(httpErrorMessages.USERS.UNNABLE_UPDATE_ADMIN, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     let updatePassword: boolean = false;
@@ -239,12 +273,22 @@ export class UsersController {
     status: 404,
     description: 'Nombre usuario no encontrado',
   })
+  @ApiResponse({
+    status: 409,
+    description: 'Usuario ADMIN no se puede eliminar',
+  })
   async deleteUser(@Res() res: Response, @Param('name') name: string): Promise<Response<boolean, Record<string, boolean>>> {
     const existUser: IUser = await this.usersService.findUserByName(name);
     if (!existUser) {
       console.log(`[deleteUser] User not found`);
       throw new HttpException(httpErrorMessages.USERS.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
+
+    if (existUser.role == RoleConstants.ADMIN && this.configService.get('app.onlyOneAdmin')) {
+      console.log(`[deleteUser] User role '${RoleConstants.ADMIN}' not available to delete`);
+      throw new HttpException(httpErrorMessages.USERS.UNNABLE_DELETE_ADMIN, HttpStatus.CONFLICT);
+    }
+
     try {
       const deletedUser: boolean = await this.usersService.deleteUser(name);
       if (deletedUser) {

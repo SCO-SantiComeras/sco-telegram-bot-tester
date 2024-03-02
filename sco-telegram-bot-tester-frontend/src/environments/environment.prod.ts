@@ -1,7 +1,7 @@
 export const environment = {
   name: 'prod',
   production: true,
-  host: 'X.X.X.X',
-  apiUrl: `http://X.X.X.X:3000/api/v1`,
-  socketUrl: `ws://X.X.X.X:8080`,
+  host: '82.223.202.120',
+  apiUrl: `http://82.223.202.120:3000/api/v1`,
+  socketUrl: `http://82.223.202.120:8080`,
 };

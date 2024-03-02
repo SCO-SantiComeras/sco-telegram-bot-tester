@@ -55,7 +55,7 @@ export class TelegramBotTesterComponent implements OnInit, OnDestroy {
       text: new FormControl('', [Validators.required]),
     });
 
-    if (!environment.production && this.configService.getData(this.configService.configConstants.START_MOCKED_VALUES)) {
+    if (!environment.production || this.configService.getData(this.configService.configConstants.START_MOCKED_VALUES)) {
       this.setMockedValues();
     }
   }

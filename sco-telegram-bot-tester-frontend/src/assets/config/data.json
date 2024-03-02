@@ -1,7 +1,7 @@
 {
-    "title": "SCO - Task Manager",
+    "title": "SCO - Telegram Bot Tester",
     "resetFormAfterSuccessReset": false,
     "tokenExpirationPasswordRecovery": 30,
     "onlyGroupId": true,
-    "startMockedValues": false
+    "startMockedValues": true
 }

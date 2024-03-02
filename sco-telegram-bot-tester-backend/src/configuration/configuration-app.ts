@@ -6,4 +6,5 @@ export const configurationApp = registerAs('app', () => ({
   host: process.env.HOST_APP,
   production: process.env.PRODUCTION_APP == 'true',
   population: process.env.POPULATION_APP == 'true',
+  onlyOneAdmin: process.env.ONLY_ONE_ADMIN_APP == 'true',
 }));

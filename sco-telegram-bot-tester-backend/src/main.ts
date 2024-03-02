@@ -18,7 +18,10 @@ async function bootstrap() {
 
   const configService = app.get<ConfigService>(ConfigService);
 
-  const swagger = new DocumentBuilder()
+  let swaggeer: boolean = false;
+  const swaggerRoute: string = 'api';
+  if (!configService.get('app.production')) {
+    const swagger = new DocumentBuilder()
     .setTitle('SCO - Telegram Bot Tester')
     .setDescription('Documentación sobre endpoints de la aplicación Telegram bot tester')
     .setVersion('1.0')
@@ -36,9 +39,11 @@ async function bootstrap() {
     )
     .build();
 
-  const document = SwaggerModule.createDocument(app, swagger);
-  const swaggerRoute: string = 'api';
-  SwaggerModule.setup(swaggerRoute, app, document);
+    const document = SwaggerModule.createDocument(app, swagger);
+    SwaggerModule.setup(swaggerRoute, app, document);
+
+    swaggeer = true;
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -56,7 +61,7 @@ async function bootstrap() {
   const host: string = configService.get('app.host') || 'localhost';
 
   await app.listen(port);
-  console.log(`[bootstrap] Swagger started in url 'http://${host}:${port}/${swaggerRoute}'`);
+  if (swaggeer) console.log(`[bootstrap] Swagger started in url 'http://${host}:${port}/${swaggerRoute}'`);
   console.log(`[bootstrap] App started in 'http://${host}:${port}'`);
 }
 bootstrap();

@@ -8,11 +8,16 @@
     "run-frontend-dev": "cd ./sco-telegram-bot-tester-frontend && npm run start && cd ..",
     "run-backend-dev": "cd ./sco-telegram-bot-tester-backend && npm run start:dev && cd ..",
     "run-dev": "concurrently \"npm run run-frontend-dev\" \"npm run run-backend-dev\"",
-    "run-backend-prod": "cd ./sco-telegram-bot-tester-backend && npm run start:prod && cd ..",
-    "run-prod": "npm run run-backend-prod"
+    "build-prod-frontend": "cd ./sco-telegram-bot-tester-frontend && npm run build:prod && cd ..",
+    "build-prod-backend": "cd ./sco-telegram-bot-tester-backend && npm run prebuild && npm run build && cd ..",
+    "build-prod": "concurrently \"npm run build-prod-frontend\" \"npm run build-prod-backend\"",
+    "cp-public": "copyfiles -f ./sco-telegram-bot-tester-frontend/dist/* ./sco-telegram-bot-tester-backend/dist/public",
+    "pm2:run-backend-prod": "cd ./sco-telegram-bot-tester-backend && npm run pm2:start:prod && cd ..",
+    "pm2:run-prod": "npm run pm2:run-backend-prod"
   },
   "private": true,
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "copyfiles": "^2.4.1"
   }
 }

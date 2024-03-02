@@ -14,6 +14,8 @@ export const httpErrorMessages = {
     CREATE_USER_ERROR: 'Unnable to create user',
     UPDATE_USER_ERROR: 'Unnable to update user',
     ADMIN_ALREADY_EXIST: 'Admin already exist',
+    UNNABLE_DELETE_ADMIN: 'Unnable to delete admin',
+    UNNABLE_UPDATE_ADMIN: 'Unnable to update admin',
   },
   TELEGRAM_BOT_TESTER: {
     UNNABLE_CREATE_TELEGRAM_BOT: 'Unnable to create telegram bot',

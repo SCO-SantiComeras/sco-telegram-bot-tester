@@ -138,6 +138,15 @@ export class UsersService {
     }
   }
 
+  async findUsersByRole(role: string): Promise<IUser[]> {
+    try {
+      return await this.UserModel.find({ role: role });
+    } catch (error) {
+      console.log(`[findUsersByRole] Error: ${JSON.stringify(error)}`);
+      return undefined;
+    }
+  }
+
   async modelToDto(user: IUser): Promise<UserDto> {
     const UserDto: UserDto = {
       _id: user._id ? user._id : undefined, 
