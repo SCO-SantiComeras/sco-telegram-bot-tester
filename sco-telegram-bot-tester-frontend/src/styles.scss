@@ -142,3 +142,15 @@ body {
  ::-webkit-scrollbar-thumb {
     background: lightgray !important;
 }
+
+/* Slide Toggle */
+.slide-toggle {
+    width: 100% !important;
+    text-align: left !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+
+    &__toggle {
+        padding-left: 10px !important;
+    }
+}

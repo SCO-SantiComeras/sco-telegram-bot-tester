@@ -196,11 +196,13 @@ export class AuthController {
     existUser.pwdRecoveryDate = new Date();
 
     const userDto: UserDto = await this.usersService.modelToDto(existUser);
-    const updatedUser: IUser = await this.usersService.updateUser(userDto.name, userDto);
+    const updatedUser: IUser = await this.usersService.updateUser(userDto._id, userDto);
     if (!updatedUser) {
       console.log(`[requestPassword] User '${userDto.name}' unnable to update`);
       throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.CONFLICT);
     }
+    
+    this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
 
     const lang: string = req && req.headers && req.headers.clientlanguage ? req.headers.clientlanguage.toString() : translateConstants.DEFAULT_LANGUAGE;
     const emailSended: boolean = await this.emailerService.sendReoveryPasswordEmail(await this.usersService.modelToDto(updatedUser), lang);
@@ -259,12 +261,13 @@ export class AuthController {
     users[0].password = await this.bcryptService.encryptPassword(user.password);
 
     const userDto: UserDto = await this.usersService.modelToDto(users[0]);
-    const updatedUser: IUser = await this.usersService.updateUser(userDto.name, userDto, true);
+    const updatedUser: IUser = await this.usersService.updateUser(userDto._id, userDto, true);
     if (!updatedUser) {
       console.log(`[resetPassword] User '${userDto.name}' unnable to update`);
       throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.CONFLICT);
     }
 
+    this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
     return res.status(200).json(true);
   }
 
@@ -359,12 +362,13 @@ export class AuthController {
     existUser.active = true;
 
     const userDto: UserDto = await this.usersService.modelToDto(existUser);
-    const updatedUser: IUser = await this.usersService.updateUser(userDto.name, userDto);
+    const updatedUser: IUser = await this.usersService.updateUser(userDto._id, userDto);
     if (!updatedUser) {
       console.log(`[confirmEmail] User '${userDto.name}' unnable to update`);
       throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.CONFLICT);
     }
 
+    this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
     return res.status(200).json(true);
   }
 }

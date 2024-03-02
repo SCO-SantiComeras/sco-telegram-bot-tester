@@ -1,0 +1,101 @@
+<div class="add-edit-users-dialog">
+  <h1 mat-dialog-title class="add-edit-users-dialog__title">
+    {{ !edit ? data.title : data.title + ': ' + data.user?.name }}
+  </h1>
+  <div mat-dialog-content class="add-edit-users-dialog__content">
+    <form [formGroup]="addEditUsersDialogForm">
+      <mat-form-field appearance="fill" class="d-block mt-2" [ngClass]="{
+        'valid-input': !addEditUsersDialogForm.controls.name.invalid
+      }">
+        <mat-label>{{'label.add-edit-users.dialog.input.name' | appTranslate}}</mat-label>
+        <input matInput [placeholder]="'label.add-edit-users.dialog.input.name.placeholder' | appTranslate" formControlName="name">
+        <mat-error *ngIf="addEditUsersDialogForm.controls.name.invalid">
+          {{formsService.getError('name', formErrors)}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="d-block mt-2" [ngClass]="{
+        'valid-input': !addEditUsersDialogForm.controls.email.invalid
+      }">
+        <mat-label>{{'label.add-edit-users.dialog.input.email' | appTranslate}}</mat-label>
+        <input matInput [placeholder]="'label.add-edit-users.dialog.input.email.placeholder' | appTranslate" formControlName="email">
+        <mat-error *ngIf="addEditUsersDialogForm.controls.email.invalid">
+          {{formsService.getError('email', formErrors)}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="d-block mt-2" [ngClass]="{
+        'valid-input': !addEditUsersDialogForm.controls.role.invalid
+      }">
+        <mat-label>{{'label.add-edit-users.dialog.input.role' | appTranslate}}</mat-label>
+        <mat-select [placeholder]="'label.add-edit-users.dialog.input.role.placeholder' | appTranslate" formControlName="role">
+          <ng-container *ngFor="let option of roles;">
+            <mat-option [value]="option">{{option}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="addEditUsersDialogForm.controls.role.invalid">
+          {{formsService.getError('role', formErrors)}}
+        </mat-error>
+      </mat-form-field>
+      
+
+      <div class="slide-toggle" [hidden]="!edit">
+        <span>{{'label.add-edit-users.dialog.input.update.password' | appTranslate}}</span>
+        <mat-slide-toggle 
+          class="slide-toggle__toggle"
+          [color]="'accent'"
+          [checked]="updatePassword"
+          (toggleChange)="updatePassword = !updatePassword;">
+        </mat-slide-toggle>
+      </div>
+
+      <div [hidden]="edit && !updatePassword">
+        <mat-form-field appearance="fill" class="d-block mt-2" [ngClass]="{
+          'valid-input': !addEditUsersDialogForm.controls.password.invalid
+        }">
+          <mat-label>{{'label.add-edit-users.dialog.input.password' | appTranslate}}</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'"  formControlName="password" 
+            [placeholder]="'label.add-edit-users.dialog.input.password.placeholder' | appTranslate"
+          >
+          <button mat-icon-button matSuffix 
+            (click)="hidePassword = !hidePassword" 
+            [attr.aria-label]="'label.add-edit-users.dialog.input.password.aria-label' | appTranslate" 
+            [attr.aria-pressed]="hidePassword"
+          >
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="addEditUsersDialogForm.controls.password.invalid">
+            {{formsService.getError('password', formErrors)}}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="d-block mt-2" [ngClass]="{
+          'valid-input': !addEditUsersDialogForm.controls.confirm.invalid
+        }">
+          <mat-label>{{'label.add-edit-users.dialog.input.confirm' | appTranslate}}</mat-label>
+          <input matInput [type]="hidePasswordConfirm ? 'password' : 'text'"  formControlName="confirm" 
+            [placeholder]="'label.add-edit-users.dialog.input.confirm.placeholder' | appTranslate"
+          >
+          <button mat-icon-button matSuffix 
+            (click)="hidePasswordConfirm = !hidePasswordConfirm" 
+            [attr.aria-label]="'label.add-edit-users.dialog.input.confirm.aria-label' | appTranslate" 
+            [attr.aria-pressed]="hidePasswordConfirm"
+          >
+            <mat-icon>{{hidePasswordConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="addEditUsersDialogForm.controls.confirm.invalid">
+            {{formsService.getError('confirm', formErrors)}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions class="add-edit-users-dialog__buttons" [align]="'end'">
+    <button mat-button (click)="onNoClick()" [color]="'warn'">
+      {{'label.cancel' | appTranslate}}
+    </button>
+    <button mat-button (click)="onClickSubmit()" [color]="'accent'" cdkFocusInitial>
+      {{ edit ? ('label.update' | appTranslate) : ('label.add' | appTranslate) }}
+    </button>
+  </div>
+</div>

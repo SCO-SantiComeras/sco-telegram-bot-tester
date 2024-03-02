@@ -14,13 +14,18 @@ export class User {
   updatedAt?: Date;
   typeObj?: string;
 
-  constructor(name: string, password: string, email: string, active: boolean, role: string = RoleConstants.USER) {
-    this.name = name;
-    this.password = password;
-    this.email = email;
-    this.active = active;
-    this.role = role;
+  constructor() {
+    this._id = undefined;
+    this.name = undefined;
+    this.password = undefined;
+    this.newPassword = undefined;
+    this.email = undefined;
+    this.active = false;
+    this.role = undefined;
     this.pwdRecoveryToken = undefined;
     this.pwdRecoveryDate = undefined;
+    this.createdAt = undefined;
+    this.updatedAt = undefined;
+    this.typeObj = 'User';
   }
 }

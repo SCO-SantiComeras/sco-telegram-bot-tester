@@ -126,7 +126,7 @@ export class UsersController {
     return res.status(201).json(createdUser);
   }
 
-  @Put('/:name')
+  @Put('/:_id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -170,11 +170,19 @@ export class UsersController {
     status: 409,
     description: 'Email ya registrado anteriormente',
   })
-  async updateUser(@Res() res: Response, @Param('name') name: string, @Body() user: UpdateUserDto): Promise<Response<IUser, Record<string, IUser>>> {
-    const existUser: IUser = await this.usersService.findUserByName(name);
+  async updateUser(@Res() res: Response, @Param('_id') _id: string, @Body() user: UpdateUserDto): Promise<Response<IUser, Record<string, IUser>>> {
+    const existUser: IUser = await this.usersService.findUser(_id);
     if (!existUser) {
       console.log(`[updateUser] User not found`);
       throw new HttpException(httpErrorMessages.USERS.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+
+    if (user.name != existUser.name) {
+      const existNewName: IUser = await this.usersService.findUserByName(user.name);
+      if (existNewName) {
+        console.log('[updateUser] Name already registered');
+        throw new HttpException(httpErrorMessages.USERS.NAME_ALREADY_EXIST, HttpStatus.CONFLICT);
+      }
     }
 
     if (user.email != existUser.email) {
@@ -200,7 +208,7 @@ export class UsersController {
       }
     }
 
-    const updatedUser: IUser = await this.usersService.updateUser(name, user, updatePassword);
+    const updatedUser: IUser = await this.usersService.updateUser(_id, user, updatePassword);
     if (!updatedUser) {
       console.log('[updateUser] Unnable to update user');
       throw new HttpException(httpErrorMessages.USERS.UPDATE_USER_ERROR, HttpStatus.CONFLICT);

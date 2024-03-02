@@ -14,8 +14,11 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ResolutionService } from 'src/app/shared/resolution/resolution.service';
 import { TranslateService } from 'src/app/shared/translate/translate.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { DeleteUser, FetchUsers, SubscribeUserWS, UnSubscribeUserWS } from '../../store/users.actions';
+import { CreateUser, DeleteUser, FetchUsers, SubscribeUserWS, UnSubscribeUserWS, UpdateUser } from '../../store/users.actions';
 import { ConfirmDialogConstants } from 'src/app/shared/dialogs/confirm-dialog/constants/confirm-dialog.constants';
+import { AddEditUsersDialogoData } from 'src/app/shared/dialogs/add-edit-users-dialog/model/add-edit-users-dialog-data';
+import { AddEditUsersDialogComponent } from 'src/app/shared/dialogs/add-edit-users-dialog/add-edit-users-dialog.component';
+import { AddEditUsersDialogConstants } from 'src/app/shared/dialogs/add-edit-users-dialog/constants/add-edit-users-dialog.constants';
 
 @Component({
   selector: 'app-manage-users',
@@ -139,6 +142,48 @@ export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  createUser(data: User) {
+    this.spinnerService.showSpinner();
+    this.store.dispatch(new CreateUser({ user: data })).subscribe({
+      next: () => {
+        this.spinnerService.hideSpinner();
+
+        const success: boolean = this.store.selectSnapshot(UsersState.success);
+        if (!success) {
+          this.toastService.addErrorMessage(this.store.selectSnapshot(UsersState.errorMsg));
+          return;
+        }
+        
+        this.toastService.addSuccessMessage(this.store.selectSnapshot(UsersState.successMsg));
+      },
+      error: () => {
+        this.spinnerService.hideSpinner();
+        this.toastService.addErrorMessage(this.store.selectSnapshot(UsersState.errorMsg));
+      }
+    })
+  }
+
+  updateUser(data: User) {
+    this.spinnerService.showSpinner();
+    this.store.dispatch(new UpdateUser({ _id: data._id, user: data })).subscribe({
+      next: () => {
+        this.spinnerService.hideSpinner();
+
+        const success: boolean = this.store.selectSnapshot(UsersState.success);
+        if (!success) {
+          this.toastService.addErrorMessage(this.store.selectSnapshot(UsersState.errorMsg));
+          return;
+        }
+        
+        this.toastService.addSuccessMessage(this.store.selectSnapshot(UsersState.successMsg));
+      },
+      error: () => {
+        this.spinnerService.hideSpinner();
+        this.toastService.addErrorMessage(this.store.selectSnapshot(UsersState.errorMsg));
+      }
+    })
+  }
+
   /* Table Functions */
   onDeleteElement(data: User) {
     const dialogData: ConfirmDialogData = {
@@ -160,10 +205,41 @@ export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onAddElement() {
+    const dialogData: AddEditUsersDialogoData = {
+      title: this.translateService.getTranslate('label.manage-users.component.add-edit-users-dialog.title.add'),
+    }
 
+    const dialogRef = this.dialogService.open(AddEditUsersDialogComponent, {
+      width: this.resolutionService.getMode() == this.resolutionService.resolutionConstants.MOBILE 
+        ? AddEditUsersDialogConstants.MOBILE_WIDTH 
+        : AddEditUsersDialogConstants.WEB_WIDTH,
+      data: dialogData,
+    });
+
+    dialogRef.afterClosed().subscribe((result: User) => {
+      if (!result) return;
+      this.createUser(result);
+    });
   }
 
   onEditElement(data: User) {
-    
+    if (!data) return;
+
+    const dialogData: AddEditUsersDialogoData = {
+      title: this.translateService.getTranslate('label.manage-users.component.add-edit-users-dialog.title.update'),
+      user: data,
+    }
+
+    const dialogRef = this.dialogService.open(AddEditUsersDialogComponent, {
+      width: this.resolutionService.getMode() == this.resolutionService.resolutionConstants.MOBILE 
+        ? AddEditUsersDialogConstants.MOBILE_WIDTH 
+        : AddEditUsersDialogConstants.WEB_WIDTH,
+      data: dialogData,
+    });
+
+    dialogRef.afterClosed().subscribe((result: User) => {
+      if (!result) return;
+      this.updateUser(result);
+    });
   }
 }

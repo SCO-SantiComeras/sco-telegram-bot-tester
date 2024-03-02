@@ -76,4 +76,23 @@ export class FormsService {
 
     return form;
   }
+
+  public touchEmptyControls(form: FormGroup): FormGroup {
+    const keys: string[] = Object.keys(form.controls);
+    if (keys && keys.length > 0) {
+      for (const control of keys) {
+        if (
+          form.controls[control].value != undefined 
+          && form.controls[control].value != null 
+          && form.controls[control].value != ''
+        ) {
+          continue;
+        } 
+
+        form.controls[control].markAllAsTouched();
+      }
+    }
+
+    return form;
+  }
 }

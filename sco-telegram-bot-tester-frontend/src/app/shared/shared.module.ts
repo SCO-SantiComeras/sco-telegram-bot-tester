@@ -20,6 +20,12 @@ import { TableService } from './table/table.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AddEditUsersDialogComponent } from './dialogs/add-edit-users-dialog/add-edit-users-dialog.component';
 
 @NgModule({
   imports: [
@@ -32,18 +38,25 @@ import { MatButtonModule } from '@angular/material/button';
     MatSnackBarModule,
     MatDialogModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    MatSelectModule,
   ],
   declarations: [
     ConfigPipe,
     TranslatePipe,
     JoinPipe,
     ConfirmDialogComponent,
+    AddEditUsersDialogComponent,
   ],
   exports: [
     ConfigPipe,
     TranslatePipe,
     JoinPipe,
     ConfirmDialogComponent,
+    AddEditUsersDialogComponent,
   ],
   providers:[
     FormsService,

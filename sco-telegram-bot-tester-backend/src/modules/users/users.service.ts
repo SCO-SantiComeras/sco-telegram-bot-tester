@@ -57,8 +57,9 @@ export class UsersService {
     }
   }
 
-  async updateUser(name: string, user: UpdateUserDto, updatePassword: boolean = false): Promise<IUser> {
+  async updateUser(_id: string, user: UpdateUserDto, updatePassword: boolean = false): Promise<IUser> {
     const set: any = {
+      name: user.name,
       email: user.email,
       active: user.active,
       role: user.role,
@@ -73,7 +74,7 @@ export class UsersService {
     try {
       const result = await this.UserModel.updateOne(
         {
-          name,
+          _id: _id,
         },
         { 
           $set: set
@@ -81,12 +82,12 @@ export class UsersService {
       );
 
       if (!result || (result && result.nModified != 1)) {
-        console.log(`[updateUser] User: ${name} unnable to update`);
+        console.log(`[updateUser] User: ${_id} unnable to update`);
         return undefined;
       }
-      console.log(`[updateUser] User: ${name} updated successfully`);
+      console.log(`[updateUser] User: ${_id} updated successfully`);
 
-      return await this.findUserByName(name);
+      return await this.findUser(_id);
     } catch (error) {
       console.log(`[updateUser] Error: ${JSON.stringify(error)}`);
       throw new Error(error);

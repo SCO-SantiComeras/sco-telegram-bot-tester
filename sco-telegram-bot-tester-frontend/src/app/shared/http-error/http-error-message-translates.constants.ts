@@ -10,6 +10,7 @@ export const httpErrorMessageTranslates = {
     USERS: {
       USER_NOT_FOUND: 'Usuario no encontrado',
       USER_ALREADY_EXIST: 'El usuario ya existe',
+      NAME_ALREADY_EXIST: 'El nombre ya está registrado',
       EMAIL_ALREADY_EXIST: 'El email ya ha sido registrado',
       CREATE_USER_ERROR: 'Imposible crear el usuario',
       UPDATE_USER_ERROR: 'Imposible actualizar el usuario',
@@ -42,6 +43,7 @@ export const httpErrorMessageTranslates = {
     USERS: {
       USER_NOT_FOUND: 'User not found',
       USER_ALREADY_EXIST: 'User already exist',
+      NAME_ALREADY_EXIST: 'Name already registered',
       EMAIL_ALREADY_EXIST: 'Email already registered',
       CREATE_USER_ERROR: 'Unnable to create user',
       UPDATE_USER_ERROR: 'Unnable to update user',
