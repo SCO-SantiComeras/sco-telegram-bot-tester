@@ -197,8 +197,6 @@ export class UsersController {
       }
     }
 
-    console.log(JSON.stringify(user))
-
     let updatePassword: boolean = false;
     if (user.password && user.newPassword) {
       // Encrypt User New Password Provided
