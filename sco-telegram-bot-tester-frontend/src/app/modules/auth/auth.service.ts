@@ -40,4 +40,8 @@ export class AuthService {
   confirmEmail(email: string): Observable<boolean> {
     return this.http.get<boolean>(environment.apiUrl + `/auth/confirmEmail/${email}`);
   }
+
+  validateToken(user: User): Observable<Token> {
+    return this.http.post<Token>(environment.apiUrl + '/auth/validate-token', user);
+  }
 }

@@ -52,10 +52,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedUser$.subscribe((loggedUser: User) => {
+      this.loggedUser = undefined;
       if (loggedUser && loggedUser._id) {
         this.loggedUser = loggedUser;
-      } else {
-        this.loggedUser = undefined;
       }
     });
   }
@@ -75,10 +74,12 @@ export class AppComponent implements OnInit {
   onClickLogOut() {
     if (!this.loggedUser) return;
 
+    this.spinnerService.showSpinner();
     this.store.dispatch(new LogOut()).subscribe({
       next: () => {
+        this.spinnerService.hideSpinner();
         this.toatService.addSuccessMessage(this.store.selectSnapshot(AuthState.successMsg));
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('login');
       },
     })
   }

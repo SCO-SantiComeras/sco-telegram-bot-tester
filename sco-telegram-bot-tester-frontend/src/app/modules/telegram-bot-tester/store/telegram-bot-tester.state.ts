@@ -54,15 +54,15 @@ export class TelegramBotTesterState {
   ) {
     return this.telegramBotTesterService.sendMessageGroup(payload.sendMessage).pipe(
       tap((result: boolean) => {
+        patchState({
+          success: false,
+          errorMsg: this.translateService.getTranslate('label.telegram-bot-tester.state.sendMessage.error'),
+        });
+
         if (result) {
           patchState({
             success: true,
             successMsg: this.translateService.getTranslate('label.telegram-bot-tester.state.sendMessage.success'),
-          });
-        } else {
-          patchState({
-            success: false,
-            errorMsg: this.translateService.getTranslate('label.telegram-bot-tester.state.sendMessage.error'),
           });
         }
       }),

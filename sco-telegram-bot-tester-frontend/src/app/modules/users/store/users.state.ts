@@ -76,13 +76,13 @@ export class UsersState {
   ) { 
     return this.usersService.fetchUsers(payload.filter).pipe(
       map((users: User[]) => {
+        patchState({
+          users: [],
+        });
+
         if (users) {
           patchState({
             users: users,
-          });
-        } else {
-          patchState({
-            users: [],
           });
         }
       })
@@ -96,16 +96,16 @@ export class UsersState {
   ) {
     return this.usersService.createUser(payload.user).pipe(
       tap((user: User) => {
+        patchState({
+          success: false,
+          errorMsg: this.translateService.getTranslate('label.users.state.create.error'),
+        });
+
         if(user){
-            patchState({
-                success: true,
-                successMsg: this.translateService.getTranslate('label.users.state.create.success'),
-            });
-        }else{
-            patchState({
-                success: false,
-                errorMsg: this.translateService.getTranslate('label.users.state.create.error'),
-            });
+          patchState({
+            success: true,
+            successMsg: this.translateService.getTranslate('label.users.state.create.success'),
+          });
         }
       }),
       catchError(error => {
@@ -115,8 +115,8 @@ export class UsersState {
         }
 
         patchState({
-            success: false,
-            errorMsg: errorMsg,
+          success: false,
+          errorMsg: errorMsg,
         });
 
         throw new Error(error);
@@ -131,16 +131,16 @@ export class UsersState {
   ) {
     return this.usersService.updateUser(payload._id, payload.user).pipe(
       tap((user: User) => {
+        patchState({
+          success: false,
+          errorMsg: this.translateService.getTranslate('label.users.state.update.error'),
+        });
+
         if(user){
-            patchState({
-                success: true,
-                successMsg: this.translateService.getTranslate('label.users.state.update.success'),
-            });
-        }else{
-            patchState({
-                success: false,
-                errorMsg: this.translateService.getTranslate('label.users.state.update.error'),
-            });
+          patchState({
+            success: true,
+            successMsg: this.translateService.getTranslate('label.users.state.update.success'),
+          });
         }
       }),
       catchError(error => {
@@ -150,8 +150,8 @@ export class UsersState {
         }
 
         patchState({
-            success: false,
-            errorMsg: errorMsg,
+          success: false,
+          errorMsg: errorMsg,
         });
 
         throw new Error(error);
@@ -166,15 +166,15 @@ export class UsersState {
   ) {
     return this.usersService.deleteUser(payload.name).pipe(
       tap((result: boolean) => {
+        patchState({
+          success: false,
+          errorMsg: this.translateService.getTranslate('label.users.state.delete.error'),
+        });
+
         if(result){
           patchState({
             success: true,
             successMsg: this.translateService.getTranslate('label.users.state.delete.success'),
-          });
-        }else{
-          patchState({
-            success: false,
-            errorMsg: this.translateService.getTranslate('label.users.state.delete.error'),
           });
         }
       }),
@@ -199,22 +199,22 @@ export class UsersState {
   public suscribeUserWS(ctx: StateContext<UsersStateModel>) {
     return this.usersService.getUsersBySocket().pipe(
       map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangeUsers : !state.notifyChangeUsers
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
+        if (change) {
+          let state = ctx.getState();
+
+          state = {
+            ...state,
+            notifyChangeUsers : !state.notifyChangeUsers
+          };
+
+          ctx.setState({ ...state });
+        }
       })
     )
   }
 
   @Action(UnSubscribeUserWS)
-  public unsuscribeUserWS(ctx: StateContext<UsersStateModel>) {
+  public unsuscribeUserWS() {
     this.usersService.removeSocket();
   }
 }

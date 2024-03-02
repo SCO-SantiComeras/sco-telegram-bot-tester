@@ -92,7 +92,7 @@ export class AddEditUsersDialogComponent implements OnInit, AfterViewInit {
       this.user.name = form.name;
       this.user.email = form.email;
       this.user.password = form.password ? form.password : this.user.password;
-      this.user.newPassword = form.newPassword ? form.newPassword : this.user.newPassword;
+      this.user.newPassword = form['confirm'] ? form['confirm'] : this.user.newPassword;
       this.user.role = form.role;
     }
 

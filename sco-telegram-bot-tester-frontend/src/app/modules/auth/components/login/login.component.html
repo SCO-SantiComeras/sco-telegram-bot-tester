@@ -12,8 +12,8 @@
         <mat-form-field appearance="fill" class="d-block mt-2" [ngClass]="{
           'valid-input': !loginForm.controls.name.invalid
         }">
-          <mat-label>{{inputNameLabel}}</mat-label>
-          <input matInput [placeholder]="inputNamePlaceholder" formControlName="name">
+          <mat-label>{{'label.login.component.input.name' | appTranslate}}</mat-label>
+          <input matInput [placeholder]="'label.login.component.input.name.placeholder' | appTranslate" formControlName="name">
           <mat-error *ngIf="loginForm.controls.name.invalid">
             {{formsService.getError('name', formErrors)}}
           </mat-error>

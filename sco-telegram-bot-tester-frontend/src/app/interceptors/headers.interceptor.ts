@@ -21,19 +21,17 @@ export class HeadersInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     try {
       const setHeaders: any = {
-        ClientLanguage: 
-          this.translateService.getLanguage() || this.translateService.translateConstants.DEFAULT_LANGUAGE,
+        ClientLanguage: this.translateService.getLanguage() 
+          || this.translateService.translateConstants.DEFAULT_LANGUAGE,
       }
 
       if (this.token) {
         setHeaders.Authorization = `Bearer ${this.token.accessToken}`;
       }
 
-      request = request.clone(
-        {
-          setHeaders: setHeaders,
-        }
-      );
+      request = request.clone({
+        setHeaders: setHeaders,
+      });
     } catch (err) {
       console.error(err);
     } finally {

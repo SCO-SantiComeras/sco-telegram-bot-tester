@@ -11,7 +11,6 @@ import { LogIn } from '../../store/auth.actions';
 import { AuthState } from '../../store/auth.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { SpinnerService } from 'src/app/shared/spinner/spinner.service';
-import { ConfigService } from 'src/app/shared/config/config.service';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +19,6 @@ import { ConfigService } from 'src/app/shared/config/config.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
-  public loginWithEmail: boolean;
-  public inputNameLabel: string;
-  public inputNamePlaceholder: string;
   
   public loginForm: FormGroup;
   public formErrors: FormsError[];
@@ -37,24 +32,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly toast: ToastService,
     private readonly spinnerService: SpinnerService,
-    private readonly configService: ConfigService,
-  ) {
-    this.loginWithEmail = false;
-    this.inputNameLabel = '';
-    this.inputNamePlaceholder = '';
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.loginWithEmail = this.configService.getData(this.configService.configConstants.LOGIN_WITH_EMAIL) || false;
-
-    this.inputNameLabel = this.translateService.getTranslate('label.login.component.input.name');
-    this.inputNamePlaceholder = this.translateService.getTranslate('label.login.component.input.name.placeholder');
-
-    if (this.loginWithEmail) {
-      this.inputNameLabel = this.translateService.getTranslate('label.login.component.input.email');
-      this.inputNamePlaceholder = this.translateService.getTranslate('label.login.component.input.email.placeholder');
-    }
-
     this.loginForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
@@ -106,15 +86,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         formControlName: 'name', 
         error: this.translateService.getTranslate('label.login.component.form.validate.name')
       });
-    }
-
-    if (!this.loginWithEmail) {
-      if (login.name && (login.name.length < 4 || login.name.length > 15)) {
-        this.formErrors.push({ 
-          formControlName: 'name', 
-          error: this.translateService.getTranslate('label.login.component.form.validate.name.length')
-        });
-      }
     }
 
     if (!login.password) {

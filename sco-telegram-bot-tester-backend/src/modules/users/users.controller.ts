@@ -197,18 +197,16 @@ export class UsersController {
       }
     }
 
+    console.log(JSON.stringify(user))
+
     let updatePassword: boolean = false;
     if (user.password && user.newPassword) {
-      // Compare Current User Password Provided
-      const validPassword: boolean = await this.bcryptService.comparePasswords(user.password, existUser);
-      if (validPassword) {
-        // Encrypt User New Password Provided
-        const encryptedNewPassword: string = await this.bcryptService.encryptPassword(user.newPassword);
-        if (encryptedNewPassword) {
-          // Assign New Password Encrypted To User Password Object To Update
-          user.password = encryptedNewPassword;
-          updatePassword = true;
-        }
+      // Encrypt User New Password Provided
+      const encryptedNewPassword: string = await this.bcryptService.encryptPassword(user.newPassword);
+      if (encryptedNewPassword) {
+        // Assign New Password Encrypted To User Password Object To Update
+        user.password = encryptedNewPassword;
+        updatePassword = true;
       }
     }
 

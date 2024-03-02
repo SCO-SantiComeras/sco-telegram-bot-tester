@@ -76,13 +76,13 @@ export class TelegramBotResultsState {
   ) { 
     return this.telegramBotResultsService.fetchTelegramBotResults(payload.filter).pipe(
       map((telegramBotResults: TelegramBotResult[]) => {
+        patchState({
+          telegramBotResults: [],
+        });
+
         if (telegramBotResults) {
           patchState({
             telegramBotResults: telegramBotResults,
-          });
-        } else {
-          patchState({
-            telegramBotResults: [],
           });
         }
       })
@@ -96,15 +96,15 @@ export class TelegramBotResultsState {
   ) {
     return this.telegramBotResultsService.deleteTelegramBotResult(payload._id).pipe(
       tap((result: boolean) => {
+        patchState({
+          success: false,
+          errorMsg: this.translateService.getTranslate('label.telegram-bot-results.state.delete.error'),
+        });
+
         if (result) {
           patchState({
             success: true,
             successMsg: this.translateService.getTranslate('label.telegram-bot-results.state.delete.success'),
-          });
-        } else {
-          patchState({
-            success: false,
-            errorMsg: this.translateService.getTranslate('label.telegram-bot-results.state.delete.error'),
           });
         }
       }),
@@ -128,22 +128,22 @@ export class TelegramBotResultsState {
   public subscribeTelegramBotResultsWS(ctx: StateContext<TelegramBotResultsStateModel>) {
     return this.telegramBotResultsService.getTelegramBotResultsBySocket().pipe(
       map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangeTelegramBotResults : !state.notifyChangeTelegramBotResults
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
+        if (change) {
+          let state = ctx.getState();
+
+          state = {
+            ...state,
+            notifyChangeTelegramBotResults : !state.notifyChangeTelegramBotResults
+          };
+
+          ctx.setState({ ...state });
+        }
       })
     )
   }
 
   @Action(UnSubscribeTelegramBotResultsWS)
-  public unSubscribeTelegramBotResultsWS(ctx: StateContext<TelegramBotResultsStateModel>) {
+  public unSubscribeTelegramBotResultsWS() {
     this.telegramBotResultsService.removeSocket();
   }
 }

@@ -4,5 +4,4 @@ export const ConfigConstants = {
     TOKEN_EXPIRATION_PWD_RECOVERY: 'tokenExpirationPasswordRecovery',
     ONLY_GROUP_ID: 'onlyGroupId',
     START_MOCKED_VALUES: 'startMockedValues',
-    LOGIN_WITH_EMAIL: 'loginWithEmail',
 }

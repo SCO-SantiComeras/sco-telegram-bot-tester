@@ -1,5 +1,3 @@
-import { RoleConstants } from '../../../../../../sco-telegram-bot-tester-backend/src/modules/users/constants/role.constants';
-
 export class User {
   _id?: string;
   name: string;

@@ -39,3 +39,8 @@ export class ConfirmEmail {
     static readonly type = '[Auth] Confirm Users Email';
     constructor(public payload: { email: string }) {}
 }
+
+export class ValidateToken {
+    static readonly type = '[Auth] Validate token';
+    constructor(public payload: { user: User }) {}
+}

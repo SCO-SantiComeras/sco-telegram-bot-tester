@@ -22,6 +22,8 @@ export class SpinnerService {
   }
 
   public hideSpinner(): void {
-    this._show = false;
+    setTimeout(() => {
+      this._show = false;
+    }, 500);
   }
 }

@@ -9,9 +9,7 @@ import { SendMessage } from './model/send-message';
 })
 export class TelegramBotTesterService {
 
-  constructor(
-    private readonly http: HttpClient,
-  ) {}
+  constructor(private readonly http: HttpClient) {}
 
   sendMessageGroup(sendMessage: SendMessage): Observable<boolean> {
     return this.http.post<boolean>(`${environment.apiUrl}/telegram-bot/send-message-group`, sendMessage);

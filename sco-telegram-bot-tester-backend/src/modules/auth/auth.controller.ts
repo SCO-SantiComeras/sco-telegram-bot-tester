@@ -375,4 +375,58 @@ export class AuthController {
     this.websocketsService.notifyWebsockets(websocketEvents.WS_USERS);
     return res.status(200).json(true);
   }
+
+  @ApiOperation({
+    summary: `Validate token`,
+    description: 'Valida el token del usuario',
+  })
+  @ApiBody({
+    description: 'Ejemplo de validación de token utilizando la clase UserDto',
+    type: UserDto,
+    examples: {
+      a: {
+        value: {
+          name: usersConstants.PUBLIC.NAME,
+          email: usersConstants.PUBLIC.EMAIL,
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Token validado correctamente',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'El tiempo de sesión ha expirado',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Usuario no encontrado',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Imposible crear el nuevo token',
+  })
+  @Post('validate-token')
+  async validateToken(@Req() req: Request, @Res() res: Response, @Body() user: UserDto): Promise<Response<Token, Record<string, Token>>> {
+    const existUser: IUser = await this.usersService.findUserByName(user.name);
+    if (!existUser) {
+      console.log(`[validateToken] User '${user.name}' not found`);
+      throw new HttpException(httpErrorMessages.USERS.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+
+    const result: boolean = await this.authService.validateAccessToken(req);
+    if (!result) {
+      throw new HttpException(httpErrorMessages.AUTH.SESSION_EXPIRED, HttpStatus.UNAUTHORIZED);
+    }
+
+    const token: Token = await this.authService.generateToken(existUser);
+    if (!token) {
+      console.log(`[validateToken] Unnable to generate user token`);
+      throw new HttpException(httpErrorMessages.AUTH.UNNABLE_USER_TOKEN, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return res.status(200).json(token);
+  }
 }
