@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TelegramBotModule } from './modules/telegram-bot/telegram-bot.module';
 import { LoggerModule } from './modules/logger/logger.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -18,6 +18,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AuthConfig } from './modules/auth/config/auth.config';
 import { TelegramBotResultsModule } from './modules/telegram-bot-results/telegram-bot-results.module';
 import { DummyModule } from './modules/dummy/dummy.module';
+import { PublicMiddleware } from './middlewares/public.middleware';
 
 @Module({
   imports: [
@@ -87,4 +88,8 @@ import { DummyModule } from './modules/dummy/dummy.module';
     TelegramBotResultsModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(PublicMiddleware).forRoutes("*");
+  }
+}
