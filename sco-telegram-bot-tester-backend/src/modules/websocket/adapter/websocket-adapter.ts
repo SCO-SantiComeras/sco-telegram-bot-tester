@@ -25,6 +25,7 @@ export class WebsocketAdapter extends IoAdapter {
         port = this.configService.get('websocket.port') || 8080;
         options.cors = { 
             origin : origin,
+            credentials: true,
         }; 
        
         return super.createIOServer(port, options);

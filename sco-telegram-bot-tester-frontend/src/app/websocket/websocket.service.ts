@@ -12,6 +12,9 @@ export class WebSocketService extends Socket {
   constructor() {
     super({
       url: environment.socketUrl,
+      options: {
+        withCredentials: true,
+      }
     });
   }
 
