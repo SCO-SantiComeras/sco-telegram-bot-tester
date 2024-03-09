@@ -22,13 +22,16 @@ export class EmailerService {
   async sendReoveryPasswordEmail(user: UserDto, lang: string = translateConstants.DEFAULT_LANGUAGE): Promise<boolean> {
     const tokenExpirationTime: string = this.configService.get('frontend.tokenTimeExpiration') || '30';
 
+    const fePort: number = this.configService.get('app.frontendPort') || 4200;
+    const feHost: string = this.configService.get('app.frontendHost');
+
     const text = `
       ${this.translateService.getTranslate('label.hello', lang)} ${user.name},<br> 
       ${this.translateService.getTranslate('label.email.recovery.password.1', lang)} '${user.pwdRecoveryToken}'.<br>
       ${this.translateService.getTranslate('label.email.recovery.password.2', lang)} ${tokenExpirationTime} ${this.translateService.getTranslate('label.minutes', lang)} 
       (${moment(user.pwdRecoveryDate).add({minutes: Number.parseInt(tokenExpirationTime)}).format('DD/MM/yyyy HH:mm:ss')}).<br>
       ${this.translateService.getTranslate('label.email.recovery.password.3', lang)} 
-      <a href='http://localhost:4200/reset-password/${user.pwdRecoveryToken}'>${this.translateService.getTranslate('label.email.recovery.password.4', lang)}</a>
+      <a href='http://${feHost}:${fePort}/reset-password/${user.pwdRecoveryToken}'>${this.translateService.getTranslate('label.email.recovery.password.4', lang)}</a>
     `;
 
     const message: Message = {
@@ -42,11 +45,14 @@ export class EmailerService {
   }
 
   async sendActiveUserEmail(user: UserDto, lang: string = translateConstants.DEFAULT_LANGUAGE): Promise<boolean> {
+    const fePort: number = this.configService.get('app.frontendPort') || 4200;
+    const feHost: string = this.configService.get('app.frontendHost');
+
     const text = `
       ${this.translateService.getTranslate('label.hello', lang)} ${user.name},<br>
       ${this.translateService.getTranslate('label.email.active.user.1', lang)}.<br>
       ${this.translateService.getTranslate('label.email.active.user.2', lang)} 
-      <a href='http://localhost:4200/confirm-email/${user.email}'>${this.translateService.getTranslate('label.email.active.user.3', lang)}</a>
+      <a href='http://${feHost}:${fePort}/confirm-email/${user.email}'>${this.translateService.getTranslate('label.email.active.user.3', lang)}</a>
     `;
 
     const message: Message = {
