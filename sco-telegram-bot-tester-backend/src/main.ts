@@ -13,8 +13,6 @@ async function bootstrap() {
       httpsOptions: undefined
     }
   );
-  
-  app.enableCors();
 
   const configService = app.get<ConfigService>(ConfigService);
 
@@ -54,6 +52,21 @@ async function bootstrap() {
       },
     }),
   );
+
+  const envOrigin: string = configService.get('websocket.origin');
+  let origin: string[] = [];
+  if (envOrigin && envOrigin.length > 0) {
+    origin = [envOrigin];
+
+    if (envOrigin.includes(',')) {
+      origin = envOrigin.split(',');
+    }
+  }
+  
+  app.enableCors({
+    origin: origin,
+    credentials: true,
+  });
 
   app.useWebSocketAdapter(new WebsocketAdapter(app, configService));
   
