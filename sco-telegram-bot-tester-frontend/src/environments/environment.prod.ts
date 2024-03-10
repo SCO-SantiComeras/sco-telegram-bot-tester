@@ -3,5 +3,5 @@ export const environment = {
   production: true,
   host: 'scoapps.es',
   apiUrl: `http://scoapps.es:3000/api/v1`,
-  socketUrl: `ws://scoapps.es:3100`,
+  socketUrl: `ws://scoapps.es:3001`,
 };
