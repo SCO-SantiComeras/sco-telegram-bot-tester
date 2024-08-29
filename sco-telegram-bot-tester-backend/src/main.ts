@@ -4,44 +4,32 @@ import { LoggerService } from './modules/logger/logger.service';
 import { ConfigService } from '@nestjs/config';
 import { HttpException, HttpStatus, ValidationError, ValidationPipe } from '@nestjs/common';
 import { WebsocketAdapter } from './modules/websocket/adapter/websocket-adapter';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as fs from 'fs';
 
 async function bootstrap() {
+  const basepath: string = `${process.env.SSL_PATH}/${process.env.HOST_APP}`;
+
+  let cert: any = undefined;
+  if (fs.existsSync(`${basepath}/fullchain.pem`)) {
+    console.log(`Cert: ${basepath}/fullchain.pem found`);
+    cert = fs.readFileSync(`${basepath}/fullchain.pem`);
+  }
+
+  let key: any = undefined;
+  if (fs.existsSync(`${basepath}/privkey.pem`)) {
+    console.log(`Key: ${basepath}/privkey.pem found`);
+    key = fs.readFileSync(`${basepath}/privkey.pem`);
+  }
+
+  const httpsEnabled: boolean = key && cert ? true : false;
   const app = await NestFactory.create(AppModule, 
     { 
       logger: new LoggerService(),
-      httpsOptions: undefined
+      httpsOptions: !httpsEnabled ? undefined : { key: key, cert: cert },
     }
   );
 
   const configService = app.get<ConfigService>(ConfigService);
-
-  let swaggeer: boolean = false;
-  const swaggerRoute: string = 'api';
-  if (!configService.get('app.production')) {
-    const swagger = new DocumentBuilder()
-    .setTitle('SCO - Telegram Bot Tester')
-    .setDescription('Documentación sobre endpoints de la aplicación Telegram bot tester')
-    .setVersion('1.0')
-    .addTag('SCO')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        name: 'JWT',
-        description: 'Enter JWT token',
-        in: 'header',
-      },
-      'JWT-auth',
-    )
-    .build();
-
-    const document = SwaggerModule.createDocument(app, swagger);
-    SwaggerModule.setup(swaggerRoute, app, document);
-
-    swaggeer = true;
-  }
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -64,7 +52,7 @@ async function bootstrap() {
   }
   
   app.enableCors({
-    origin: origin,
+    origin: origin && origin.length > 0 ? origin : '*',
     credentials: true,
   });
 
@@ -74,7 +62,6 @@ async function bootstrap() {
   const host: string = configService.get('app.host') || 'localhost';
 
   await app.listen(port);
-  if (swaggeer) console.log(`[bootstrap] Swagger started in url 'http://${host}:${port}/${swaggerRoute}'`);
-  console.log(`[bootstrap] App started in 'http://${host}:${port}'`);
+  console.log(`[bootstrap] App started in '${httpsEnabled ? 'https' : 'http'}://${host}:${port}'`);
 }
 bootstrap();
